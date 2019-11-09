@@ -11,11 +11,18 @@ while True:
 
     line = input('Enter a card:')
 
+    match = None
+
     # Take a field off the enemy
     # When we play that card
     for card in enemy:
         if line == card:
-            enemy.remove(card)
+            match = card # marking card for removal
+
+    if match != None:
+        enemy.remove(match)
+    else:
+        print('No match')
 
     if len(enemy) == 0:
         break
