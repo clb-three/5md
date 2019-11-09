@@ -1,3 +1,5 @@
+# input.py: takes input and executes commands based on the input
+# Currently just takes cards to play
 
 enemy = ['sword', 'shield', 'bow']
 
