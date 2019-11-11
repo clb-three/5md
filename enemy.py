@@ -6,6 +6,8 @@ class Enemy:
         '''
         Constructor
         '''
+
+        # TODO: Randomly select a set of attack cards from all possibilities
         self.cards = ['sword', 'shield', 'bow']
     
     def matches(self, card: str):

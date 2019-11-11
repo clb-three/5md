@@ -4,6 +4,7 @@ from input import get_input
 from enemy import Enemy
 
 # The enemy we're fighting
+# TODO: Support multiple enemies
 enemy = Enemy()
 
 # Main game loop
@@ -17,8 +18,15 @@ while True:
 
     # Decide what operation to do
     if operation == 'play':
+        # Rename args[0] to attack for simplicity
+        attack = args[0]
+
+        # TODO: Check that:
+        # 1. the attack is a valid card
+        # 2. the attack is one of the cards in our hand
+
         # Attack with the card
-        enemy.attack(args[0])
+        enemy.attack(attack)
     elif operation == 'quit':
         # Quit the game
         break
