@@ -26,13 +26,20 @@ def get_card(enemy):
 
     return input('Enter a card:')
 
-    card = get_card(enemy)
+# Main game loop
+while True:
 
+    # Print enemy output
+    card = get_card(enemy)
+    
+    # Test for a match and remove it from the
+    # enemy's health if it's a match
     if matches(card, enemy):
         enemy.remove(card)
     else:
         print('No match')
 
+    # If the enemy is dead, then break out of the loop
     if len(enemy) == 0:
         break
 
