@@ -13,7 +13,7 @@ class Enemy:
         Constructor. This is called whenever we create an Enemy.
         '''
 
-        # TODO Issue #6: Randomly select a set of attack cards from all possibilities
+        # TODO: Fill enemies with sets of cards from the actual deck
         self.cards = ['sword', 'shield', 'bow']
     
     def has_card(self, card):
