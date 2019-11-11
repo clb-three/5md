@@ -1,8 +1,22 @@
 # input.py: takes input and executes commands based on the input
-# Currently just takes cards to play
 
 enemy = ['sword', 'shield', 'bow']
 
+def matches(card, enemy):
+    match = None
+
+    # Take a field off the enemy
+    # When we play that card
+    for enemy_card in enemy:
+        if card == enemy_card:
+            match = enemy_card # marking card for removal
+
+    if match != None:
+        return True
+    else:
+        return False
+
+# Main game loop
 while True:
     print('We need to attack the enemy with:')
     # C++/Java/JS:
@@ -11,18 +25,10 @@ while True:
     for card in enemy:
         print(card)
 
-    line = input('Enter a card:')
+    card = input('Enter a card:')
 
-    match = None
-
-    # Take a field off the enemy
-    # When we play that card
-    for card in enemy:
-        if line == card:
-            match = card # marking card for removal
-
-    if match != None:
-        enemy.remove(match)
+    if matches(card, enemy):
+        enemy.remove(card)
     else:
         print('No match')
 
