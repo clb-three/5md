@@ -44,13 +44,34 @@ def attack(card, enemy):
     else:
         print('No match')
 
+def get_input():
+    '''
+    Split command into '<operation> <args[0]> <args[1]> ... <args[n]>'
+    '''
+    command = input('Enter a command:')
+    
+    operation = None
+    args = []
+    try:
+        # Assign operation and args
+        operation, args = command.split(' ', maxsplit=1)
+    except ValueError:
+        # There was only one word typed
+        operation = command
+
+    # Convert args to a list if it's auto-resolved to a string
+    if not isinstance(args, list):
+        args = [args]
+
+    return operation, args
+
 # Main game loop
 while True:
     # Print enemy output
     print_enemy_health(enemy)
 
-    # Get a card from the user
-    card = input('Enter a card:')
+    # Get input
+    operation, args = get_input()
 
     # Attack with the card
     attack(card, enemy)
