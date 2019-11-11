@@ -11,9 +11,9 @@ quit
 ```
 
 # Commands:
-`play <card>`: Play a card against the current enemy. Example: `play shield`
-`<3`: Surprise~
-`quit`: Quit the game
+- `play <card>`: Play a card against the current enemy. Example: `play shield`
+- `<3`: Surprise~
+- `quit`: Quit the game
 
 # Issues
 To find a bit of code linked to an issue, you can search `TODO Issue #2`, or whatever the number is. This is the suggested starting point for your work on the issue.
