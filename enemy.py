@@ -16,7 +16,7 @@ class Enemy:
         # TODO Issue #6: Randomly select a set of attack cards from all possibilities
         self.cards = ['sword', 'shield', 'bow']
     
-    def has_card(self, card: str):
+    def has_card(self, card):
         '''
         Return true if card matches one of my cards
         Return false if none of the cards match
