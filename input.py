@@ -21,25 +21,25 @@ def matches(card, enemy):
     else:
         return False
 
-def get_card(enemy):
+def print_enemy_health(enemy):
     '''
     Print out the enemy's cards and get the user's attack
     '''
 
-    print('We need to attack the enemy with:')
+    print('Enemy HP:')
     # C++/Java/JS:
     # for(int i = 0; i < enemy.size(); i ++)
     # card = enemy[i]
     for card in enemy:
         print(card)
 
-    return input('Enter a card:')
-
 # Main game loop
 while True:
-
     # Print enemy output
-    card = get_card(enemy)
+    print_enemy_health(enemy)
+
+    # Get a card from the user
+    card = input('Enter a card:')
     
     # Test for a match and remove it from the
     # enemy's health if it's a match
