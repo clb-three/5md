@@ -7,7 +7,7 @@ class Enemy:
         Constructor
         '''
 
-        # TODO: Randomly select a set of attack cards from all possibilities
+        # TODO Issue #6: Randomly select a set of attack cards from all possibilities
         self.cards = ['sword', 'shield', 'bow']
     
     def has_card(self, card: str):

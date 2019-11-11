@@ -4,7 +4,7 @@ from input import get_input
 from enemy import Enemy
 
 # The enemy we're fighting
-# TODO: Support multiple enemies
+# TODO Issue #4: Support multiple enemies
 enemy = Enemy()
 
 # Main game loop
@@ -21,9 +21,9 @@ while True:
         # Rename args[0] to attack for simplicity
         attack = args[0]
 
-        # TODO Check that the attack is a valid card
+        # TODO: Check that the attack is a valid card
 
-        # TODO Issue #5 Check that the attack is one of the cards in our hand
+        # TODO Issue #5: Check that the attack is one of the cards in our hand
 
         # Attack with the card
         enemy.attack(attack)
