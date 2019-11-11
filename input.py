@@ -16,8 +16,7 @@ def matches(card, enemy):
     else:
         return False
 
-# Main game loop
-while True:
+def get_card(enemy):
     print('We need to attack the enemy with:')
     # C++/Java/JS:
     # for(int i = 0; i < enemy.size(); i ++)
@@ -25,7 +24,9 @@ while True:
     for card in enemy:
         print(card)
 
-    card = input('Enter a card:')
+    return input('Enter a card:')
+
+    card = get_card(enemy)
 
     if matches(card, enemy):
         enemy.remove(card)
