@@ -21,9 +21,9 @@ while True:
         # Rename args[0] to attack for simplicity
         attack = args[0]
 
-        # TODO: Check that:
-        # 1. the attack is a valid card
-        # 2. the attack is one of the cards in our hand
+        # TODO Check that the attack is a valid card
+
+        # TODO Issue #5 Check that the attack is one of the cards in our hand
 
         # Attack with the card
         enemy.attack(attack)
