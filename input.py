@@ -73,11 +73,20 @@ while True:
     # Get input
     operation, args = get_input()
 
-    # Attack with the card
-    attack(card, enemy)
+    if operation == 'play':
+        # Attack with the card
+        attack(args[0], enemy)
+    elif operation == 'quit':
+        break
+    elif operation == '<3':
+        print('3<')
+    else:
+        print('unrecognized command')
 
     # If the enemy is dead, then break out of the loop
     if len(enemy) == 0:
         break
 
-print('You won!')
+print('End of game!')
+if len(enemy) == 0:
+    print('You won!')
