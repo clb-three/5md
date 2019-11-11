@@ -33,6 +33,17 @@ def print_enemy_health(enemy):
     for card in enemy:
         print(card)
 
+def attack(card, enemy):    
+    '''
+    Test for a match and remove it from the
+    enemy's health if it's a match
+    '''
+
+    if matches(card, enemy):
+        enemy.remove(card)
+    else:
+        print('No match')
+
 # Main game loop
 while True:
     # Print enemy output
@@ -40,13 +51,9 @@ while True:
 
     # Get a card from the user
     card = input('Enter a card:')
-    
-    # Test for a match and remove it from the
-    # enemy's health if it's a match
-    if matches(card, enemy):
-        enemy.remove(card)
-    else:
-        print('No match')
+
+    # Attack with the card
+    attack(card, enemy)
 
     # If the enemy is dead, then break out of the loop
     if len(enemy) == 0:
