@@ -3,6 +3,11 @@
 enemy = ['sword', 'shield', 'bow']
 
 def matches(card, enemy):
+    '''
+    Return true if card matches a card in enemy
+    Return false if none of the cards match
+    '''
+
     match = None
 
     # Take a field off the enemy
@@ -17,6 +22,10 @@ def matches(card, enemy):
         return False
 
 def get_card(enemy):
+    '''
+    Print out the enemy's cards and get the user's attack
+    '''
+
     print('We need to attack the enemy with:')
     # C++/Java/JS:
     # for(int i = 0; i < enemy.size(); i ++)
