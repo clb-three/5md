@@ -2,61 +2,70 @@
 
 from input import get_input
 
-enemy = ['sword', 'shield', 'bow']
+class Enemy:
+    def __init__(self):
+        '''
+        Constructor
+        '''
+        self.cards = ['sword', 'shield', 'bow']
+    
+    def matches(self, card: str):
+        '''
+        Return true if card matches one of my cards
+        Return false if none of the cards match
+        '''
 
-def matches(card, enemy):
-    '''
-    Return true if card matches a card in enemy
-    Return false if none of the cards match
-    '''
+        match = None
 
-    match = None
+        # Take a field off the enemy
+        # When we play that card
+        for enemy_card in self.cards:
+            if card == enemy_card:
+                match = enemy_card # marking card for removal
 
-    # Take a field off the enemy
-    # When we play that card
-    for enemy_card in enemy:
-        if card == enemy_card:
-            match = enemy_card # marking card for removal
+        if match != None:
+            return True
+        else:
+            return False
 
-    if match != None:
-        return True
-    else:
-        return False
+    def attack(self, card):    
+        '''
+        Test for a match and remove it from the
+        enemy's health if it's a match
+        '''
 
-def print_enemy_health(enemy):
-    '''
-    Print out the enemy's cards and get the user's attack
-    '''
+        if self.matches(card):
+            self.cards.remove(card)
+        else:
+            print('No match')
+            
+    def __str__(self):
+        '''
+        Return a list of the enemy's cards
+        '''
 
-    print('Enemy HP:')
-    # C++/Java/JS:
-    # for(int i = 0; i < enemy.size(); i ++)
-    # card = enemy[i]
-    for card in enemy:
-        print(card)
+        return 'Enemy HP:' + str(self.cards)
 
-def attack(card, enemy):    
-    '''
-    Test for a match and remove it from the
-    enemy's health if it's a match
-    '''
+    def is_dead(self):
+        '''
+        Return true if the Enemy is dead
+        '''
+        return len(self.cards) == 0
 
-    if matches(card, enemy):
-        enemy.remove(card)
-    else:
-        print('No match')
+enemy = Enemy()
 
 # Main game loop
 while True:
-    # Print enemy output
-    print_enemy_health(enemy)
+
+    # Print enemy HP
+    print(enemy)
 
     # Get input
     operation, args = get_input()
 
     if operation == 'play':
         # Attack with the card
-        attack(args[0], enemy)
+        enemy.attack(args[0])
     elif operation == 'quit':
         break
     elif operation == '<3':
@@ -64,10 +73,10 @@ while True:
     else:
         print('unrecognized command')
 
-    # If the enemy is dead, then break out of the loop
-    if len(enemy) == 0:
+    # break out when the enemy is dead
+    if enemy.is_dead():
         break
 
 print('End of game!')
-if len(enemy) == 0:
+if enemy.is_dead():
     print('You won!')
