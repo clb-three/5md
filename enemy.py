@@ -2,9 +2,15 @@
 # you have to kill with a few different attack cards
 
 class Enemy:
+    '''
+    Class for an Enemy. A class is like a blueprint for an object, and you'll use
+    the constructor __init__ by calling Enemy() to make an instance of Enemy.
+    Right now it's just a bundle of cards.
+    '''
+
     def __init__(self):
         '''
-        Constructor
+        Constructor. This is called whenever we create an Enemy.
         '''
 
         # TODO Issue #6: Randomly select a set of attack cards from all possibilities
