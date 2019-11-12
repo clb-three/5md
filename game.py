@@ -2,22 +2,38 @@
 
 from input import get_input
 from enemy import Enemy
+from hero import Hero
 
 # The enemy we're fighting
 # TODO Issue #4: Support multiple enemies
+
 enemy = Enemy()
+hero = Hero()
 
 def play_card(card):
     '''
     Play a card against the current enemy
     '''
 
-    # TODO: Check that the attack is a valid card
+    # Forces card into lower case string to prevent capitalization issues with input
+    card = card.lower()
 
-    # TODO Issue #5: Check that the attack is one of the cards in our hand
+    # if card is valid, allow play
+    if card == "sword" or card == "shield" or card == "arrow" or card == "jump" or card == "scroll":
+        # checks if the card is available to the hero
+        if hero.has_card(card):
+            # Attack with the card
+            enemy.attack(card)
+            print("You hit the enemy with your", card + "!\n")
+        else:
+            print("You don't have that card!\n")
+    else:
+        print("That's not an action!\n")
 
-    # Attack with the card
-    enemy.attack(card)
+
+
+
+
 
 # Main game loop
 while True:

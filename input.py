@@ -4,7 +4,7 @@ def get_input():
     '''
     Split command into '<operation> <args[0]> <args[1]> ... <args[n]>'
     '''
-    command = input('Enter a command:')
+    command = input('Enter a command: ')
     
     operation = None
     args = []

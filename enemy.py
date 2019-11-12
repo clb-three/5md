@@ -14,7 +14,7 @@ class Enemy:
         '''
 
         # TODO Issue #6: Randomly select a set of attack cards from all possibilities
-        self.cards = ['sword', 'shield', 'bow']
+        self.cards = ['sword', 'shield', 'arrow']
     
     def has_card(self, card):
         '''
@@ -40,7 +40,7 @@ class Enemy:
         Return a list of the enemy's cards
         '''
 
-        return 'Enemy HP:' + str(self.cards)
+        return 'Enemy HP: ' + str(self.cards)
 
     def is_dead(self):
         '''
