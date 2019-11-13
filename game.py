@@ -24,6 +24,7 @@ def play_card(card):
         if hero.has_card(card):
             # Attack with the card
             enemy.attack(card)
+            hero.cards.remove(card) #temporary fix until hero class is fully implemented, removes card from heros hand
             print("You hit the enemy with your", card + "!\n")
         else:
             print("You don't have that card!\n")
@@ -40,6 +41,7 @@ while True:
 
     # Print enemy HP
     # TODO Issue #7: This will be removed and replaced with the print command.
+    print(hero)
     print(enemy)
 
     # Get input
