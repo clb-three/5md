@@ -1,5 +1,6 @@
 from input import get_input
 from enemy import Enemy
+from random import random
 
 class Hero:
     '''
@@ -7,13 +8,21 @@ class Hero:
     Main goal for now is to have a 'hand' that can be used in game.py to make sure a play is valid.
     '''
 
+
     def __init__(self):
         '''
         Constructor. This is called whenever we create a Hero.
         '''
 
         # TODO Issue #6: Randomly select a set of attack cards from all possibilities
-        self.cards = ['sword', 'shield', 'arrow']
+        # All possible moves a hero can have, used to initialize a random hand
+        actions = ['sword', 'shield', 'arrow', 'scroll', 'jump']
+
+        # randomly selects the number of actions the hero will receive
+        num_of_actions = random.randInt(1, 4)
+        # Takes a random sample from actions and puts it into cards, parameterized by numOfActions
+        self.cards = random.sample(actions, num_of_actions) # TODO change from sample to a loop that allows for repeated types
+
 
 
     def has_card(self, card):
