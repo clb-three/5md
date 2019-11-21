@@ -23,7 +23,7 @@ def play_card(card):
         # checks if the card is available to the hero
         if hero.has_card(card):
             # Attack with the card
-            enemy.attack(card)
+            enemy.attack(card) # TODO Issue #9 Check that the enemy actually can be hit by the card (if enemy doesn't have jump dont remove jump from hero)
             hero.cards.remove(card) #temporary fix until hero class is fully implemented, removes card from heros hand
             print("You hit the enemy with your", card + "!\n")
         else:
