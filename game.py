@@ -10,6 +10,20 @@ from hero import Hero
 enemy = Enemy()
 hero = Hero()
 
+valid_card_names = [
+    "sword",
+    "shield",
+    "arrow",
+    "jump",
+    "scroll"
+]
+
+def is_valid(card):
+    '''
+    Return whether card is valid
+    '''
+    return card in valid_card_names
+
 def play_card(card):
     '''
     Play a card against the current enemy
@@ -19,7 +33,7 @@ def play_card(card):
     card = card.lower()
 
     # If card is valid, allow play
-    if card == "sword" or card == "shield" or card == "arrow" or card == "jump" or card == "scroll":
+    if is_valid(card):
         # Checks if the card is available to the hero
         if hero.has_card(card):
             # Attack with the card
