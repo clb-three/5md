@@ -33,19 +33,20 @@ def play_card(card):
     card = card.lower()
 
     # If card is valid, allow play
-    if is_valid(card):
-        # Checks if the card is available to the hero
-        if hero.has_card(card):
-            # Attack with the card
-            if enemy.try_attack(card):
-                hero.discard(card)
-                print("You hit the enemy with your", card + "!\n")
-            else:
-                print("That won't do any good!")
-        else:
-            print("You don't have that card!\n")
-    else:
+    if not is_valid(card):
         print("That's not an action!\n")
+        return
+
+    # Check if the card is available to the hero
+    if not hero.has_card(card):
+        print("You don't have that card!\n")
+        
+    # Attack with the card
+    if enemy.try_attack(card):
+        hero.discard(card)
+        print("You hit the enemy with your", card + "!\n")
+    else:
+        print("That won't do any good!")
 
 
 
