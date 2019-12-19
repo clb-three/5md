@@ -38,6 +38,8 @@ class Hero:
         '''
         Return a list of the hero's cards
         '''
+        # TODO: Make hero_hand just list out how many of each card we have.
+        # sword: 2: shield: 3, etc.
         return 'Your cards are: ' + str(self.hero_hand)
 
 

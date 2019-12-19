@@ -32,6 +32,9 @@ def play_card(card):
         return
         
     # Try to attack with the card
+    # TODO: Move this logic into wherever makes sense.
+    # Probably the card module.
+    # This is in prep for other special card effects.
     if door_deck.current_enemy.try_attack(card):
         hero.discard(card)
         print("You hit the enemy with your", card + "!\n")
