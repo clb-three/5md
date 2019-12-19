@@ -8,12 +8,18 @@ class Enemy:
     Right now it's just a bundle of cards.
     '''
 
+    # Name
+    # Which symbols needed to defeat it
+    # Type (Monster, Obstacle, or Person).
+    # Some classes have special cards that let them instantly
+    # destroy certain types of door cards.
+
     def __init__(self):
         '''
         Constructor. This is called whenever we create an Enemy.
         '''
 
-        # TODO Issue #6: Randomly select a set of attack cards from all possibilities
+        # TODO Assign enemy stats from 
         self.cards = ['sword', 'shield', 'arrow']
 
     def has_card(self, card):
