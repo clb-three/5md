@@ -23,14 +23,15 @@ def play_card(card):
         # Checks if the card is available to the hero
         if hero.has_card(card):
             # Attack with the card
-            enemy.attack(card) # TODO Issue #9 Check that the enemy actually can be hit by the card (if enemy doesn't have jump dont remove jump from hero)
-            hero.discard(card)
-            print("You hit the enemy with your", card + "!\n")
+            if enemy.try_attack(card):
+                hero.discard(card)
+                print("You hit the enemy with your", card + "!\n")
+            else:
+                print("That won't do any good!")
         else:
             print("You don't have that card!\n")
     else:
         print("That's not an action!\n")
-
 
 
 

@@ -24,16 +24,18 @@ class Enemy:
 
         return card in self.cards
 
-    def attack(self, card):    
+    def try_attack(self, card):    
         '''
-        Test for a match and remove it from the
-        enemy's health if it's a match
+        Test for a match
+        remove the card from the enemy's health and return true if it's a match
+        else return None
         '''
 
         if self.has_card(card):
             self.cards.remove(card)
-        else:
-            print('No match')
+            return True
+
+        return False
             
     def __str__(self):
         '''
