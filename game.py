@@ -32,20 +32,21 @@ def play_card(card):
     # Forces card into a lower case string to prevent capitalization issues with input
     card = card.lower()
 
-    # If card is valid, allow play
-    if is_valid(card):
-        # Checks if the card is available to the hero
-        if hero.has_card(card):
-            # Attack with the card
-            if enemy.try_attack(card):
-                hero.discard(card)
-                print("You hit the enemy with your", card + "!\n")
-            else:
-                print("That won't do any good!")
-        else:
-            print("You don't have that card!\n")
-    else:
+    # If card is not valid, don't let it be played
+    if not is_valid(card):
         print("That's not an action!\n")
+        return
+
+    # Check if the card is available to the hero
+    if not hero.has_card(card):
+        print("You don't have that card!\n")
+        
+    # Try to ttack with the card
+    if enemy.try_attack(card):
+        hero.discard(card)
+        print("You hit the enemy with your", card + "!\n")
+    else:
+        print("The enemy doesn't have that card!")
 
 
 
