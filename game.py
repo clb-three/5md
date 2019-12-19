@@ -3,26 +3,16 @@
 from input import get_input
 from enemy import Enemy
 from hero import Hero
+import cards
 
 # The enemy we're fighting
 # TODO Issue #4: Support multiple enemies
 
 enemy = Enemy()
 hero = Hero()
-
-valid_card_names = [
-    "sword",
-    "shield",
-    "arrow",
-    "jump",
-    "scroll"
-]
-
-def is_valid(card):
-    '''
-    Return whether card is valid
-    '''
-    return card in valid_card_names
+# Draws the hero's initial hand
+for j in range(0, 5):
+    hero.draw_card()
 
 def play_card(card):
     '''
@@ -34,7 +24,7 @@ def play_card(card):
     card = card.lower()
 
     # If card is not valid, don't let it be played
-    if not is_valid(card):
+    if not cards.is_valid(card):
         print("That's not an action!\n")
         return
 

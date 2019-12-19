@@ -1,6 +1,7 @@
 from input import get_input
 from enemy import Enemy
 import random
+import cards
 
 class Hero:
     '''
@@ -17,22 +18,13 @@ class Hero:
         Constructor. This is called whenever we create a Hero.
         '''
 
-        # All possible moves a hero can have, used to initialize a random deck
-        actions = ['sword', 'shield', 'arrow', 'scroll', 'jump']
         # A couple lists to hold our hero's hand and their deck
         self.hero_deck = []
         self.hero_hand = []
-        # Int for selecting the number of actions a player starts with
-        num_of_actions = 5
 
         # Takes a random sample from actions and puts it into cards, parameterized by num_of_actions
         for i in range(0, 40):
-            self.hero_deck.append(random.choice(actions)) #for each index to 40 add a random item from actions to hand
-
-        # Draws the hero num_of_actions amount of cards from their deck
-        for j in range(0, num_of_actions):
-            self.draw_card()
-
+            self.hero_deck.append(random.choice(cards.action_cards)) #for each index to 40 add a random item from actions to hand
 
     def has_card(self, card):
          '''
