@@ -1,9 +1,9 @@
 # A deck of door cards you must defeat
 
-from enemy import Enemy
+from enemy import DoorCard
 
 # Place an initial deck of 5 enemies
-enemy_deck = [Enemy() for _ in range(0, 5)]
+enemy_deck = [DoorCard() for _ in range(0, 5)]
 # The enemy face up on the top of the deck
 current_enemy = None
 def try_draw():

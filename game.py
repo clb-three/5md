@@ -1,7 +1,7 @@
 # game.py: execute commands based on the input
 
 from input import get_input
-from enemy import Enemy
+from enemy import DoorCard
 import door_deck
 from hero import Hero
 import cards
@@ -39,7 +39,7 @@ def play_card(card):
         hero.discard(card)
         print("You hit the enemy with your", card + "!\n")
     else:
-        print("The enemy doesn't have that card!")
+        print("That card has no effect on this enemy!")
         return
 
 
@@ -62,7 +62,8 @@ while True:
         hero.discard(args[0])
     elif operation == 'draw':
         hero.draw_card()
-        print('You drew', hero.hero_hand[-1], '.', (hero.hero_deck), 'cards left.')
+        print('You drew a %s.', hero.hero_hand[-1])
+        print('Your deck has %d cards left.' % len(hero.hero_deck))
     elif operation == 'print':
         # TODO Issue #7: Print the current enemy's deets. We'll want this to replace the printing
         # the status up in the top of the loop.

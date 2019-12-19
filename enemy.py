@@ -1,7 +1,7 @@
 # enemy.py: an Enemy is a door card that
 # you have to kill with a few different attack cards
 
-class Enemy:
+class DoorCard:
     '''
     Class for an Enemy. A class is like a blueprint for an object, and you'll use
     the constructor __init__ by calling Enemy() to make an instance of Enemy.
@@ -20,15 +20,15 @@ class Enemy:
         '''
 
         # TODO Assign enemy stats from 
-        self.cards = ['sword', 'shield', 'arrow']
+        self.symbols = ['sword', 'shield', 'arrow']
 
-    def has_card(self, card):
+    def has_symbol(self, card):
         '''
         Return true if card matches one of my cards
         Return false if none of the cards match
         '''
 
-        return card in self.cards
+        return card in self.symbols
 
     def try_attack(self, card):    
         '''
@@ -37,21 +37,21 @@ class Enemy:
         else return None
         '''
 
-        if self.has_card(card):
-            self.cards.remove(card)
+        if self.has_symbol(card):
+            self.symbols.remove(card)
             return True
 
         return False
             
     def __str__(self):
         '''
-        Return a list of the enemy's cards
+        Return a list of the enemy's symbols
         '''
 
-        return 'Enemy HP: ' + str(self.cards)
+        return 'Enemy HP: ' + str(self.symbols)
 
     def is_dead(self):
         '''
         Return true if the Enemy is dead
         '''
-        return len(self.cards) == 0
+        return len(self.symbols) == 0

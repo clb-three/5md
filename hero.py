@@ -1,5 +1,5 @@
 from input import get_input
-from enemy import Enemy
+from enemy import DoorCard
 import random
 import cards
 
