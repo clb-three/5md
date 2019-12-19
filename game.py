@@ -29,6 +29,7 @@ def play_card(card):
     Play a card against the current enemy
     '''
 
+
     # Forces card into a lower case string to prevent capitalization issues with input
     card = card.lower()
 
