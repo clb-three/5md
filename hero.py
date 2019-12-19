@@ -1,7 +1,6 @@
 from input import get_input
-from enemy import DoorCard
 import random
-import cards
+import hero_cards
 
 class Hero:
     '''
@@ -12,11 +11,13 @@ class Hero:
     The deck can be shuffled
     '''
 
-
     def __init__(self):
         '''
         Constructor. This is called whenever we create a Hero.
         '''
+
+        # TODO: Each Hero should have a class so that we can know
+        # which cards to put in his/her/xer/its/helixopter's deck.
 
         # A couple lists to hold our hero's hand and their deck
         self.hero_deck = []
@@ -24,7 +25,7 @@ class Hero:
 
         # Takes a random sample from actions and puts it into cards, parameterized by num_of_actions
         for i in range(0, 40):
-            self.hero_deck.append(random.choice(cards.action_cards)) #for each index to 40 add a random item from actions to hand
+            self.hero_deck.append(random.choice(hero_cards.deck())) #for each index to 40 add a random item from actions to hand
 
     def has_card(self, card):
          '''
@@ -67,7 +68,7 @@ class Hero:
         '''
 
         # Checks if the card is valid
-        if card == "sword" or card == "shield" or card == "arrow" or card == "jump" or card == "scroll":
+        if hero_cards.is_valid(card):
             # Checks if the card is held by the hero
             if self.has_card(card):
                 # If it is a valid card to remove, remove it
@@ -75,7 +76,7 @@ class Hero:
             else:
                 print("You can't discard a card you don't have!\n")
         else:
-            print("That's not a card!\n")
+            print('"%s" is not a card!\n' % card)
 
 
     def shuffle(self):

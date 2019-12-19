@@ -1,6 +1,6 @@
 # A deck of door cards you must defeat
 
-from enemy import DoorCard
+from door_card import DoorCard
 
 # Place an initial deck of 5 enemies
 enemy_deck = [DoorCard() for _ in range(0, 5)]

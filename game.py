@@ -1,13 +1,14 @@
 # game.py: execute commands based on the input
 
 from input import get_input
-from enemy import DoorCard
+from door_card import DoorCard
 import door_deck
 from hero import Hero
-import cards
+import hero_cards
 
 door_deck.try_draw()
 
+# TODO: Add support for multiple Heroes. Each player will have one Hero.
 hero = Hero()
 # Draws the hero's initial hand
 for j in range(0, 5):
@@ -22,7 +23,7 @@ def play_card(card):
     card = card.lower()
 
     # If card is not valid, don't let it be played
-    if not cards.is_valid(card):
+    if not hero_cards.is_valid(card):
         print("That's not an action!\n")
         return
 
@@ -61,7 +62,7 @@ while True:
         hero.discard(args[0])
     elif operation == 'draw':
         hero.draw_card()
-        print('You drew a %s.', hero.hero_hand[-1])
+        print('You drew a %s.' % hero.hero_hand[-1])
         print('Your deck has %d cards left.' % len(hero.hero_deck))
     elif operation == 'print':
         # TODO Issue #7: Print the current enemy's deets. We'll want this to replace the printing
