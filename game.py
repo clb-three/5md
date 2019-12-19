@@ -2,13 +2,12 @@
 
 from input import get_input
 from enemy import Enemy
+import door_deck
 from hero import Hero
 import cards
 
-# The enemy we're fighting
-# TODO Issue #4: Support multiple enemies
+door_deck.try_draw()
 
-enemy = Enemy()
 hero = Hero()
 # Draws the hero's initial hand
 for j in range(0, 5):
@@ -18,7 +17,6 @@ def play_card(card):
     '''
     Play a card against the current enemy
     '''
-
 
     # Forces card into a lower case string to prevent capitalization issues with input
     card = card.lower()
@@ -31,15 +29,15 @@ def play_card(card):
     # Check if the card is available to the hero
     if not hero.has_card(card):
         print("You don't have that card!\n")
+        return
         
-    # Try to ttack with the card
-    if enemy.try_attack(card):
+    # Try to attack with the card
+    if door_deck.current_enemy.try_attack(card):
         hero.discard(card)
         print("You hit the enemy with your", card + "!\n")
     else:
         print("The enemy doesn't have that card!")
-
-
+        return
 
 
 
@@ -49,7 +47,7 @@ while True:
     # Print enemy HP
     # TODO Issue #7: This will be removed and replaced with the print command.
     print(hero)
-    print(enemy)
+    print(door_deck.current_enemy)
 
     # Get input
     operation, args = get_input()
@@ -61,7 +59,7 @@ while True:
         hero.discard(args[0])
     elif operation == 'draw':
         hero.draw_card()
-        print('You drew ' + hero.hero_hand[-1] + '\n')
+        print('You drew', hero.hero_hand[-1], '.', (hero.hero_deck), 'cards left.')
     elif operation == 'print':
         # TODO Issue #7: Print the current enemy's deets. We'll want this to replace the printing
         # the status up in the top of the loop.
@@ -78,9 +76,12 @@ while True:
         print('Unrecognized command')
 
     # break out when the enemy is dead
-    if enemy.is_dead():
-        break
+    if door_deck.current_enemy.is_dead():
+        if door_deck.try_draw():
+            print('Drew another fearsome enemy. Grr!')
+        else:
+            break
 
 print('End of game!')
-if enemy.is_dead():
+if len(door_deck.enemy_deck) == 0:
     print('You won!')
