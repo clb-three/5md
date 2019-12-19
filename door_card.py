@@ -1,6 +1,10 @@
 # enemy.py: an Enemy is a door card that
 # you have to kill with a few different attack cards
 
+# TODO Issue #11: Load door cards from store.
+# This could be anything - a database, JSON, hardcoded Python, plaintext file, your gramma's panties.
+# More details in the issue description.
+
 class DoorCard:
     '''
     Class for an Enemy. A class is like a blueprint for an object, and you'll use
