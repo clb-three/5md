@@ -2,11 +2,11 @@
 
 from input import get_input
 from door_card import DoorCard
-import door_deck
+from door_deck import DoorDeck
 from hero import Hero
 import hero_cards
 
-door_deck.try_draw()
+door_deck = DoorDeck(5)
 
 # TODO: Add support for multiple Heroes. Each player will have one Hero.
 hero = Hero()
