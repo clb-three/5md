@@ -5,6 +5,7 @@
 # This could be anything - a database, JSON, hardcoded Python, plaintext file, your gramma's panties.
 # More details in the issue description.
 
+
 class DoorCard:
     '''
     Class for an Enemy. A class is like a blueprint for an object, and you'll use
@@ -18,13 +19,12 @@ class DoorCard:
     # Some classes have special cards that let them instantly
     # destroy certain types of door cards.
 
-    def __init__(self):
+    def __init__(self, symbols):
         '''
         Constructor. This is called whenever we create an Enemy.
         '''
 
-        # TODO Assign enemy stats from 
-        self.symbols = ['sword', 'shield', 'arrow']
+        self.symbols = symbols
 
     def has_symbol(self, card):
         '''
@@ -34,7 +34,7 @@ class DoorCard:
 
         return card in self.symbols
 
-    def try_attack(self, card):    
+    def try_attack(self, card):
         '''
         Test for a match
         remove the card from the enemy's health and return true if it's a match
@@ -46,7 +46,7 @@ class DoorCard:
             return True
 
         return False
-            
+
     def __str__(self):
         '''
         Return a list of the enemy's symbols

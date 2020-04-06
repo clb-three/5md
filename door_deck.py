@@ -1,6 +1,6 @@
 # A deck of door cards you must defeat
 
-from door_card import DoorCard
+from deal_door_deck import deal_door_deck
 
 
 class DoorDeck:
@@ -16,7 +16,7 @@ class DoorDeck:
 
         super().__init__()
         # Place an initial deck of 5 enemies
-        self.enemy_deck = [DoorCard() for _ in range(0, num_cards)]
+        self.enemy_deck = deal_door_deck(num_cards)
 
         # The enemy face up on the top of the deck
         self.current_enemy = None
