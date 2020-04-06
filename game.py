@@ -2,12 +2,13 @@
 
 from input import get_input
 from door_card import DoorCard
+from boss_mat import BossMat
 from door_deck_factory import DoorDeckFactory
 from hero import Hero
 import hero_cards
 
 door_deck_factory = DoorDeckFactory()
-door_deck = door_deck_factory.create(5)
+mat = BossMat(door_deck_factory, 1, ['arrow', 'jump'])
 
 # TODO: Add support for multiple Heroes. Each player will have one Hero.
 hero = Hero()
@@ -34,23 +35,8 @@ def play_card(card):
         print("You don't have that card!\n")
         return
 
-    # Try to attack with the card
-    # We'll probably move this into the card module
-    # so that it's easier to implement other special card effects.
-    if door_deck.current_enemy.try_attack(card):
-        hero.discard(card)
-        print("You hit the enemy with your", card + "!\n")
-    else:
-        print("That card has no effect on this enemy!")
-        return
-
-    # Clean up the enemy if they're dead
-    if door_deck.current_enemy.is_dead():
-        print("You killed the enemy!")
-        if door_deck.try_draw():
-            print("Drawing the next one")
-        else:
-            print("All enemies dead")
+    mat.play(card)
+    hero.discard(card)
 
 
 # Main game loop
@@ -59,7 +45,7 @@ while True:
     # Print enemy HP
     # TODO Issue #7: This will be removed and replaced with the print command.
     print(hero)
-    print(door_deck.current_enemy)
+    print(mat.target)
 
     # Get input
     operation, args = get_input()
@@ -88,13 +74,10 @@ while True:
         # and let the user know about it
         print('Unrecognized command')
 
-    # break out when the enemy is dead
-    if door_deck.current_enemy.is_dead():
-        if door_deck.try_draw():
-            print('Drew another fearsome enemy. Grr!')
-        else:
-            break
+    # break out when all enemies isded
+    if mat.is_dead():
+        break
 
 print('End of game!')
-if len(door_deck.enemy_deck) == 0:
+if mat.is_dead():
     print('You won!')
