@@ -27,7 +27,7 @@ def draw_door_card():
 
     card = random_door_card()
 
-    return DoorCard(card["symbols"])
+    return DoorCard(card["name"], card["symbols"], card["type"])
 
 
 def deal_door_deck(num_cards):

@@ -19,12 +19,14 @@ class DoorCard:
     # Some classes have special cards that let them instantly
     # destroy certain types of door cards.
 
-    def __init__(self, symbols):
+    def __init__(self, name, symbols, card_type):
         '''
         Constructor. This is called whenever we create an Enemy.
         '''
 
+        self.name = name
         self.symbols = symbols
+        self.card_type = card_type
 
     def has_symbol(self, card):
         '''
@@ -52,7 +54,7 @@ class DoorCard:
         Return a list of the enemy's symbols
         '''
 
-        return 'Enemy HP: ' + str(self.symbols)
+        return f'Enemy: Name: "{self.name}" type: "{self.card_type}" HP: {str(self.symbols)}'
 
     def is_dead(self):
         '''
