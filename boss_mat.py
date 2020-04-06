@@ -1,17 +1,9 @@
 
-class Boss:
-    def __init__(self, symbols):
-        self.symbols = symbols
+from attackable import Attackable
 
-    def is_dead(self):
-        return len(self.symbols) == 0
 
-    def try_attack(self, card):
-        if card in self.symbols:
-            self.symbols.remove(card)
-            return True
-        else:
-            return False
+class Boss(Attackable):
+    pass
 
 
 class BossMat:
@@ -26,22 +18,22 @@ class BossMat:
 
         self.boss = Boss(symbols)
 
-    def is_dead(self):
-        return self.target.is_dead()
+    def is_defeated(self):
+        return self.target == self.boss and self.target.is_dead()
 
-    def play(self, card):
-        # Try to attack with the card
-        # We'll probably move this into the card module
-        # so that it's easier to implement other special card effects.
-        if self.target.try_attack(card):
-            print("You hit the enemy with your", card + "!\n")
-        else:
-            print("That card has no effect on this enemy!")
+    def play(self, symbol):
+        success = self.target.try_attack(symbol)
 
-        # break out when the enemy is dead
+        # switch to next enemy or boss when all enemies are dead
         if self.target.is_dead():
-            if self.door_deck.try_draw():
-                self.target = self.door_deck.current_enemy
+            if self.target == self.boss:
+                print('You killed the boss!')
+            elif self.door_deck.try_draw():
                 print('Drew another fearsome enemy. Grr!')
-            elif self.boss.is_dead() is not True:
+                self.target = self.door_deck.current_enemy
+            else:
+                print('Now we\'re fighting the boss. Ahh!')
                 self.target = self.boss
+                self.fighting_boss = True
+
+        return success

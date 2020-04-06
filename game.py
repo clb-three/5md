@@ -35,7 +35,11 @@ def play_card(card):
         print("You don't have that card!\n")
         return
 
-    mat.play(card)
+    if mat.play(card):
+        print("You hit the enemy with your", card + "!\n")
+    else:
+        print("That card has no effect on this enemy!")
+
     hero.discard(card)
 
 
@@ -75,9 +79,9 @@ while True:
         print('Unrecognized command')
 
     # break out when all enemies isded
-    if mat.is_dead():
+    if mat.is_defeated():
         break
 
 print('End of game!')
-if mat.is_dead():
+if mat.is_defeated():
     print('You won!')
