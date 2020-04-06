@@ -14,6 +14,7 @@ hero = Hero()
 for j in range(0, 5):
     hero.draw_card()
 
+
 def play_card(card):
     '''
     Play a card against the current enemy
@@ -31,7 +32,7 @@ def play_card(card):
     if not hero.has_card(card):
         print("You don't have that card!\n")
         return
-        
+
     # Try to attack with the card
     # We'll probably move this into the card module
     # so that it's easier to implement other special card effects.
@@ -42,6 +43,13 @@ def play_card(card):
         print("That card has no effect on this enemy!")
         return
 
+    # Clean up the enemy if they're dead
+    if door_deck.current_enemy.is_dead():
+        print("You killed the enemy!")
+        if door_deck.try_draw():
+            print("Drawing the next one")
+        else:
+            print("All enemies dead")
 
 
 # Main game loop
