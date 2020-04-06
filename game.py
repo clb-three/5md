@@ -2,11 +2,12 @@
 
 from input import get_input
 from door_card import DoorCard
-from door_deck import DoorDeck
+from deal_door_deck import DoorDeckFactory
 from hero import Hero
 import hero_cards
 
-door_deck = DoorDeck(5)
+door_deck_factory = DoorDeckFactory()
+door_deck = door_deck_factory.create(5)
 
 # TODO: Add support for multiple Heroes. Each player will have one Hero.
 hero = Hero()

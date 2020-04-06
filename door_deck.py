@@ -1,7 +1,5 @@
 # A deck of door cards you must defeat
 
-from deal_door_deck import deal_door_deck
-
 
 class DoorDeck:
     '''
@@ -9,14 +7,14 @@ class DoorDeck:
     Reveals the top door card to fight the players until we're out of cards.
     '''
 
-    def __init__(self, num_cards):
+    def __init__(self, cards):
         '''
-        Create a new DoorDeck with the given num_cards.
+        Create a new DoorDeck with the given cards.
         '''
 
         super().__init__()
         # Place an initial deck of 5 enemies
-        self.enemy_deck = deal_door_deck(num_cards)
+        self.enemy_deck = cards
 
         # The enemy face up on the top of the deck
         self.current_enemy = None
