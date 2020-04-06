@@ -10,18 +10,9 @@ class DoorDeckFactory:
     '''
 
     def __init__(self):
-        self.door_cards = [
-            {
-                "name": "Slime",
-                "symbols": ["jump", "arrow"],
-                "type": "monster",
-            },
-            {
-                "name": "Sir Fuzzylumps",
-                "symbols": ["jump", "arrow", "arrow"],
-                "type": "monster",
-            }
-        ]
+        import json
+        with open('resources/door_cards.json', 'r') as file:
+            self.door_cards = json.loads(file.read())
 
     def random_door_card(self):
         return random.choice(self.door_cards)

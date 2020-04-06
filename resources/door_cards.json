@@ -1,0 +1,19 @@
+[
+    {
+        "name": "Slime",
+        "symbols": [
+            "jump",
+            "arrow"
+        ],
+        "type": "monster"
+    },
+    {
+        "name": "Sir Fuzzylumps",
+        "symbols": [
+            "jump",
+            "arrow",
+            "arrow"
+        ],
+        "type": "monster"
+    }
+]
