@@ -1,5 +1,15 @@
 
+
+import enum
 from attackable import Attackable
+
+
+class PlayResult(enum.Enum):
+    SuccessfulAttack = 1
+    FailedAttack = 2
+    DefeatedDoorDeck = 3
+    DefeatedEnemy = 4
+    DefeatedBoss = 5
 
 
 class Boss(Attackable):
@@ -27,13 +37,13 @@ class BossMat:
         # switch to next enemy or boss when all enemies are dead
         if self.target.is_dead():
             if self.target == self.boss:
-                print('You killed the boss!')
-            elif self.door_deck.try_draw():
-                print('Drew another fearsome enemy. Grr!')
-                self.target = self.door_deck.current_enemy
-            else:
-                print('Now we\'re fighting the boss. Ahh!')
-                self.target = self.boss
-                self.fighting_boss = True
+                return PlayResult.DefeatedBoss
 
-        return success
+            if self.door_deck.try_draw():
+                self.target = self.door_deck.current_enemy
+                return PlayResult.DefeatedEnemy
+
+            self.target = self.boss
+            return PlayResult.DefeatedDoorDeck
+
+        return PlayResult.SuccessfulAttack if success else PlayResult.FailedAttack

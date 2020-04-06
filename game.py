@@ -2,7 +2,7 @@
 
 from input import get_input
 from door_card import DoorCard
-from boss_mat import BossMat
+from boss_mat import BossMat, PlayResult
 from door_deck_factory import DoorDeckFactory
 from hero import Hero
 import hero_cards
@@ -35,10 +35,17 @@ def play_card(card):
         print("You don't have that card!\n")
         return
 
-    if mat.play(card):
+    result = mat.play(card)
+    if result == PlayResult.SuccessfulAttack:
         print("You hit the enemy with your", card + "!\n")
-    else:
+    elif result == PlayResult.FailedAttack:
         print("That card has no effect on this enemy!")
+    elif result == PlayResult.DefeatedEnemy:
+        print('Defeated a fearsome enemy. Grr!')
+    elif result == PlayResult.DefeatedDoorDeck:
+        print('Now we\'re fighting the boss. Ahh!')
+    elif result == PlayResult.DefeatedBoss:
+        print('You killed the boss!')
 
     hero.discard(card)
 
