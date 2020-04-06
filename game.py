@@ -2,7 +2,7 @@
 
 from input import get_input
 from door_card import DoorCard
-from deal_door_deck import DoorDeckFactory
+from door_deck_factory import DoorDeckFactory
 from hero import Hero
 import hero_cards
 
