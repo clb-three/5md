@@ -31,14 +31,6 @@ class DoorCard(Attackable):
         self.name = name
         self.card_type = card_type
 
-    def has_symbol(self, card):
-        '''
-        Return true if card matches one of my cards
-        Return false if none of the cards match
-        '''
-
-        return card in self.symbols
-
     def __str__(self):
         '''
         Return a list of the enemy's symbols
