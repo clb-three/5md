@@ -10,14 +10,19 @@ import hero_cards
 door_deck_factory = DoorDeckFactory()
 mat = BossMat(door_deck_factory, 1, ['arrow', 'jump'])
 
-# TODO: Add support for multiple Heroes. Each player will have one Hero.
-hero = Hero()
+# Each player will have one Hero.
+heroes = {
+    "benji": Hero(),
+    "austin": Hero(),
+}
+
 # Draws the hero's initial hand
 for j in range(0, 5):
-    hero.draw_card()
+    for h in heroes.values():
+        h.draw_card()
 
 
-def play_card(card):
+def play_card(hero, card):
     '''
     Play a card against the current enemy
     '''
@@ -55,29 +60,32 @@ while True:
 
     # Print enemy HP
     # TODO Issue #7: This will be removed and replaced with the print command.
-    print(hero)
+    print(heroes)
     print(mat.target)
 
     # Get input
-    operation, args = get_input()
+    args = get_input()
 
     # Decide what operation to do
-    if operation == 'play':
-        play_card(args[0])
-    elif operation == 'discard':
-        hero.discard(args[0])
-    elif operation == 'draw':
-        hero.draw_card()
-        print('You drew a %s.' % hero.hero_hand[-1])
-        print('Your deck has %d cards left.' % len(hero.hero_deck))
-    elif operation == 'print':
+    if args[0] in heroes:
+        hero = heroes[args[0]]
+
+        if args[1] == 'play':
+            play_card(hero, args[2])
+        elif args[1] == 'discard':
+            hero.discard(args[2])
+        elif args[1] == 'draw':
+            hero.draw_card()
+            print('You drew a %s.' % hero.hero_hand[-1])
+            print('Your deck has %d cards left.' % len(hero.hero_deck))
+    elif args[0] == 'print':
         # TODO Issue #7: Print the current enemy's deets. We'll want this to replace the printing
         # the status up in the top of the loop.
         print('Not implemented yet')
-    elif operation == 'quit':
+    elif args[0] == 'quit':
         # Quit the game
         break
-    elif operation == '<3':
+    elif args[0] == '<3':
         # Love on u
         print('3<')
     else:

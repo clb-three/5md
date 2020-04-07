@@ -36,6 +36,9 @@ class Hero:
         '''
         return card in self.hero_hand
 
+    def __repr__(self):
+        return self.__str__()
+
     def __str__(self):
         '''
         Return a list of the hero's cards
