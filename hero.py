@@ -58,11 +58,10 @@ class Hero:
             # Adds to the hand
             self.hero_hand.append(self.hero_deck[0])
             # Removes from the deck
-            self.hero_deck.pop(0)
-            return True
+            card = self.hero_deck.pop(0)
+            return card
         else:
             print("You have no more cards in your deck!\n")
-            return False
 
     def discard(self, card):
         '''

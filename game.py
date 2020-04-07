@@ -75,8 +75,8 @@ while True:
         elif args[1] == 'discard':
             hero.discard(args[2])
         elif args[1] == 'draw':
-            hero.draw_card()
-            print('You drew a %s.' % hero.hero_hand[-1])
+            card_drawn = hero.draw_card()
+            print('You drew a %s.' % card_drawn)
             print('Your deck has %d cards left.' % len(hero.hero_deck))
     elif args[0] == 'print':
         # TODO Issue #7: Print the current enemy's deets. We'll want this to replace the printing
