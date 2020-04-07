@@ -18,22 +18,21 @@ class Hero:
 
         self.name = name
 
-        # TODO: Each Hero should have a class so that we can know
-        # which cards to put in his/her/xer/its/helixopter's deck.
-
         # A couple lists to hold our hero's hand and their deck
-        self.hero_deck = []
         self.hand = []
 
         # Takes a random sample from actions and puts it into cards, parameterized by num_of_actions
+        self.deck = []
+        # TODO: Each Hero should have a class so that we can know
+        # which cards to put in his/her/xer/its/helixopter's deck.
         for i in range(0, 40):
             # for each index to 40 add a random item from actions to hand
-            self.hero_deck.append(random.choice(hero_cards.deck()))
+            self.deck.append(random.choice(hero_cards.deck()))
+        random.shuffle(self.deck)
 
     def has_card(self, card):
         '''
-        Return true if card matches one of my cards
-        Return false if none of the cards match
+        Return whether card matches one of my cards.
         '''
         return card in self.hand
 
@@ -50,16 +49,16 @@ class Hero:
 
     def draw_card(self):
         '''
-        Returns true if card was able to be drawn from the deck
-        Return false if deck is empty or max hand size has already been reached
+        Draw a card into your hand and return it.
+        Return default None if your deck is empty.
         '''
 
         # If there are cards in the deck to draw from add them to the hero's hand
-        if len(self.hero_deck) > 0:
+        if len(self.deck) > 0:
             # Adds to the hand
-            self.hand.append(self.hero_deck[0])
+            self.hand.append(self.deck[0])
             # Removes from the deck
-            card = self.hero_deck.pop(0)
+            card = self.deck.pop(0)
             return card
         else:
             print("You have no more cards in your deck!\n")
@@ -69,19 +68,15 @@ class Hero:
         Method to remove a card from the hero's hand
         '''
 
-        # Checks if the card is valid
-        if hero_cards.is_valid(card):
-            # Checks if the card is held by the hero
-            if self.has_card(card):
-                # If it is a valid card to remove, remove it
-                self.hand.remove(card)
-            else:
-                print("You can't discard a card you don't have!\n")
+        # Checks if the card is held by the hero
+        if self.has_card(card):
+            # If it is a valid card to remove, remove it
+            return self.hand.remove(card)
         else:
-            print('"%s" is not a card!\n' % card)
+            print("You can't discard a card you don't have!\n")
 
-    def shuffle(self):
-        '''
-        Shuffles the given hero deck
-        '''
-        random.shuffle(self.hero_deck)
+    def deck_size(self):
+        return len(self.deck)
+
+    def hand_size(self):
+        return len(self.hand)

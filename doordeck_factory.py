@@ -1,6 +1,6 @@
 
-from door_deck import DoorDeck
-from door_card import DoorCard
+from doordeck import DoorDeck
+from doorcard import DoorCard
 import random
 from symbols import Symbols
 
