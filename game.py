@@ -57,36 +57,45 @@ class Table:
         else:
             print("That card has no effect on this enemy!")
 
-    def play_turn(self):
+    def process_hero_command(self, hero, args):
+        '''
+        Process a command specific to a hero.
+        '''
+
+        if args[0] == 'play':
+            # Forces card into a lower case string to prevent capitalization issues with input
+            card = args[1].lower()
+
+            # If card is not valid, don't let it be played
+            if not hero_cards.is_valid(card):
+                print("That's not an action!\n")
+                return
+
+            self.play_card(hero, card)
+        elif args[0] == 'discard':
+            hero.discard(args[1])
+        elif args[0] == 'draw':
+            card_drawn = hero.draw_card()
+            print(f'{hero.name} drew a %s.' % card_drawn)
+            print(f'{hero.name}\'s deck has {len(hero.hero_deck)} cards left.')
+
+    def process_command(self, command):
+        '''
+        Process a command from the user.
+        '''
+
         # Print enemy HP
         # TODO Issue #7: This will be removed and replaced with the print command.
         print(list(heroes.values()))
         print(self.target)
 
         # Get input
-        args = get_input()
+        args = command.split(' ')
 
         # Do input
         if args[0] in heroes:
             hero = heroes[args[0]]
-
-            if args[1] == 'play':
-                # Forces card into a lower case string to prevent capitalization issues with input
-                card = args[2].lower()
-
-                # If card is not valid, don't let it be played
-                if not hero_cards.is_valid(card):
-                    print("That's not an action!\n")
-                    return
-
-                self.play_card(hero, card)
-            elif args[1] == 'discard':
-                hero.discard(args[2])
-            elif args[1] == 'draw':
-                card_drawn = hero.draw_card()
-                print(f'{hero.name} drew a %s.' % card_drawn)
-                print(
-                    f'{hero.name}\'s deck has {len(hero.hero_deck)} cards left.')
+            self.process_hero_command(hero, args[1:])
         elif args[0] == 'print':
             # TODO Issue #7: Print the current enemy's deets. We'll want this to replace the printing
             # the status up in the top of the loop.
@@ -125,4 +134,5 @@ for j in range(0, 5):
 
 table = Table(heroes, door_deck, boss)
 while not table.game_over:
-    table.play_turn()
+    command = get_input()
+    table.process_command(command)
