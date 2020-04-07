@@ -1,5 +1,5 @@
 import pytest
-from door_card import DoorCard
+from doorcard import DoorCard
 
 
 def test_is_dead():

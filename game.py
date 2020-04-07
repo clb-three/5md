@@ -1,9 +1,9 @@
 # game.py: execute commands based on the input
 
 import hero_cards
-from boss_mat import Boss
-from door_card import DoorCard
-from door_deck_factory import DoorDeckFactory
+from boss import Boss
+from doorcard import DoorCard
+from doordeck_factory import DoorDeckFactory
 from hero import Hero
 from table import Table
 from user_input import get_command
