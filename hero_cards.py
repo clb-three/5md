@@ -1,18 +1,16 @@
 from symbols import Symbols
 
 
-
 def deck():
     '''
     The deck for a given hero.
     TODO: Make this different depending on the hero.
     '''
-    return Symbols.__members__.values()
+    return list(Symbols.__members__.values())
 
 
-
-def is_valid(card):
+def get(card_name):
     '''
-    Return whether card is valid
+    Return card object for a given name
     '''
-    return card in Symbols.__members__.keys()
+    return Symbols.convert(card_name)
