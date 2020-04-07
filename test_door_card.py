@@ -9,14 +9,14 @@ def test_is_dead():
 
 def test_kill():
     d = DoorCard('slime', ['jump', 'arrow'], 'monster')
-    d.try_attack('jump')
+    d.attack('jump')
     assert d.is_dead() is False
-    d.try_attack('arrow')
+    d.attack('arrow')
     assert d.is_dead() is True
 
 
-def test_try_attack():
+def test_attack():
     d = DoorCard('slime', ['jump', 'arrow'], 'monster')
-    assert d.try_attack('shovel') is False
-    assert d.try_attack('jump') is True
-    assert d.try_attack('jump') is False
+    assert d.attack('shovel') is False
+    assert d.attack('jump') is True
+    assert d.attack('jump') is False

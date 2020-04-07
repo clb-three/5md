@@ -12,10 +12,9 @@ class Attackable:
 
         return len(self.symbols) == 0
 
-    def try_attack(self, symbol):
+    def attack(self, symbol):
         '''
-        Test for a match and
-        remove the card from the enemy's health and return true if it's a match
+        Attack this enemy with the given card and return True if it's a success,
         else return False
         '''
 

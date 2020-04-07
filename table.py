@@ -33,7 +33,8 @@ class Table:
 
         hero.discard(card)
 
-        success = self.target.try_attack(card)
+        self.target.attack(card)
+        print(f"{hero.name} played {card}!\n")
 
         # switch to next enemy or boss when all enemies are dead
         if self.target.is_dead():
@@ -49,11 +50,6 @@ class Table:
                 print('Now we\'re fighting the boss. Ahh!')
                 self.target = self.boss
                 return
-
-        if success:
-            print(f"{hero.name} hit the enemy with your {card}!\n")
-        else:
-            print("That card has no effect on this enemy!")
 
     def process_hero_command(self, hero, args):
         '''
