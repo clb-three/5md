@@ -8,41 +8,47 @@ from hero import Hero
 import hero_cards
 
 
-def play_card(hero, card, mat):
-    '''
-    Play a card against the current enemy
-    '''
+class Table:
 
-    # Forces card into a lower case string to prevent capitalization issues with input
-    card = card.lower()
+    def __init__(self, heroes, mat):
+        self.heroes = heroes
+        self.mat = mat
 
-    # If card is not valid, don't let it be played
-    if not hero_cards.is_valid(card):
-        print("That's not an action!\n")
-        return
+        self.game_over = False
 
-    # Check if the card is available to the hero
-    if not hero.has_card(card):
-        print(f"{hero.name} doesn't have that card!\n")
-        return
+    def play_card(self, hero, card):
+        '''
+        Play a card against the current enemy
+        '''
 
-    result = mat.play(card)
-    if result == PlayResult.SuccessfulAttack:
-        print(f"{hero.name} hit the enemy with your {card}!\n")
-    elif result == PlayResult.FailedAttack:
-        print("That card has no effect on this enemy!")
-    elif result == PlayResult.DefeatedEnemy:
-        print(f'{hero.name} defeated a fearsome enemy. Grr!')
-    elif result == PlayResult.DefeatedDoorDeck:
-        print('Now we\'re fighting the boss. Ahh!')
-    elif result == PlayResult.DefeatedBoss:
-        print(f'{hero.name} killed the boss!')
+        # Forces card into a lower case string to prevent capitalization issues with input
+        card = card.lower()
 
-    hero.discard(card)
+        # If card is not valid, don't let it be played
+        if not hero_cards.is_valid(card):
+            print("That's not an action!\n")
+            return
 
+        # Check if the card is available to the hero
+        if not hero.has_card(card):
+            print(f"{hero.name} doesn't have that card!\n")
+            return
 
-def main_loop(heroes, mat):
-    while True:
+        result = self.mat.play(card)
+        if result == PlayResult.SuccessfulAttack:
+            print(f"{hero.name} hit the enemy with your {card}!\n")
+        elif result == PlayResult.FailedAttack:
+            print("That card has no effect on this enemy!")
+        elif result == PlayResult.DefeatedEnemy:
+            print(f'{hero.name} defeated a fearsome enemy. Grr!')
+        elif result == PlayResult.DefeatedDoorDeck:
+            print('Now we\'re fighting the boss. Ahh!')
+        elif result == PlayResult.DefeatedBoss:
+            print(f'{hero.name} killed the boss!')
+
+        hero.discard(card)
+
+    def play_turn(self):
         # Print enemy HP
         # TODO Issue #7: This will be removed and replaced with the print command.
         print(list(heroes.values()))
@@ -56,20 +62,21 @@ def main_loop(heroes, mat):
             hero = heroes[args[0]]
 
             if args[1] == 'play':
-                play_card(hero, args[2], mat)
+                self.play_card(hero, args[2])
             elif args[1] == 'discard':
                 hero.discard(args[2])
             elif args[1] == 'draw':
                 card_drawn = hero.draw_card()
                 print(f'{hero.name} drew a %s.' % card_drawn)
-                print(f'{hero.name}\'s deck has {len(hero.hero_deck)} cards left.')
+                print(
+                    f'{hero.name}\'s deck has {len(hero.hero_deck)} cards left.')
         elif args[0] == 'print':
             # TODO Issue #7: Print the current enemy's deets. We'll want this to replace the printing
             # the status up in the top of the loop.
             print('Not implemented yet')
         elif args[0] == 'quit':
             # Quit the game
-            break
+            self.game_over = True
         elif args[0] == '<3':
             # Love on u
             print('3<')
@@ -81,7 +88,7 @@ def main_loop(heroes, mat):
         # break out when all enemies isded
         if mat.is_defeated():
             print('You won!')
-            break
+            self.game_over = True
 
 
 door_deck_factory = DoorDeckFactory()
@@ -98,4 +105,6 @@ for j in range(0, 5):
     for h in heroes.values():
         h.draw_card()
 
-main_loop(heroes, mat)
+table = Table(heroes, mat)
+while not table.game_over:
+    table.play_turn()
