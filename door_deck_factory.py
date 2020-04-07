@@ -2,6 +2,7 @@
 from door_deck import DoorDeck
 from door_card import DoorCard
 import random
+from symbols import Symbols
 
 
 class DoorDeckFactory:
@@ -13,6 +14,10 @@ class DoorDeckFactory:
         import json
         with open('resources/door_cards.json', 'r') as file:
             self.door_cards = json.loads(file.read())
+
+        # Convert symbol names to enums
+        for card in self.door_cards:
+            card.symbols = map(Symbols.convert, card.symbols)
 
     def random_door_card(self):
         return random.choice(self.door_cards)
@@ -33,7 +38,6 @@ class DoorDeckFactory:
 
         # TODO: Add 2 challenge cards per player.
 
-        symbols = ['sword', 'shield', 'arrow']
         cards = [self.draw_door_card() for _ in range(0, num_cards)]
 
         return DoorDeck(cards)

@@ -7,8 +7,9 @@ from door_deck_factory import DoorDeckFactory
 from hero import Hero
 from table import Table
 from user_input import get_command
+from symbols import Symbols
 
-boss = Boss(['arrow', 'jump'], 20)
+boss = Boss([Symbols.arrow, Symbols.jump], 20)
 door_deck_factory = DoorDeckFactory()
 door_deck = door_deck_factory.create(boss.num_door_cards)
 
