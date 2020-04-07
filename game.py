@@ -23,20 +23,20 @@ def play_card(hero, card, mat):
 
     # Check if the card is available to the hero
     if not hero.has_card(card):
-        print("You don't have that card!\n")
+        print(f"{hero.name} doesn't have that card!\n")
         return
 
     result = mat.play(card)
     if result == PlayResult.SuccessfulAttack:
-        print("You hit the enemy with your", card + "!\n")
+        print(f"{hero.name} hit the enemy with your {card}!\n")
     elif result == PlayResult.FailedAttack:
         print("That card has no effect on this enemy!")
     elif result == PlayResult.DefeatedEnemy:
-        print('Defeated a fearsome enemy. Grr!')
+        print(f'{hero.name} defeated a fearsome enemy. Grr!')
     elif result == PlayResult.DefeatedDoorDeck:
         print('Now we\'re fighting the boss. Ahh!')
     elif result == PlayResult.DefeatedBoss:
-        print('You killed the boss!')
+        print(f'{hero.name} killed the boss!')
 
     hero.discard(card)
 
@@ -45,7 +45,7 @@ def main_loop(heroes, mat):
     while True:
         # Print enemy HP
         # TODO Issue #7: This will be removed and replaced with the print command.
-        print(heroes)
+        print(list(heroes.values()))
         print(mat.target)
 
         # Get input
@@ -61,8 +61,8 @@ def main_loop(heroes, mat):
                 hero.discard(args[2])
             elif args[1] == 'draw':
                 card_drawn = hero.draw_card()
-                print('You drew a %s.' % card_drawn)
-                print('Your deck has %d cards left.' % len(hero.hero_deck))
+                print(f'{hero.name} drew a %s.' % card_drawn)
+                print(f'{hero.name}\'s deck has {len(hero.hero_deck)} cards left.')
         elif args[0] == 'print':
             # TODO Issue #7: Print the current enemy's deets. We'll want this to replace the printing
             # the status up in the top of the loop.
@@ -89,8 +89,8 @@ mat = BossMat(door_deck_factory, 1, ['arrow', 'jump'])
 
 # Each player will have one Hero.
 heroes = {
-    "benji": Hero(),
-    "austin": Hero(),
+    'benji': Hero('benji'),
+    'austin': Hero('austin'),
 }
 
 # Draws the hero's initial hand

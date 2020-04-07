@@ -12,17 +12,19 @@ class Hero:
     The deck can be shuffled
     '''
 
-    def __init__(self):
+    def __init__(self, name):
         '''
         Constructor. This is called whenever we create a Hero.
         '''
+
+        self.name = name
 
         # TODO: Each Hero should have a class so that we can know
         # which cards to put in his/her/xer/its/helixopter's deck.
 
         # A couple lists to hold our hero's hand and their deck
         self.hero_deck = []
-        self.hero_hand = []
+        self.hand = []
 
         # Takes a random sample from actions and puts it into cards, parameterized by num_of_actions
         for i in range(0, 40):
@@ -34,7 +36,7 @@ class Hero:
         Return true if card matches one of my cards
         Return false if none of the cards match
         '''
-        return card in self.hero_hand
+        return card in self.hand
 
     def __repr__(self):
         return self.__str__()
@@ -43,9 +45,9 @@ class Hero:
         '''
         Return a list of the hero's cards
         '''
-        # TODO: Make hero_hand just list out how many of each card we have.
+        # TODO: Make hand just list out how many of each card we have.
         # sword: 2: shield: 3, etc.
-        return 'Your cards are: ' + str(self.hero_hand)
+        return f'{self.name}: {self.hand}'
 
     def draw_card(self):
         '''
@@ -56,7 +58,7 @@ class Hero:
         # If there are cards in the deck to draw from add them to the hero's hand
         if len(self.hero_deck) > 0:
             # Adds to the hand
-            self.hero_hand.append(self.hero_deck[0])
+            self.hand.append(self.hero_deck[0])
             # Removes from the deck
             card = self.hero_deck.pop(0)
             return card
@@ -73,7 +75,7 @@ class Hero:
             # Checks if the card is held by the hero
             if self.has_card(card):
                 # If it is a valid card to remove, remove it
-                self.hero_hand.remove(card)
+                self.hand.remove(card)
             else:
                 print("You can't discard a card you don't have!\n")
         else:
