@@ -17,10 +17,11 @@ class DoorDeckFactory:
 
         # Convert symbol names to enums
         for card in self.door_cards:
-            card.symbols = map(Symbols.convert, card.symbols)
+            card['symbols'] = [Symbols.convert(s) for s in card['symbols']]
 
     def random_door_card(self):
-        return random.choice(self.door_cards)
+        import copy
+        return copy.deepcopy(random.choice(self.door_cards))
 
     def draw_door_card(self):
         '''
