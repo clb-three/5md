@@ -21,14 +21,6 @@ class Table:
         Play a card against the current enemy
         '''
 
-        # Forces card into a lower case string to prevent capitalization issues with input
-        card = card.lower()
-
-        # If card is not valid, don't let it be played
-        if not hero_cards.is_valid(card):
-            print("That's not an action!\n")
-            return
-
         # Check if the card is available to the hero
         if not hero.has_card(card):
             print(f"{hero.name} doesn't have that card!\n")
@@ -62,7 +54,15 @@ class Table:
             hero = heroes[args[0]]
 
             if args[1] == 'play':
-                self.play_card(hero, args[2])
+                # Forces card into a lower case string to prevent capitalization issues with input
+                card = args[2].lower()
+
+                # If card is not valid, don't let it be played
+                if not hero_cards.is_valid(card):
+                    print("That's not an action!\n")
+                    return
+
+                self.play_card(hero, card)
             elif args[1] == 'discard':
                 hero.discard(args[2])
             elif args[1] == 'draw':
