@@ -8,12 +8,14 @@ action_cards = [
     "scroll"
 ]
 
+
 def deck():
     '''
     The deck for a given hero.
     TODO: Make this different depending on the hero.
     '''
     return action_cards
+
 
 def is_valid(card):
     '''
