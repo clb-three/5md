@@ -1,4 +1,3 @@
-from input import get_input
 import random
 import hero_cards
 

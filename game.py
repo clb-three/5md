@@ -1,6 +1,6 @@
 # game.py: execute commands based on the input
 
-from input import get_input
+from user_input import get_command
 from door_card import DoorCard
 from boss_mat import Boss
 from door_deck_factory import DoorDeckFactory
@@ -22,6 +22,12 @@ class Table:
         self.door_deck = door_deck
         self.boss = boss
         self.target = self.door_deck.current_enemy
+
+    def display_status(self):
+        # Print enemy HP
+        # TODO Issue #7: This will be removed and replaced with the print command.
+        print(list(self.heroes.values()))
+        print(self.target)
 
     def play_card(self, hero, card):
         '''
@@ -84,11 +90,6 @@ class Table:
         Process a command from the user.
         '''
 
-        # Print enemy HP
-        # TODO Issue #7: This will be removed and replaced with the print command.
-        print(list(heroes.values()))
-        print(self.target)
-
         # Get input
         args = command.split(' ')
 
@@ -134,5 +135,6 @@ for j in range(0, 5):
 
 table = Table(heroes, door_deck, boss)
 while not table.game_over:
-    command = get_input()
+    table.display_status()
+    command = get_command()
     table.process_command(command)
