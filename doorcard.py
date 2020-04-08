@@ -24,6 +24,13 @@ class DoorCard:
 
         return False
 
+    def kill(self):
+        '''
+        kys
+        '''
+
+        del self.symbols[:]
+
     def __str__(self):
         '''
         Return a list of the enemy's symbols

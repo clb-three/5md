@@ -37,14 +37,20 @@ class Table:
         self.target.attack(card)
         print(f"{hero.name} played {card}!\n")
 
-        # switch to next enemy or boss when all enemies are dead
+        bring_out_yer_dead()
+
+    def bring_out_yer_dead(self):
+        '''
+        Switch to next enemy or boss when all enemies are dead
+        '''
+
         if self.target.is_dead():
             if self.target == self.boss:
-                print(f'{hero.name} killed the boss!')
+                print(f'Killed the boss!')
                 return
 
             if self.door_deck.try_draw():
-                print(f'{hero.name} defeated a fearsome enemy. Grr!')
+                print(f'Defeated a fearsome enemy. Grr!')
                 self.target = self.door_deck.current_enemy
                 return
             else:
@@ -95,6 +101,10 @@ class Table:
         elif args[0] == 'quit':
             # Quit the game
             self.game_over = True
+        elif args[0] == 'nuke':
+            # Kill the current enemy
+            self.target.kill()
+            self.bring_out_yer_dead()
         elif args[0] == '<3':
             # Love on u
             print('3<')
