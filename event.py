@@ -10,5 +10,25 @@ class Event(DoorCard):
     Event will do something bad to the players!
     '''
 
-    def __init__(self):
+    def __init__(self, name):
+        self.name = name
         super().__init__([])
+
+    def is_dead(self):
+        '''
+        Always consider this card "dead", since it gets
+        burned up and cycled.
+        '''
+
+        return True
+
+    def is_dead(self):
+        '''
+        Always consider this card "dead", since it gets
+        burned up and cycled.
+        '''
+
+        return True
+
+    def __str__(self):
+        return f'Event: {self.name}'
