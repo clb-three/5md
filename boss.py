@@ -1,7 +1,7 @@
-from attackable import Attackable
+from doorcard import DoorCard
 
 
-class Boss(Attackable):
+class Boss(DoorCard):
     '''
     This is the big boss (hunk of symbol cards)
     at the bottom of a boss mat.

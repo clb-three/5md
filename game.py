@@ -2,14 +2,14 @@
 
 import hero_cards
 from boss import Boss
-from doorcard import DoorCard
+from enemy import Enemy
 from doordeck_factory import DoorDeckFactory
 from hero import Hero
 from table import Table
 from user_input import get_command
 from symbols import Symbols
 
-boss = Boss([Symbols.arrow, Symbols.jump], 20)
+boss = Boss([Symbols.arrow, Symbols.jump], 1)
 door_deck_factory = DoorDeckFactory()
 door_deck = door_deck_factory.create(boss.num_door_cards)
 

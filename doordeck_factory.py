@@ -1,6 +1,6 @@
 
 from doordeck import DoorDeck
-from doorcard import DoorCard
+from enemy import Enemy
 import random
 from symbols import Symbols
 
@@ -30,7 +30,7 @@ class DoorDeckFactory:
 
         card = self.random_door_card()
 
-        return DoorCard(card["name"], card["symbols"], card["type"])
+        return Enemy(card["name"], card["symbols"], card["type"])
 
     def create(self, num_cards):
         '''
