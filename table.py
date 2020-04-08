@@ -1,4 +1,3 @@
-from game import Game
 import hero_cards
 
 
@@ -8,10 +7,10 @@ class Table:
     between parts of the game.
     '''
 
-    def __init__(self, heroes, door_deck, boss):
+    def __init__(self, game):
         self.game_over = False
         self.last_command = ''
-        self.game = Game(heroes, door_deck, boss)
+        self.game = game
 
     def display_status(self):
         print(self.game)

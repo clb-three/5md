@@ -6,6 +6,7 @@ from enemy import Enemy
 from doordeck_factory import DoorDeckFactory
 from hero import Hero
 from table import Table
+from game import Game
 from user_input import get_command
 from symbols import Symbols
 
@@ -25,7 +26,8 @@ boss = Boss([Symbols.arrow, Symbols.jump], 20)
 door_deck_factory = DoorDeckFactory()
 door_deck = door_deck_factory.deal(boss.num_door_cards, len(heroes) * 2)
 
-table = Table(heroes, door_deck, boss)
+game = Game(heroes, door_deck, boss)
+table = Table(game)
 while not table.game_over:
     table.display_status()
     command = get_command()
