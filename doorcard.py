@@ -38,4 +38,4 @@ class DoorCard:
         Return a list of the enemy's symbols
         '''
 
-        return f'HP: {str(self.symbols)}'
+        return f'type: {self.type} HP: {str(self.symbols)}'

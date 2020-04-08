@@ -1,32 +1,72 @@
-# game.py: execute commands based on the input
 
-import hero_cards
-from boss import Boss
-from enemy import Enemy
-from doordeck_factory import DoorDeckFactory
-from hero import Hero
-from table import Table
-from user_input import get_command
-from symbols import Symbols
 
-# Each player will have one Hero.
-heroes = {
-    'benji': Hero('benji'),
-    'austin': Hero('austin'),
-}
+class Game:
+    '''
+    A Game is a boss mat, door deck, and a set of heroes
+    '''
 
-# Draws the hero's initial hand
-for j in range(0, 5):
-    for h in heroes.values():
-        h.draw_card()
+    def __init__(self, heroes, door_deck, boss):
+        self.heroes = heroes
+        self.door_deck = door_deck
+        self.boss = boss
 
-# Deal boss mat and door deck
-boss = Boss([Symbols.arrow, Symbols.jump], 20)
-door_deck_factory = DoorDeckFactory()
-door_deck = door_deck_factory.deal(boss.num_door_cards, len(heroes) * 2)
+        self.heroes = heroes
+        self.door_deck = door_deck
+        self.boss = boss
+        self.target = self.door_deck.current_enemy
 
-table = Table(heroes, door_deck, boss)
-while not table.game_over:
-    table.display_status()
-    command = get_command()
-    table.process_command(command)
+    def __str__(self):
+        '''
+        Print current target's HP
+        '''
+
+        return f'''
+    {self.heroes.values()}
+    {self.target}
+'''
+
+    def play_card(self, hero, card):
+        '''
+        Play a card against the current enemy
+        '''
+
+        # Check if the card is available to the hero
+        if not hero.has_card(card):
+            print(f"{hero.name} doesn't have that card!\n")
+            return
+
+        hero.discard(card)
+
+        self.target.attack(card)
+        print(f"{hero.name} played {card}!\n")
+
+    def bring_out_yer_dead(self):
+        '''
+        Switch to next enemy or boss when all enemies are dead
+        '''
+
+        if self.target.is_dead():
+            if self.target == self.boss:
+                print(f'Killed the boss!')
+                return
+
+            if self.door_deck.try_draw():
+                print(f'Defeated a fearsome enemy. Grr!')
+                self.target = self.door_deck.current_enemy
+            else:
+                print('Now we\'re fighting the boss. Ahh!')
+                self.target = self.boss
+                return
+
+    def do_target_script(self):
+        '''
+        Run this card's script on the model.
+        '''
+
+        if not self.target.script:
+            return
+
+        # Else run the script
+
+    def is_defeated(self):
+        return self.target == self.boss and self.boss.is_dead()

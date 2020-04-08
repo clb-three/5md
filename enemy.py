@@ -34,8 +34,4 @@ class Enemy(DoorCard):
         Return a list of the enemy's symbols
         '''
 
-        return ' '.join([
-            f'Name: "{self.name}"',
-            f'type: "{self.card_type}"',
-            f'{super().__str__()}'
-        ])
+        return f'Name: "{self.name}" {super().__str__()}'
