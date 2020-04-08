@@ -9,4 +9,6 @@ class Event(DoorCard):
     '''
     Event will do something bad to the players!
     '''
-    pass
+
+    def __init__(self):
+        super().__init__([])
