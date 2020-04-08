@@ -12,7 +12,7 @@ class Event(DoorCard):
 
     def __init__(self, name):
         self.name = name
-        super().__init__([])
+        super().__init__([], 'event')
 
     def is_dead(self):
         '''

@@ -25,10 +25,9 @@ class Enemy(DoorCard):
         Constructor. This is called whenever we create an Enemy.
         '''
 
-        super().__init__(symbols)
+        super().__init__(symbols, card_type)
 
         self.name = name
-        self.card_type = card_type
 
     def __str__(self):
         '''

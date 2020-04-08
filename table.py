@@ -51,7 +51,6 @@ class Table:
             if self.door_deck.try_draw():
                 print(f'Defeated a fearsome enemy. Grr!')
                 self.target = self.door_deck.current_enemy
-                return
             else:
                 print('Now we\'re fighting the boss. Ahh!')
                 self.target = self.boss
@@ -80,6 +79,16 @@ class Table:
             card_drawn = hero.draw_card()
             print(f'{hero.name} drew a %s.' % card_drawn)
             print(f'{hero.name}\'s deck has {len(hero.deck)} cards left.')
+
+    def do_script(self, script):
+        '''
+        Run this card's script on the model.
+        '''
+
+        if not script:
+            return
+
+        # Else run the script
 
     def process_command(self, command):
         '''
@@ -124,6 +133,9 @@ class Table:
 
         # Switch out target when they're dead
         self.bring_out_yer_dead()
+
+        # Trigger "on draw" effect
+        self.do_script(self.target.script)
 
         # break out when all enemies isded
         if self.target == self.boss and self.boss.is_dead():

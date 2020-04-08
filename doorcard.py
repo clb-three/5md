@@ -2,8 +2,10 @@
 
 
 class DoorCard:
-    def __init__(self, symbols):
+    def __init__(self, symbols, card_type, script=None):
         self.symbols = symbols
+        self.type = card_type
+        self.script = script
 
     def is_dead(self):
         '''
