@@ -15,6 +15,7 @@ class Table:
         self.door_deck = door_deck
         self.boss = boss
         self.target = self.door_deck.current_enemy
+        self.last_command = ''
 
     def display_status(self):
         # Print enemy HP
@@ -36,8 +37,6 @@ class Table:
 
         self.target.attack(card)
         print(f"{hero.name} played {card}!\n")
-
-        bring_out_yer_dead()
 
     def bring_out_yer_dead(self):
         '''
@@ -90,6 +89,10 @@ class Table:
         # Get input
         args = command.split(' ')
 
+        # save the last command we've done
+        if command != '':
+            self.last_command = command
+
         # Do input
         if args[0] in self.heroes:
             hero = self.heroes[args[0]]
@@ -104,7 +107,13 @@ class Table:
         elif args[0] == 'nuke':
             # Kill the current enemy
             self.target.kill()
-            self.bring_out_yer_dead()
+        elif args[0] == '':
+            # Repeat the last command
+            if self.last_command == '':
+                print('No previous command.')
+            else:
+                print(f'Redo "{command}"')
+                self.process_command(self.last_command)
         elif args[0] == '<3':
             # Love on u
             print('3<')
@@ -112,6 +121,9 @@ class Table:
             # Catch any command that we don't know
             # and let the user know about it
             print('Unrecognized command')
+
+        # Switch out target when they're dead
+        self.bring_out_yer_dead()
 
         # break out when all enemies isded
         if self.target == self.boss and self.boss.is_dead():
