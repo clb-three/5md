@@ -9,10 +9,6 @@ from table import Table
 from user_input import get_command
 from symbols import Symbols
 
-boss = Boss([Symbols.arrow, Symbols.jump], 1)
-door_deck_factory = DoorDeckFactory()
-door_deck = door_deck_factory.create(boss.num_door_cards)
-
 # Each player will have one Hero.
 heroes = {
     'benji': Hero('benji'),
@@ -23,6 +19,11 @@ heroes = {
 for j in range(0, 5):
     for h in heroes.values():
         h.draw_card()
+
+# Deal boss mat and door deck
+boss = Boss([Symbols.arrow, Symbols.jump], 20)
+door_deck_factory = DoorDeckFactory()
+door_deck = door_deck_factory.deal(boss.num_door_cards, len(heroes) * 2)
 
 table = Table(heroes, door_deck, boss)
 while not table.game_over:

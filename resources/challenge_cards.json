@@ -1,0 +1,18 @@
+[
+    {
+        "challenge_type": "monster",
+        "name": "A Boo-boo"
+    },
+    {
+        "challenge_type": "monster",
+        "name": "A miniature T-rex",
+        "symbols": [
+            "shield",
+            "shield",
+            "arrow",
+            "arrow",
+            "sword",
+            "sword"
+        ]
+    }
+]
