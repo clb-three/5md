@@ -1,5 +1,4 @@
 
-
 class Game:
     '''
     A Game is a boss mat, door deck, and a set of heroes

@@ -1,10 +1,7 @@
 from doorcard import DoorCard
 # enemy.py: an Enemy is a door card that
-# you have to kill with a few different attack cards
-
-# TODO Issue #11: Load door cards from store.
-# This could be anything - a database, JSON, hardcoded Python, plaintext file, your gramma's panties.
-# More details in the issue description.
+# you have to kill with a few different attack cards.
+# Certainn enemy types can be insta-killed by certain cards.
 
 
 class Enemy(DoorCard):
