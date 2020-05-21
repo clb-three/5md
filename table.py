@@ -55,10 +55,6 @@ class Table:
         if args[0] in self.game.heroes:
             hero = self.game.heroes[args[0]]
             self.process_hero_command(hero, args[1:])
-        elif args[0] == 'print':
-            # TODO Issue #7: Print the current enemy's deets. We'll want this to replace the printing
-            # the status up in the top of the loop.
-            print('Not implemented yet')
         elif args[0] == 'quit':
             # Quit the game
             self.game_over = True

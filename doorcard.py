@@ -45,7 +45,7 @@ class DoorCard:
                 return True
 
         elif isinstance(card, MultiSymbol):
-            pass  # TODO
+            pass  # TODO: Implement MultiSymbol
 
         return False
 
