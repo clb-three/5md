@@ -2,7 +2,7 @@ from enum import Enum, auto, unique
 
 
 @unique
-class Symbols(Enum):
+class Symbol(Enum):
     '''
     Enumerations for all symbols
     '''
@@ -28,5 +28,5 @@ class Symbols(Enum):
         return self.name
 
     def __lt__(self, other):
-        if isinstance(other, Symbols):
+        if isinstance(other, Symbol):
             return self.name < other.name

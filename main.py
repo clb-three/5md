@@ -8,7 +8,7 @@ from hero import Hero
 from table import Table
 from game import Game
 from user_input import get_command
-from symbols import Symbols
+from symbol import Symbol
 from script import DoorDeckContext
 
 # Each player will have one Hero.
@@ -23,7 +23,7 @@ for j in range(0, 5):
         h.draw_card()
 
 # Deal boss mat and door deck
-boss = Boss([Symbols.arrow, Symbols.jump], 20)
+boss = Boss([Symbol.arrow, Symbol.jump], 20)
 dd_ctx = DoorDeckContext(heroes)
 dd_factory = DoorDeckFactory(dd_ctx)
 dd = dd_factory.deal(boss.num_door_cards, len(heroes) * 2)

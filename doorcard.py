@@ -1,7 +1,7 @@
 
 from script import DoorDeckContext
 from enum import Enum, unique, auto
-from symbols import Symbols
+from symbol import Symbol
 from multisymbol import MultiSymbol
 
 
@@ -38,7 +38,7 @@ class DoorCard:
         else return False
         '''
 
-        if isinstance(card, Symbols):
+        if isinstance(card, Symbol):
             symbol = card
             if symbol in self.symbols:
                 self.symbols.remove(symbol)

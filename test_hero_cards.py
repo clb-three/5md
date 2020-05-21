@@ -1,7 +1,7 @@
 import pytest
 from hero import Hero
 from test_utils import mock_hero
-from symbols import Symbols
+from symbol import Symbol
 
 
 def test_hero_created_empty():
@@ -29,4 +29,4 @@ def test_discard():
 def test_discard_when_hand_empty():
     h = mock_hero()
 
-    assert h.discard(Symbols.sword) is None
+    assert h.discard(Symbol.sword) is None

@@ -4,7 +4,7 @@ from enemy import Enemy
 from event import Event
 from miniboss import Miniboss
 import random
-from symbols import Symbols
+from symbol import Symbol
 import copy
 import json
 
@@ -18,7 +18,7 @@ class DoorDeckFactory:
         return None
 
     def __init__(self, ctx):
-        def init_symbols(symbols): return [Symbols.convert(s) for s in symbols]
+        def init_symbols(symbols): return [Symbol.convert(s) for s in symbols]
 
         with open('resources/door_cards.json', 'r') as file:
             self.door_cards = [

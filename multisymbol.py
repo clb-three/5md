@@ -1,4 +1,5 @@
-from symbols import Symbols
+from symbol import Symbol
+
 
 class MultiSymbol():
     def __init__(self, *symbols):
@@ -8,4 +9,4 @@ class MultiSymbol():
 
 
 if __name__ == '__main__':
-    c = MultiSymbol(Symbols.arrow, Symbols.jump)
+    c = MultiSymbol(Symbol.arrow, Symbol.jump)
