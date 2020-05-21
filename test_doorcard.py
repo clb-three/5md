@@ -31,6 +31,7 @@ def test_miss_multisymbol():
     assert d.attack(ms_broke) is False
 
 
+@pytest.mark.xfail  # take this off when you implement it
 def test_kill_multisymbol():
     d = mock_enemy([Symbol.shield, Symbol.arrow])
     assert d.is_dead() is False
@@ -39,6 +40,7 @@ def test_kill_multisymbol():
     assert d.is_dead() is True
 
 
+@pytest.mark.xfail  # take this off when you implement it
 def test_attack_twice_multisymbol():
     d = mock_enemy([Symbol.jump, Symbol.sword])
     # One match
