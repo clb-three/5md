@@ -1,7 +1,7 @@
 from symbols import Symbols
 
 
-def deck():
+def all():
     '''
     The deck for a given hero.
     TODO: Make this different depending on the hero.

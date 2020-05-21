@@ -36,8 +36,8 @@ class Game:
             print(f"{hero.name} doesn't have that card!\n")
             return
 
+        # Play the card
         hero.discard(card)
-
         self.target.attack(card)
         print(f"{hero.name} played {card}!\n")
 

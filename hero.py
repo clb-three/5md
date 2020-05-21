@@ -27,7 +27,7 @@ class Hero:
         # which cards to put in his/her/xer/its/helixopter's deck.
         for i in range(0, 40):
             # for each index to 40 add a random item from actions to hand
-            self.deck.append(random.choice(hero_cards.deck()))
+            self.deck.append(random.choice(hero_cards.all()))
         random.shuffle(self.deck)
 
     def has_card(self, card):

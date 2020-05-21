@@ -1,6 +1,7 @@
 
 from script import DoorDeckContext
 from enum import Enum, unique, auto
+from hero_card_types import HeroCardTypes
 
 
 @unique
@@ -30,15 +31,17 @@ class DoorCard:
 
         return len(self.symbols) == 0
 
-    def attack(self, symbol):
+    def attack(self, card):
         '''
         Attack this enemy with the given card and return True if it's a success,
         else return False
         '''
 
-        if symbol in self.symbols:
-            self.symbols.remove(symbol)
-            return True
+        if card.card_type == HeroCardTypes.symbol:
+            symbol = card
+            if symbol in self.symbols:
+                self.symbols.remove(symbol)
+                return True
 
         return False
 

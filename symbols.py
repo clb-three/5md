@@ -1,4 +1,5 @@
 from enum import Enum, auto, unique
+from hero_card_types import HeroCardTypes
 
 
 @unique
@@ -20,6 +21,10 @@ class Symbols(Enum):
         or return None if it didn't work.
         '''
         return next((v for k, v in cls.__members__.items() if k == symbol_name), None)
+
+    @property
+    def card_type(self):
+        return HeroCardTypes.symbol
 
     def __repr__(self):
         return self.__str__()
