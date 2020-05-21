@@ -10,9 +10,11 @@ class Event(DoorCard):
     Event will do something bad to the players!
     '''
 
-    def __init__(self, name):
+    def __init__(self, name, ctx=None, script_name=None):
         self.name = name
         super().__init__([], 'event')
+        if ctx and script_name:
+            self.init_script(ctx, script_name)
 
     def is_dead(self):
         '''

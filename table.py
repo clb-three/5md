@@ -80,11 +80,11 @@ class Table:
             # and let the user know about it
             print('Unrecognized command')
 
-        # Switch out target when they're dead
-        self.game.bring_out_yer_dead()
-
         # Trigger "on draw" effect
         self.game.do_target_script()
+
+        # Switch out target when they're dead
+        self.game.bring_out_yer_dead()
 
         # break out when all enemies isded
         if self.game.is_defeated():

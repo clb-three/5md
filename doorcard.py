@@ -1,11 +1,18 @@
 
+from script import DoorDeckContext
 
 
 class DoorCard:
-    def __init__(self, symbols, card_type, script=None):
+    def __init__(self, symbols, card_type):
         self.symbols = symbols
         self.type = card_type
-        self.script = script
+        self.run_script = None
+
+    def init_script(self, ctx, script_name):
+        '''
+        Initialize script member with the given context
+        '''
+        self.run_script = getattr(ctx, script_name)
 
     def is_dead(self):
         '''

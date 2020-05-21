@@ -9,6 +9,7 @@ from table import Table
 from game import Game
 from user_input import get_command
 from symbols import Symbols
+from script import DoorDeckContext
 
 # Each player will have one Hero.
 heroes = {
@@ -23,10 +24,11 @@ for j in range(0, 5):
 
 # Deal boss mat and door deck
 boss = Boss([Symbols.arrow, Symbols.jump], 20)
-door_deck_factory = DoorDeckFactory()
-door_deck = door_deck_factory.deal(boss.num_door_cards, len(heroes) * 2)
+dd_ctx = DoorDeckContext(heroes)
+dd_factory = DoorDeckFactory(dd_ctx)
+dd = dd_factory.deal(boss.num_door_cards, len(heroes) * 2)
 
-game = Game(heroes, door_deck, boss)
+game = Game(heroes, dd, boss)
 table = Table(game)
 while not table.game_over:
     table.display_status()
