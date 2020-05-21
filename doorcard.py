@@ -2,7 +2,7 @@
 from script import DoorDeckContext
 from enum import Enum, unique, auto
 from symbols import Symbols
-from hero_cards import MultiSymbol
+from multisymbol import MultiSymbol
 
 
 @unique

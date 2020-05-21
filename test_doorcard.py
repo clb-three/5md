@@ -1,14 +1,8 @@
 import pytest
 from enemy import Enemy
 from symbols import Symbols
-from hero_cards import MultiSymbol
-
-
-from coolname import generate_slug
-
-
-def mock_enemy(symbols):
-    return Enemy(generate_slug(), symbols)
+from multisymbol import MultiSymbol
+from test_utils import mock_enemy
 
 
 def test_spawns_alive():
