@@ -1,7 +1,8 @@
 
 from script import DoorDeckContext
 from enum import Enum, unique, auto
-from hero_card_types import HeroCardTypes
+from symbols import Symbols
+from hero_cards import MultiSymbol
 
 
 @unique
@@ -37,11 +38,14 @@ class DoorCard:
         else return False
         '''
 
-        if card.card_type == HeroCardTypes.symbol:
+        if isinstance(card, Symbols):
             symbol = card
             if symbol in self.symbols:
                 self.symbols.remove(symbol)
                 return True
+
+        elif isinstance(card, MultiSymbol):
+            pass  # TODO
 
         return False
 
