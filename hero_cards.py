@@ -1,10 +1,10 @@
 from symbols import Symbols
 
 
-def all():
+def all(classname):
     '''
     The deck for a given hero.
-    TODO: Make this different depending on the hero.
+    TODO: Draw different cards different depending on the hero.
     '''
     return list(Symbols.__members__.values())
 

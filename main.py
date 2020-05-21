@@ -13,8 +13,8 @@ from script import DoorDeckContext
 
 # Each player will have one Hero.
 heroes = {
-    'benji': Hero('benji'),
-    'austin': Hero('austin'),
+    'benji': Hero('benji', 'barbarian'),
+    'austin': Hero('austin', 'healer'),
 }
 
 # Draws the hero's initial hand

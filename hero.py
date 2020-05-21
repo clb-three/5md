@@ -11,23 +11,21 @@ class Hero:
     The deck can be shuffled
     '''
 
-    def __init__(self, name):
+    def __init__(self, name, classname):
         '''
         Constructor. This is called whenever we create a Hero.
         '''
 
         self.name = name
+        self.classname = classname
 
         # A couple lists to hold our hero's hand and their deck
         self.hand = []
 
         # Takes a random sample from actions and puts it into cards, parameterized by num_of_actions
-        self.deck = []
-        # TODO: Each Hero should have a class so that we can know
-        # which cards to put in his/her/xer/its/helixopter's deck.
-        for i in range(0, 40):
-            # for each index to 40 add a random item from actions to hand
-            self.deck.append(random.choice(hero_cards.all()))
+        self.deck = [random.choice(hero_cards.all(classname))
+                     for _ in range(0, 40)]
+        # FIXME: Not necessary maybe??? You just like shuffling or
         random.shuffle(self.deck)
 
     def has_card(self, card):

@@ -2,17 +2,11 @@
 from script import DoorDeckContext
 from hero import Hero
 from event import Event
-
-
-def mock_heroes(*names):
-    '''
-    Constructs a mock instance of a map of Heroes from a list of names
-    '''
-    return {h.name: h for h in [Hero(n) for n in names]}
+from test_utils import gen_mock_heroes
 
 
 def test_ado():
-    heroes = mock_heroes('benji', 'austin')
+    heroes = gen_mock_heroes(10)
     for h in heroes.values():
         h.draw_card()
     deck_sizes = [len(hero.hand) for hero in heroes.values()]
@@ -25,7 +19,7 @@ def test_ado():
 
 
 def test_event_ado():
-    heroes = mock_heroes('benji', 'austin')
+    heroes = gen_mock_heroes(10)
     for h in heroes.values():
         h.draw_card()
     deck_sizes = [len(hero.hand) for hero in heroes.values()]
