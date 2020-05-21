@@ -1,5 +1,6 @@
 
 from enemy import Enemy
+from doorcard import DoorCardTypes
 
 
 class Miniboss(Enemy):
@@ -8,4 +9,4 @@ class Miniboss(Enemy):
     '''
 
     def __init__(self, name, symbols):
-        super().__init__(name, symbols, 'miniboss')
+        super().__init__(name, symbols, DoorCardTypes.miniboss)

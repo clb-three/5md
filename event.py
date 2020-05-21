@@ -1,4 +1,4 @@
-from doorcard import DoorCard
+from doorcard import DoorCard, DoorCardTypes
 
 # TODO: Make functionality for Event cards. It'll probably be a class that goes in the door deck.
 # When you flip over an Event, your team must immediately do whatever the card says.
@@ -12,7 +12,7 @@ class Event(DoorCard):
 
     def __init__(self, name, ctx=None, script_name=None):
         self.name = name
-        super().__init__([], 'event')
+        super().__init__([], DoorCardTypes.event)
         if ctx and script_name:
             self.init_script(ctx, script_name)
 

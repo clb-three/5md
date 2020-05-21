@@ -1,4 +1,4 @@
-from doorcard import DoorCard
+from doorcard import DoorCard, DoorCardTypes
 # enemy.py: an Enemy is a door card that
 # you have to kill with a few different attack cards.
 # Certainn enemy types can be insta-killed by certain cards.
@@ -17,7 +17,7 @@ class Enemy(DoorCard):
     # Some classes have special cards that let them instantly
     # destroy certain types of door cards.
 
-    def __init__(self, name, symbols, card_type):
+    def __init__(self, name, symbols, card_type=DoorCardTypes.monster):
         '''
         Constructor. This is called whenever we create an Enemy.
         '''

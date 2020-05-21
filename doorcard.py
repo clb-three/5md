@@ -1,5 +1,14 @@
 
 from script import DoorDeckContext
+from enum import Enum, unique, auto
+
+
+@unique
+class DoorCardTypes(Enum):
+    boss = auto()
+    monster = auto()
+    event = auto()
+    miniboss = auto()
 
 
 class DoorCard:
@@ -45,4 +54,4 @@ class DoorCard:
         Return a list of the enemy's symbols
         '''
 
-        return f'type: {self.type} HP: {str(self.symbols)}'
+        return f'type: {str(self.type)} HP: {str(self.symbols)}'
