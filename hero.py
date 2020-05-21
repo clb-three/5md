@@ -32,7 +32,11 @@ class Hero:
         '''
         Return whether card matches one of my cards.
         '''
-        return card in self.hand
+        for c in self.hand:
+            if card == c:
+                return True
+
+        return False
 
     def __repr__(self):
         return self.__str__()
@@ -43,7 +47,7 @@ class Hero:
         '''
         # TODO: Make hand just list out how many of each card we have.
         # sword: 2: shield: 3, etc.
-        return f'{self.name}: {self.hand}'
+        return f'{self.name}: {sorted(self.hand)}'
 
     def draw_card(self):
         '''

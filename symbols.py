@@ -31,3 +31,7 @@ class Symbols(Enum):
 
     def __str__(self):
         return self.name
+
+    def __lt__(self, other):
+        if isinstance(other, Symbols):
+            return self.name < other.name
