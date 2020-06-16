@@ -1,8 +1,8 @@
 
-from script import DoorDeckContext
-from hero import Hero
-from event import Event
-from test_utils import gen_mock_heroes
+from .script import DoorDeckContext
+from .hero import Hero
+from .event import Event
+from .test_utils import gen_mock_heroes
 
 
 def test_ado():

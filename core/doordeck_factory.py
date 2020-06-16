@@ -1,10 +1,10 @@
 
-from doordeck import DoorDeck
-from enemy import Enemy
-from event import Event
-from miniboss import Miniboss
+from .doordeck import DoorDeck
+from .enemy import Enemy
+from .event import Event
+from .miniboss import Miniboss
 import random
-from symbol import Symbol
+from .symbol import Symbol
 import copy
 import json
 from pathlib import Path

@@ -1,4 +1,4 @@
-from doorcard import DoorCard, DoorCardTypes
+from .doorcard import DoorCard, DoorCardTypes
 
 
 class Boss(DoorCard):

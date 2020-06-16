@@ -1,7 +1,6 @@
-import pytest
-from hero import Hero
-from test_utils import mock_hero
-from symbol import Symbol
+from .hero import Hero
+from .test_utils import mock_hero
+from .symbol import Symbol
 
 
 def test_hero_created_empty():

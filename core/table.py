@@ -1,4 +1,4 @@
-import hero_cards
+from . import hero_cards
 
 
 class Table:

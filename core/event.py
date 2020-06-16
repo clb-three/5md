@@ -1,4 +1,4 @@
-from doorcard import DoorCard, DoorCardTypes
+from .doorcard import DoorCard, DoorCardTypes
 
 # TODO: Make functionality for Event cards. It'll probably be a class that goes in the door deck.
 # When you flip over an Event, your team must immediately do whatever the card says.

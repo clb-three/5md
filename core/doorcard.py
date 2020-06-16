@@ -1,8 +1,8 @@
 
-from script import DoorDeckContext
+from .script import DoorDeckContext
 from enum import Enum, unique, auto
-from symbol import Symbol
-from multisymbol import MultiSymbol
+from .symbol import Symbol
+from .multisymbol import MultiSymbol
 
 
 @unique

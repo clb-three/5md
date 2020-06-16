@@ -1,15 +1,15 @@
 # game.py: execute commands based on the input
 
-import hero_cards
-from boss import Boss
-from enemy import Enemy
-from doordeck_factory import DoorDeckFactory
-from hero import Hero
-from table import Table
-from game import Game
-from user_input import get_command
-from symbol import Symbol
-from script import DoorDeckContext
+from . import hero_cards
+from .boss import Boss
+from .enemy import Enemy
+from .doordeck_factory import DoorDeckFactory
+from .hero import Hero
+from .table import Table
+from .game import Game
+from .user_input import get_command
+from .symbol import Symbol
+from .script import DoorDeckContext
 
 
 class GameLoop():

@@ -1,4 +1,4 @@
-from symbol import Symbol
+from .symbol import Symbol
 
 
 def all(classname):

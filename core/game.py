@@ -1,4 +1,4 @@
-from script import DoorDeckContext
+from .script import DoorDeckContext
 
 
 class Game:

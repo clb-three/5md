@@ -1,6 +1,6 @@
-from coolname import generate_slug
-from hero import Hero
-from enemy import Enemy
+from .coolname import generate_slug
+from .hero import Hero
+from .enemy import Enemy
 
 
 def mock_hero():

@@ -1,5 +1,5 @@
 import random
-import hero_cards
+from . import hero_cards
 
 
 class Hero:
