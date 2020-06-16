@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <title>WebSocket demo</title>
+  </head>
+  <body>
+    <input type="text" placeholder="Type a command here" id="command" />
+    <input type="button" id="submit-command" value="Submit" />
+    <script
+      src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"
+      integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I="
+      crossorigin="anonymous"
+    ></script>
+    <script type="text/javascript" charset="utf-8">
+      var socket = io.connect();
+      socket.on("connect", function () {
+        console.log("connected");
+        socket.emit("hello", "I'm connected!");
+      });
+      socket.on("hello", function (msg) {
+        console.log("hello!", msg);
+      });
+      socket.on("message", function (msg) {
+        console.log("got a message", msg);
+      });
+    </script>
+    <!-- <script>
+      const input = document.getElementById("command");
+      const submit = document.getElementById("submit-command");
+
+      var ws = new WebSocket("ws://localhost:5789/");
+      ws.onmessage = function (event) {
+        console.log(
+          `Got message ${Date.now().toLocaleString()}: ${event.data}`
+        );
+      };
+      submit.addEventListener("click", function () {
+        ws.send(input.value);
+        input.value = "";
+      });
+    </script> -->
+  </body>
+</html>

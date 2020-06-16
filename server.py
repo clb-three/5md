@@ -1,21 +1,22 @@
-import asyncio
-import datetime
-import random
-import websockets
+from flask import Flask
+from flask_socketio import SocketIO, send
+from logs import globallog
+
+app = Flask(__name__, static_url_path='')
+socketio = SocketIO(app)
 
 
-async def time(websocket, path):
-    '''
-    Send current time to new clients on connection
-    '''
+@socketio.on('hello')
+def handle_message(message):
+    globallog.info('received message: ' + message)
+    send(f'echo: {message}')
 
-    now = datetime.datetime.utcnow().isoformat() + "Z"
-    await websocket.send(now)
 
-host = 'localhost'
-port = 5789
-print(f'Serving requests on {host}:{port}. Press Ctrl+C to exit.')
-server = websockets.serve(time, host, port)
+@app.route('/')
+def root():
+    globallog.info('Returning index.html')
+    return app.send_static_file('index.html')
 
-asyncio.get_event_loop().run_until_complete(server)
-asyncio.get_event_loop().run_forever()
+
+if __name__ == '__main__':
+    socketio.run(app)
