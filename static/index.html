@@ -20,7 +20,14 @@
         console.log("hello!", msg);
       });
       socket.on("message", function (msg) {
-        console.log("got a message", msg);
+        console.log("got a message:", msg);
+      });
+
+      const input = document.getElementById("command");
+      const submit = document.getElementById("submit-command");
+      submit.addEventListener("click", function () {
+        socket.emit("command", input.value);
+        input.value = "";
       });
     </script>
     <!-- <script>
