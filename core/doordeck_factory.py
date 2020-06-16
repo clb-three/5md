@@ -7,6 +7,7 @@ import random
 from symbol import Symbol
 import copy
 import json
+from pathlib import Path
 
 
 class DoorDeckFactory:
@@ -20,10 +21,11 @@ class DoorDeckFactory:
     def __init__(self, ctx):
         def init_symbols(symbols): return [Symbol.convert(s) for s in symbols]
 
-        with open('resources/door_cards.json', 'r') as file:
+        resources_dir = Path(__file__).parent / 'resources'
+        with open(resources_dir / 'door_cards.json', 'r') as file:
             self.door_cards = [
                 Enemy(c['name'], init_symbols(c['symbols']), c['type']) for c in json.load(file)]
-        with open('resources/minibosses.json', 'r') as minibosses, open('resources/events.json', 'r') as events:
+        with open(resources_dir / 'minibosses.json', 'r') as minibosses, open(resources_dir / 'events.json', 'r') as events:
             self.challenge_cards = \
                 [Miniboss(c['name'], init_symbols(c['symbols']))
                  for c in json.load(minibosses)] + \
