@@ -1,6 +1,7 @@
 import logging
 import sys
 
+# This is a singleton, it's initialized only once and then the reference is shared.
 globallog = None
 if not globallog:
     globallog = logging.getLogger('five-minute-dungeon')

@@ -1,7 +1,7 @@
 from io import StringIO
 import contextlib
 from logs import globallog
-from core.gameloop import GameLoop
+from model.gameloop import GameLoop
 import time
 import asyncio
 from threading import Thread
