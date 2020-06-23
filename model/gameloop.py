@@ -3,7 +3,7 @@
 from .doorcards import factory as doorcard_factory
 from .heroes import factory as hero_factory
 from .table import Table
-from .game import Game
+from .gamestate import GameState
 from .user_input import get_command
 
 
@@ -28,8 +28,8 @@ class GameLoop():
         self.doordeck = doorcard_factory.deal_deck(
             self.boss.num_door_cards, len(self.heroes))
 
-        game = Game(self.heroes, self.doordeck,
-                    self.doordeck.current_enemy, self.boss)
+        game = GameState(self.heroes, self.doordeck,
+                         self.doordeck.current_enemy, self.boss)
         self.table = Table(game)
 
     def loop(self, command_getter):

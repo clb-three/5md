@@ -1,6 +1,6 @@
 from coolname import generate_slug
 from .heroes.factory import hero
-from .game import Game
+from .gamestate import GameState
 from .doorcards.enemy import Enemy
 from .doorcards.doordeck import DoorDeck
 
@@ -20,4 +20,4 @@ def mock_enemy(symbols):
 
 def mock_enemy_ctx(enemy):
     dd = DoorDeck([enemy])
-    return Game(door_deck=dd, target=dd.current_enemy)
+    return GameState(door_deck=dd, target=dd.current_enemy)

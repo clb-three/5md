@@ -1,9 +1,9 @@
 from .symbol import Symbol
 
 
-class Game:
+class GameState:
     '''
-    A Game is a boss mat, door deck, and a set of heroes
+    A set of boss mat, door deck, target, and a set of heroes
     '''
 
     def __init__(self, heroes=None, door_deck=None, target=None, boss=None):
