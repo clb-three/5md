@@ -1,16 +1,5 @@
 
-from enum import Enum, unique, auto
-
-
-@unique
-class DoorCardTypes(Enum):
-    boss = auto()
-    monster = auto()
-    event = auto()
-    miniboss = auto()
-
-
-class DoorCard:
+class BaseDoorCard:
     def __init__(self, symbols, card_type):
         self.symbols = symbols
         self.type = card_type

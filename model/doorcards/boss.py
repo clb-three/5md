@@ -1,7 +1,7 @@
-from .doorcard import DoorCard, DoorCardTypes
+from .base import BaseDoorCard, DoorCardTypes
 
 
-class Boss(DoorCard):
+class Boss(BaseDoorCard):
     '''
     This is the big boss (hunk of symbol cards)
     at the bottom of a boss mat.

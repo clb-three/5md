@@ -1,10 +1,11 @@
-from .doorcard import DoorCard, DoorCardTypes
+from .base import BaseDoorCard
+from .types import DoorCardTypes
 # enemy.py: an Enemy is a door card that
 # you have to kill with a few different attack cards.
 # Certainn enemy types can be insta-killed by certain cards.
 
 
-class Enemy(DoorCard):
+class Enemy(BaseDoorCard):
     '''
     Class for an Enemy. A class is like a blueprint for an object, and you'll use
     the constructor __init__ by calling Enemy() to make an instance of Enemy.
