@@ -1,4 +1,4 @@
-from .base_herocard import BaseHeroCard
+from .private.base_herocard import BaseHeroCard
 
 
 class MultiSymbol(BaseHeroCard):
