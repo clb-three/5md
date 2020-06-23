@@ -1,8 +1,8 @@
 
-from .doordeck import DoorDeck
-from .enemy import Enemy
-from .event import Event
-from .miniboss import Miniboss
+from .doorcards.doordeck import DoorDeck
+from .doorcards.enemy import Enemy
+from .doorcards.event import Event
+from .doorcards.miniboss import Miniboss
 import random
 from .symbol import Symbol
 import copy

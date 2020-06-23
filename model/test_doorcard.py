@@ -1,4 +1,4 @@
-from .enemy import Enemy
+from .doorcards.enemy import Enemy
 from .symbol import Symbol
 from .multisymbol import MultiSymbol
 from .test_utils import mock_enemy, mock_enemy_ctx

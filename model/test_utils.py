@@ -1,8 +1,8 @@
 from coolname import generate_slug
 from .hero import Hero
-from .enemy import Enemy
 from .game import Game
-from .doordeck import DoorDeck
+from .doorcards.enemy import Enemy
+from .doorcards.doordeck import DoorDeck
 
 
 def mock_hero():
