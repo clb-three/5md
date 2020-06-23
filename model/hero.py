@@ -1,5 +1,5 @@
 import random
-from . import hero_cards
+from . import herocards
 
 
 class Hero:
@@ -23,7 +23,7 @@ class Hero:
         self.hand = []
 
         # Takes a random sample from actions and puts it into cards, parameterized by num_of_actions
-        self.deck = [random.choice(hero_cards.all(classname))
+        self.deck = [random.choice(herocards.all(classname))
                      for _ in range(0, 40)]
         # FIXME: Not necessary maybe??? You just like shuffling or
         random.shuffle(self.deck)

@@ -1,9 +1,7 @@
 # game.py: execute commands based on the input
 
-from . import hero_cards
-from .boss import Boss
-from .enemy import Enemy
-from .doordeck_factory import DoorDeckFactory
+from . import herocards
+from . import doorcard_factory
 from .hero import Hero
 from .table import Table
 from .game import Game
@@ -28,10 +26,9 @@ class GameLoop():
                 h.draw_card()
 
         # Deal boss mat and door deck
-        self.boss = Boss([Symbol.arrow, Symbol.jump], 20)
-        dd_factory = DoorDeckFactory()
-        self.doordeck = dd_factory.deal(
-            self.boss.num_door_cards, len(self.heroes) * 2)
+        self.boss = doorcard_factory.create_boss()
+        self.doordeck = doorcard_factory.deal_deck(
+            self.boss.num_door_cards, len(self.heroes))
 
         game = Game(self.heroes, self.doordeck,
                     self.doordeck.current_enemy, self.boss)

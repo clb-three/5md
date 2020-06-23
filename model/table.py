@@ -1,4 +1,4 @@
-from . import hero_cards
+from . import herocards
 
 
 class Table:
@@ -24,7 +24,7 @@ class Table:
             # Forces card into a lower case string to prevent capitalization issues with input
             card_name = args[1].lower()
 
-            card = hero_cards.get(card_name)
+            card = herocards.get(card_name)
 
             # If card is not valid, don't let it be played
             if not card:

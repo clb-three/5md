@@ -1,4 +1,5 @@
-from .private.base import BaseDoorCard, DoorCardTypes
+from .private.base import BaseDoorCard
+from .private.types import DoorCardTypes
 
 
 class Boss(BaseDoorCard):
