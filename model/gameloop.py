@@ -24,8 +24,8 @@ class GameLoop():
                 h.draw_card()
 
         # Deal boss mat and door deck
-        self.boss = factory.create_boss()
-        self.doordeck = factory.deal_deck(
+        self.boss = doorcard_factory.create_boss()
+        self.doordeck = doorcard_factory.deal_deck(
             self.boss.num_door_cards, len(self.heroes))
 
         game = Game(self.heroes, self.doordeck,

@@ -1,4 +1,4 @@
-from . import herocards
+from .symbol import Symbol
 
 
 class Game:
@@ -31,7 +31,7 @@ class Game:
         Play a card with card_name against the current enemy
         '''
 
-        card = herocards.get(card_name)
+        card = Symbol.convert(card_name)
 
         # If card is not valid, don't let it be played
         if not card:
