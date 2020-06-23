@@ -3,7 +3,7 @@ class BaseDoorCard:
     def __init__(self, symbols, card_type):
         self.symbols = symbols
         self.type = card_type
-        self.run_script = None
+        self.do_script = None
 
     def is_dead(self):
         '''

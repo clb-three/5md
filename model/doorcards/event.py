@@ -17,7 +17,7 @@ class Event(BaseDoorCard):
         super().__init__([], DoorCardTypes.event)
         if script_name not in scripts:
             raise Exception(f'Script "{script_name}" not found.')
-        self.run_script = scripts[script_name]
+        self.do_script = scripts[script_name]
 
     def is_dead(self):
         '''

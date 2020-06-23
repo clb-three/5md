@@ -29,7 +29,7 @@ def test_event_all_heroes_discard_one():
 
     c = Game(heroes=heroes)
 
-    ouch.run_script(c)
+    ouch.do_script(c)
 
     for i, hero in enumerate(heroes.values()):
         assert len(hero.hand) == deck_sizes[1] - 1

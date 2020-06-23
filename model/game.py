@@ -63,12 +63,12 @@ class Game:
         Run this card's script on the model.
         '''
 
-        if not self.target.run_script:
+        if not self.target.do_script:
             return
 
         # Else run the script
         print('Running target script')
-        self.target.run_script(self)
+        self.target.do_script(self)
 
     def is_defeated(self):
         return self.target == self.boss and self.boss.is_dead()
