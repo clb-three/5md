@@ -1,12 +1,10 @@
-# game.py: execute commands based on the input
+# gameloop.py: execute commands based on the input
 
-from . import herocards
-from . import doorcard_factory
+from .doorcards import factory as doorcard_factory
 from .hero import Hero
 from .table import Table
 from .game import Game
 from .user_input import get_command
-from .symbol import Symbol
 
 
 class GameLoop():
@@ -26,8 +24,8 @@ class GameLoop():
                 h.draw_card()
 
         # Deal boss mat and door deck
-        self.boss = doorcard_factory.create_boss()
-        self.doordeck = doorcard_factory.deal_deck(
+        self.boss = factory.create_boss()
+        self.doordeck = factory.deal_deck(
             self.boss.num_door_cards, len(self.heroes))
 
         game = Game(self.heroes, self.doordeck,
