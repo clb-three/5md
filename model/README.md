@@ -1,6 +1,10 @@
 # To run:
 
-`python game.py`
+Due to some caveats of the Python module system, we need to run the module rather than the Python file.
+This way, the Python interpreter is aware of the entire `model` package.
+Make sure you run inside the root of the project (`5md/`), not inside `5md/model`.
+
+`python -m model.gameloop`
 
 # Usage:
 

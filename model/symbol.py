@@ -21,6 +21,15 @@ class Symbol(Enum):
         '''
         return next((v for k, v in cls.__members__.items() if k == symbol_name), None)
 
+    def play(self, ctx):
+        '''
+        Play this symbol against the target
+        '''
+        if self in ctx.target.symbols:
+            ctx.target.symbols.remove(self)
+        else:
+            raise Exception(f'{self} not in ctx.target.symbols')
+
     def __repr__(self):
         return self.__str__()
 

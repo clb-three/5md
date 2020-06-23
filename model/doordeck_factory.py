@@ -18,7 +18,7 @@ class DoorDeckFactory:
     def init_enemy(self, dict):
         return None
 
-    def __init__(self, ctx):
+    def __init__(self):
         def init_symbols(symbols): return [Symbol.convert(s) for s in symbols]
 
         resources_dir = Path(__file__).parent / 'resources'
@@ -29,7 +29,7 @@ class DoorDeckFactory:
             self.challenge_cards = \
                 [Miniboss(c['name'], init_symbols(c['symbols']))
                  for c in json.load(minibosses)] + \
-                [Event(c['name'], ctx, c['script_name'])
+                [Event(c['name'], c['script_name'])
                  for c in json.load(events)]
 
     def deal(self, num_door_cards, num_challenge_cards):

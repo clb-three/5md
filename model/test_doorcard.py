@@ -1,7 +1,8 @@
 from .enemy import Enemy
 from .symbol import Symbol
 from .multisymbol import MultiSymbol
-from .test_utils import mock_enemy
+from .test_utils import mock_enemy, mock_enemy_ctx
+import pytest
 
 
 def test_spawns_alive():
@@ -10,32 +11,38 @@ def test_spawns_alive():
 
 
 def test_kill_simple():
-    d = mock_enemy([Symbol.sword, Symbol.arrow])
-    d.attack(Symbol.sword)
+    d = mock_enemy([Symbol.jump, Symbol.arrow])
+    c = mock_enemy_ctx(d)
     assert d.is_dead() is False
-    d.attack(Symbol.arrow)
+    Symbol.arrow.play(c)
+    assert d.is_dead() is False
+    Symbol.jump.play(c)
     assert d.is_dead() is True
 
 
 def test_attack_simple():
-    d = mock_enemy([Symbol.shield, Symbol.arrow])
-    assert d.attack(Symbol.shield) is True
-    assert d.attack(Symbol.shield) is False
+    d = mock_enemy_ctx(mock_enemy([Symbol.shield]))
+    Symbol.shield.play(d)
+    with pytest.raises(Exception):
+        Symbol.shield.play(d)
 
 
+@pytest.mark.xfail  # take this off when you implement it
 def test_miss_multisymbol():
-    d = mock_enemy([Symbol.jump, Symbol.sword])
+    c = mock_enemy_ctx(mock_enemy([Symbol.jump, Symbol.sword]))
     # None match
     ms_broke = MultiSymbol(Symbol.shield, Symbol.arrow)
-    assert d.attack(ms_broke) is False
+    with pytest.raises(Exception):
+        ms_broke.play(c)
 
 
 @pytest.mark.xfail  # take this off when you implement it
 def test_kill_multisymbol():
     d = mock_enemy([Symbol.shield, Symbol.arrow])
+    c = mock_enemy_ctx(d)
     assert d.is_dead() is False
     ms = MultiSymbol(Symbol.shield, Symbol.arrow)
-    assert d.attack(ms) is True
+    ms.attack(c)
     assert d.is_dead() is True
 
 

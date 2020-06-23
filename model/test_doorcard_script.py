@@ -1,34 +1,35 @@
 
-from .script import DoorDeckContext
 from .hero import Hero
 from .event import Event
 from .test_utils import gen_mock_heroes
+from .doorcard_scripts import all_heroes_discard_one
+from .game import Game
 
 
-def test_ado():
+def test_all_heroes_discard_one():
     heroes = gen_mock_heroes(10)
     for h in heroes.values():
         h.draw_card()
     deck_sizes = [len(hero.hand) for hero in heroes.values()]
-    ctx = DoorDeckContext(heroes)
+    game = Game(heroes=heroes)
 
-    ctx.all_heroes_discard_one()
+    all_heroes_discard_one(game)
 
     for i, hero in enumerate(heroes.values()):
         assert len(hero.hand) == deck_sizes[1] - 1
 
 
-def test_event_ado():
+def test_event_all_heroes_discard_one():
     heroes = gen_mock_heroes(10)
     for h in heroes.values():
         h.draw_card()
     deck_sizes = [len(hero.hand) for hero in heroes.values()]
-    ctx = DoorDeckContext(heroes)
 
-    ouch = Event(
-        'ouchie', ctx, DoorDeckContext.all_heroes_discard_one.__name__)
+    ouch = Event('ouchie', all_heroes_discard_one.__name__)
 
-    ouch.run_script()
+    c = Game(heroes=heroes)
+
+    ouch.run_script(c)
 
     for i, hero in enumerate(heroes.values()):
         assert len(hero.hand) == deck_sizes[1] - 1

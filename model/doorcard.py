@@ -1,8 +1,5 @@
 
-from .script import DoorDeckContext
 from enum import Enum, unique, auto
-from .symbol import Symbol
-from .multisymbol import MultiSymbol
 
 
 @unique
@@ -19,35 +16,12 @@ class DoorCard:
         self.type = card_type
         self.run_script = None
 
-    def init_script(self, ctx, script_name):
-        '''
-        Initialize script member with the given context
-        '''
-        self.run_script = getattr(ctx, script_name)
-
     def is_dead(self):
         '''
         Return True if the Enemy is dead
         '''
 
         return len(self.symbols) == 0
-
-    def attack(self, card):
-        '''
-        Attack this enemy with the given card and return True if it's a success,
-        else return False
-        '''
-
-        if isinstance(card, Symbol):
-            symbol = card
-            if symbol in self.symbols:
-                self.symbols.remove(symbol)
-                return True
-
-        elif isinstance(card, MultiSymbol):
-            pass  # TODO: Implement MultiSymbol
-
-        return False
 
     def kill(self):
         '''

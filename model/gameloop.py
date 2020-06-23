@@ -9,7 +9,6 @@ from .table import Table
 from .game import Game
 from .user_input import get_command
 from .symbol import Symbol
-from .script import DoorDeckContext
 
 
 class GameLoop():
@@ -30,12 +29,12 @@ class GameLoop():
 
         # Deal boss mat and door deck
         self.boss = Boss([Symbol.arrow, Symbol.jump], 20)
-        dd_ctx = DoorDeckContext(self.heroes)
-        dd_factory = DoorDeckFactory(dd_ctx)
+        dd_factory = DoorDeckFactory()
         self.doordeck = dd_factory.deal(
             self.boss.num_door_cards, len(self.heroes) * 2)
 
-        game = Game(self.heroes, self.doordeck, self.boss)
+        game = Game(self.heroes, self.doordeck,
+                    self.doordeck.current_enemy, self.boss)
         self.table = Table(game)
 
     def loop(self, command_getter):

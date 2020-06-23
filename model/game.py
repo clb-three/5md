@@ -1,4 +1,3 @@
-from .script import DoorDeckContext
 
 
 class Game:
@@ -6,7 +5,7 @@ class Game:
     A Game is a boss mat, door deck, and a set of heroes
     '''
 
-    def __init__(self, heroes, door_deck, boss):
+    def __init__(self, heroes=None, door_deck=None, target=None, boss=None):
         self.heroes = heroes
         self.door_deck = door_deck
         self.boss = boss
@@ -14,7 +13,7 @@ class Game:
         self.heroes = heroes
         self.door_deck = door_deck
         self.boss = boss
-        self.target = self.door_deck.current_enemy
+        self.target = target
 
     def __str__(self):
         '''
@@ -38,7 +37,7 @@ class Game:
 
         # Play the card
         hero.discard(card)
-        self.target.attack(card)
+        card.play(self)
         print(f"{hero.name} played {card}!\n")
 
     def bring_out_yer_dead(self):
@@ -69,7 +68,7 @@ class Game:
 
         # Else run the script
         print('Running target script')
-        self.target.run_script()
+        self.target.run_script(self)
 
     def is_defeated(self):
         return self.target == self.boss and self.boss.is_dead()

@@ -1,6 +1,8 @@
-from .coolname import generate_slug
+from coolname import generate_slug
 from .hero import Hero
 from .enemy import Enemy
+from .game import Game
+from .doordeck import DoorDeck
 
 
 def mock_hero():
@@ -14,3 +16,8 @@ def gen_mock_heroes(howmany):
 
 def mock_enemy(symbols):
     return Enemy(generate_slug(), symbols)
+
+
+def mock_enemy_ctx(enemy):
+    dd = DoorDeck([enemy])
+    return Game(door_deck=dd, target=dd.current_enemy)
