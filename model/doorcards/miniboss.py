@@ -1,6 +1,6 @@
 
 from .enemy import Enemy
-from .types import DoorCardTypes
+from .private.types import DoorCardTypes
 
 
 class Miniboss(Enemy):

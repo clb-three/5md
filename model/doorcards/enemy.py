@@ -1,5 +1,5 @@
-from .base import BaseDoorCard
-from .types import DoorCardTypes
+from .private.base import BaseDoorCard
+from .private.types import DoorCardTypes
 # enemy.py: an Enemy is a door card that
 # you have to kill with a few different attack cards.
 # Certainn enemy types can be insta-killed by certain cards.

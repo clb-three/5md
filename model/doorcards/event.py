@@ -1,5 +1,5 @@
-from .base import BaseDoorCard
-from .types import DoorCardTypes
+from .private.base import BaseDoorCard
+from .private.types import DoorCardTypes
 from .scripts import scripts
 
 # TODO: Make functionality for Event cards. It'll probably be a class that goes in the door deck.
