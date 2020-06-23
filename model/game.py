@@ -1,3 +1,4 @@
+from . import herocards
 
 
 class Game:
@@ -25,10 +26,17 @@ class Game:
     {self.target}
 '''
 
-    def play_card(self, hero, card):
+    def play_card(self, hero, card_name):
         '''
-        Play a card against the current enemy
+        Play a card with card_name against the current enemy
         '''
+
+        card = herocards.get(card_name)
+
+        # If card is not valid, don't let it be played
+        if not card:
+            print("That's not a valid card name!\n")
+            return
 
         # Check if the card is available to the hero
         if not hero.has_card(card):

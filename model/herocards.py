@@ -1,3 +1,4 @@
+from .singlesymbol import SingleSymbol
 from .symbol import Symbol
 
 
@@ -6,7 +7,7 @@ def all(classname):
     The deck for a given hero.
     TODO: Draw different cards different depending on the hero.
     '''
-    return list(Symbol.__members__.values())
+    return list(SingleSymbol.all())
 
 
 def get(card_name):

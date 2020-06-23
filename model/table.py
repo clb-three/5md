@@ -1,4 +1,3 @@
-from . import herocards
 
 
 class Table:
@@ -24,14 +23,7 @@ class Table:
             # Forces card into a lower case string to prevent capitalization issues with input
             card_name = args[1].lower()
 
-            card = herocards.get(card_name)
-
-            # If card is not valid, don't let it be played
-            if not card:
-                print("That's not a valid card name!\n")
-                return
-
-            self.game.play_card(hero, card)
+            self.game.play_card(hero, card_name)
         elif args[0] == 'discard':
             hero.discard(args[1])
         elif args[0] == 'draw':

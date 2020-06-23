@@ -15,6 +15,10 @@ class SingleSymbol(BaseHeroCard):
         else:
             raise Exception(f'{self.symbol} not in ctx.target.symbols')
 
+    @staticmethod
+    def all():
+        return Symbol.__members__.values()
+
     def __repr__(self):
         return self.__str__()
 
