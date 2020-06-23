@@ -1,4 +1,5 @@
 from .symbol import Symbol
+from .base_herocard import BaseHeroCard
 
 
 class MultiSymbol():

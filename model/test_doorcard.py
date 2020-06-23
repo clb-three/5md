@@ -1,5 +1,6 @@
 from .doorcards.enemy import Enemy
 from .symbol import Symbol
+from .singlesymbol import SingleSymbol
 from .multisymbol import MultiSymbol
 from .test_utils import mock_enemy, mock_enemy_ctx
 import pytest
@@ -14,17 +15,17 @@ def test_kill_simple():
     d = mock_enemy([Symbol.jump, Symbol.arrow])
     c = mock_enemy_ctx(d)
     assert d.is_dead() is False
-    Symbol.arrow.play(c)
+    SingleSymbol(Symbol.arrow).play(c)
     assert d.is_dead() is False
-    Symbol.jump.play(c)
+    SingleSymbol(Symbol.jump).play(c)
     assert d.is_dead() is True
 
 
 def test_attack_simple():
     d = mock_enemy_ctx(mock_enemy([Symbol.shield]))
-    Symbol.shield.play(d)
+    SingleSymbol(Symbol.shield).play(d)
     with pytest.raises(Exception):
-        Symbol.shield.play(d)
+        SingleSymbol(Symbol.shield).play(d)
 
 
 @pytest.mark.xfail  # take this off when you implement it
