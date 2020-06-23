@@ -15,9 +15,10 @@ class Event(BaseDoorCard):
     def __init__(self, name, script_name=None):
         self.name = name
         super().__init__([], DoorCardTypes.event)
-        if script_name not in scripts:
-            raise Exception(f'Script "{script_name}" not found.')
-        self.do_script = scripts[script_name]
+        if script_name is not None:
+            if script_name not in scripts:
+                raise Exception(f'Script "{script_name}" not found.')
+            self.do_script = scripts[script_name]
 
     def is_dead(self):
         '''
