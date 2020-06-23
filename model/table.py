@@ -9,10 +9,10 @@ class Table:
     def __init__(self, game):
         self.game_over = False
         self.last_command = ''
-        self.game = game
+        self.gamestate = game
 
     def display_status(self):
-        print(self.game)
+        print(self.gamestate)
 
     def process_hero_command(self, hero, args):
         '''
@@ -23,7 +23,7 @@ class Table:
             # Forces card into a lower case string to prevent capitalization issues with input
             card_name = args[1].lower()
 
-            self.game.play_card(hero, card_name)
+            self.gamestate.play_card(hero, card_name)
         elif args[0] == 'discard':
             hero.discard(args[1])
         elif args[0] == 'draw':
@@ -45,14 +45,14 @@ class Table:
 
         # Do input
         if args[0] in self.game.heroes:
-            hero = self.game.heroes[args[0]]
+            hero = self.gamestate.heroes[args[0]]
             self.process_hero_command(hero, args[1:])
         elif args[0] == 'quit':
             # Quit the game
             self.game_over = True
         elif args[0] == 'nuke':
             # Kill the current enemy
-            self.game.target.kill()
+            self.gamestate.target.kill()
         elif args[0] == '':
             # Repeat the last command
             if self.last_command == '':
@@ -69,12 +69,12 @@ class Table:
             print('Unrecognized command')
 
         # Trigger "on draw" effect
-        self.game.do_target_script()
+        self.gamestate.do_target_script()
 
         # Switch out target when they're dead
-        self.game.bring_out_yer_dead()
+        self.gamestate.bring_out_yer_dead()
 
         # break out when all enemies isded
-        if self.game.is_defeated():
+        if self.gamestate.is_defeated():
             print('You won!')
             self.game_over = True

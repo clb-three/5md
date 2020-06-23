@@ -20,3 +20,9 @@ class Symbol(Enum):
         or return None if it didn't work.
         '''
         return next((v for k, v in cls.__members__.items() if k == symbol_name), None)
+
+    def __repr__(self):
+        return self.__str__()
+
+    def __str__(self):
+        return self.name

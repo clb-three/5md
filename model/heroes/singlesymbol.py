@@ -18,7 +18,7 @@ class SingleSymbol(BaseHeroCard):
         return self.__str__()
 
     def __str__(self):
-        return self.symbol.name
+        return self.symbol.__str__()
 
     def __lt__(self, other):
         if isinstance(other, SingleSymbol):

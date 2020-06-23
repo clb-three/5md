@@ -14,7 +14,7 @@ class DoorDeck:
 
         super().__init__()
         # Place an initial deck of 5 enemies
-        self.enemy_deck = cards
+        self.deck = cards
 
         # The enemy face up on the top of the deck
         self.current_enemy = None
@@ -26,8 +26,8 @@ class DoorDeck:
         Discard the current top card and draw the next one.
         '''
 
-        if len(self.enemy_deck) > 0:
-            self.current_enemy = self.enemy_deck.pop()
+        if len(self.deck) > 0:
+            self.current_enemy = self.deck.pop()
             return True
         else:
             return False

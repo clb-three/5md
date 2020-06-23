@@ -80,3 +80,9 @@ class GameState:
 
     def is_defeated(self):
         return self.target == self.boss and self.boss.is_dead()
+
+    def __str__(self):
+        return f'''Heroes: {', '.join([str(h) for h in self.heroes.values()])}
+Target: {{{self.target}}}
+Boss: {self.boss}
+Cards left: {len(self.door_deck.deck)}'''
