@@ -1,7 +1,7 @@
 from .doorcards.enemy import Enemy
 from .symbol import Symbol
-from .singlesymbol import SingleSymbol
-from .multisymbol import MultiSymbol
+from .heroes.singlesymbol import SingleSymbol
+from .heroes.multisymbol import MultiSymbol
 from .test_utils import mock_enemy, mock_enemy_ctx
 import pytest
 

@@ -1,5 +1,5 @@
 
-from .hero import Hero
+from .heroes.hero import Hero
 from .doorcards.event import Event
 from .test_utils import gen_mock_heroes
 from .doorcards.scripts import all_heroes_discard_one

@@ -1,7 +1,7 @@
 # gameloop.py: execute commands based on the input
 
 from .doorcards import factory as doorcard_factory
-from .hero import Hero
+from .heroes import factory as hero_factory
 from .table import Table
 from .game import Game
 from .user_input import get_command
@@ -15,8 +15,8 @@ class GameLoop():
     def __init__(self):
         # Each player will have one Hero.
         self.heroes = {
-            'benji': Hero('benji', 'barbarian'),
-            'austin': Hero('austin', 'healer'),
+            'benji': hero_factory.hero('benji', 'barbarian'),
+            'austin': hero_factory.hero('austin', 'healer'),
         }
         # Draws the hero's initial hand
         for j in range(0, 5):

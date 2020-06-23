@@ -1,12 +1,12 @@
 from coolname import generate_slug
-from .hero import Hero
+from .heroes.factory import hero
 from .game import Game
 from .doorcards.enemy import Enemy
 from .doorcards.doordeck import DoorDeck
 
 
 def mock_hero():
-    return Hero(generate_slug(), 'ranger')
+    return hero(generate_slug(), 'ranger')
 
 
 def gen_mock_heroes(howmany):

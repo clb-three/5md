@@ -1,5 +1,4 @@
 import random
-from . import herocards
 
 
 class Hero:
@@ -11,7 +10,7 @@ class Hero:
     The deck can be shuffled
     '''
 
-    def __init__(self, name, classname):
+    def __init__(self, name, classname, deck):
         '''
         Constructor. This is called whenever we create a Hero.
         '''
@@ -23,8 +22,7 @@ class Hero:
         self.hand = []
 
         # Takes a random sample from actions and puts it into cards, parameterized by num_of_actions
-        self.deck = [random.choice(herocards.all(classname))
-                     for _ in range(0, 40)]
+        self.deck = deck
         # FIXME: Not necessary maybe??? You just like shuffling or
         random.shuffle(self.deck)
 
@@ -47,7 +45,7 @@ class Hero:
         '''
         # TODO: Make hand just list out how many of each card we have.
         # sword: 2: shield: 3, etc.
-        return f'{self.name}: {sorted(self.hand)}'
+        return f'{self.name}({self.classname}): {sorted(self.hand)}'
 
     def draw_card(self):
         '''

@@ -1,8 +1,7 @@
-from .symbol import Symbol
 from .base_herocard import BaseHeroCard
 
 
-class MultiSymbol():
+class MultiSymbol(BaseHeroCard):
     def __init__(self, *symbols):
         super().__init__()
         assert len(symbols) > 0
@@ -13,7 +12,3 @@ class MultiSymbol():
         Play this multisymbol against the target
         '''
         pass  # TODO: Implement MultiSymbol
-
-
-if __name__ == '__main__':
-    c = MultiSymbol(Symbol.arrow, Symbol.jump)

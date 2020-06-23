@@ -11,7 +11,7 @@ import json
 from pathlib import Path
 
 
-def get_deck():
+def draw_deck():
     def init_symbols(symbols): return [Symbol.convert(s) for s in symbols]
 
     resources_dir = Path(__file__).parent / 'resources'
@@ -36,7 +36,7 @@ def deal_deck(num_door_cards, num_players):
     '''
 
     def draw_random(deck): return copy.deepcopy(random.choice(deck))
-    door_cards, challenge_cards = get_deck()
+    door_cards, challenge_cards = draw_deck()
 
     cards = []
 

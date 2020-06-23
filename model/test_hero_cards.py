@@ -1,4 +1,4 @@
-from .hero import Hero
+from .heroes.hero import Hero
 from .test_utils import mock_hero
 from .symbol import Symbol
 
