@@ -1,4 +1,3 @@
-from .symbol import Symbol
 
 
 class GameState:
@@ -26,12 +25,10 @@ class GameState:
     {self.target}
 '''
 
-    def play_card(self, hero, card_name):
+    def play_card(self, hero, card):
         '''
-        Play a card with card_name against the current enemy
+        Play the given card against the current enemy
         '''
-
-        card = Symbol.convert(card_name)
 
         # If card is not valid, don't let it be played
         if not card:

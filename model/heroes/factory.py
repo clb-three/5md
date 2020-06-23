@@ -17,3 +17,10 @@ def hero(name, classname):
             for _ in range(0, 40)]
 
     return Hero(name, classname, deck)
+
+
+def get_card(card_name):
+    for s in Symbol.__members__.values():
+        if s.__str__() == card_name:
+            return SingleSymbol(s)
+    # TODO: Other card types

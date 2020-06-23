@@ -1,3 +1,4 @@
+from .heroes import factory as hero_factory
 
 
 class Table:
@@ -8,7 +9,7 @@ class Table:
 
     def __init__(self, game):
         self.game_over = False
-        self.last_command = ''
+        self.last_command = None
         self.gamestate = game
 
     def display_status(self):
@@ -22,8 +23,8 @@ class Table:
         if args[0] == 'play':
             # Forces card into a lower case string to prevent capitalization issues with input
             card_name = args[1].lower()
-
-            self.gamestate.play_card(hero, card_name)
+            card = hero_factory.get_card(card_name)
+            self.gamestate.play_card(hero, card)
         elif args[0] == 'discard':
             hero.discard(args[1])
         elif args[0] == 'draw':
@@ -39,12 +40,8 @@ class Table:
         # Get input
         args = command.split(' ')
 
-        # save the last command we've done
-        if command != '':
-            self.last_command = command
-
         # Do input
-        if args[0] in self.game.heroes:
+        if args[0] in self.gamestate.heroes:
             hero = self.gamestate.heroes[args[0]]
             self.process_hero_command(hero, args[1:])
         elif args[0] == 'quit':
@@ -55,7 +52,7 @@ class Table:
             self.gamestate.target.kill()
         elif args[0] == '':
             # Repeat the last command
-            if self.last_command == '':
+            if not self.last_command:
                 print('No previous command.')
             else:
                 print(f'Redo "{command}"')
@@ -67,6 +64,10 @@ class Table:
             # Catch any command that we don't know
             # and let the user know about it
             print('Unrecognized command')
+
+        # save the last command we've done
+        if command != '':
+            self.last_command = command
 
         # Trigger "on draw" effect
         self.gamestate.do_target_script()
