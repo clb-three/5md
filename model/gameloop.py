@@ -12,7 +12,7 @@ class GameLoop():
     Performs the main loop of the game, and references the resources it needs.
     '''
 
-    def __init__(self):
+    def __init__(self, notifier):
         # Each player will have one Hero.
         self.heroes = {
             'benji': hero_factory.hero('benji', 'barbarian'),
@@ -28,7 +28,7 @@ class GameLoop():
         self.doordeck = doorcard_factory.deal_deck(
             self.boss.num_door_cards, len(self.heroes))
 
-        game = GameState(self.heroes, self.doordeck,
+        game = GameState(notifier, self.heroes, self.doordeck,
                          self.doordeck.current_enemy, self.boss)
         self.table = Table(game)
 
@@ -40,5 +40,21 @@ class GameLoop():
 
 
 if __name__ == '__main__':
-    gp = GameLoop()
+    from datetime import datetime
+
+    class ConsoleNotifier():
+        def info(self, msg):
+            print(f'[inf] {self.now()} {msg}')
+
+        def error(self, msg):
+            print(f'[err] {self.now()} {msg}')
+
+        def log(self, msg):
+            print(f'[log] {self.now()} {msg}')
+
+        def now(self):
+            return datetime.now().strftime("%H:%M:%S")
+    console_notifier = ConsoleNotifier()
+
+    gp = GameLoop(console_notifier)
     gp.loop(get_command)

@@ -18,7 +18,7 @@ def mock_scenario():
     target = mock_enemy([Symbol.sword])
     door_deck = DoorDeck([mock_enemy([Symbol.arrow]), Event('ooo'), target])
     assert target == door_deck.current_enemy
-    boss = Boss([Symbol.jump])
+    boss = Boss([Symbol.jump], 10)
     state = GameState(heroes, door_deck, door_deck.current_enemy, boss)
     return benji, Table(state)
 

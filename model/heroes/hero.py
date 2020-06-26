@@ -1,4 +1,5 @@
 import random
+from .complaint import Complaint
 
 
 class Hero:
@@ -61,7 +62,7 @@ class Hero:
             card = self.deck.pop(0)
             return card
         else:
-            print("You have no more cards in your deck!\n")
+            raise Complaint("You have no more cards in your deck!\n")
 
     def discard(self, card):
         '''
@@ -73,7 +74,7 @@ class Hero:
             # If it is a valid card to remove, remove it
             return self.hand.remove(card)
         else:
-            print("You can't discard a card you don't have!\n")
+            raise Complaint("You can't discard a card you don't have!\n")
 
     def deck_size(self):
         return len(self.deck)

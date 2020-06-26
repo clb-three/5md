@@ -23,27 +23,27 @@ def get_command():
     return commands.pop()
 
 
-def run(gameloop, command_getter, echo_func):
-    with readit(echo_func) as stream:
-        with contextlib.redirect_stdout(stream):
-            gameloop.loop(command_getter)
+def run(gameloop, command_getter):
+    gameloop.loop(command_getter)
 
 
-class MyStringIO(StringIO):
+class SocketIoNotifier():
+
     def __init__(self, echo_func):
-        super().__init__()
         self.echo_func = echo_func
 
-    def write(self, str):
-        self.echo_func(str)
-        super().write(str)
+    def info(self, msg):
+        self.echo_func(f'[inf] {self.now()} {msg}')
 
+    def error(self, msg):
+        self.echo_func(f'[err] {self.now()} {msg}')
 
-@contextlib.contextmanager
-def readit(echo_func):
-    sio = MyStringIO(echo_func)
-    yield sio
-    sio.close()
+    def log(self, msg):
+        self.echo_func(f'[log] {self.now()} {msg}')
+
+    def now(self):
+        from datetime import datetime
+        return datetime.now().strftime("%H:%M:%S")
 
 
 @contextlib.contextmanager
@@ -56,9 +56,10 @@ def gib(echo_func):
     loop = asyncio.new_event_loop()
     shouldrun = True
     commands.clear()
-    gameloop = GameLoop()
+    notifier = SocketIoNotifier(echo_func)
+    gameloop = GameLoop(notifier)
 
-    t = Thread(target=run, args=(gameloop, get_command, echo_func))
+    t = Thread(target=run, args=(gameloop, get_command))
     t.start()
 
     yield gameloop

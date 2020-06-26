@@ -5,7 +5,9 @@ class GameState:
     A set of boss mat, door deck, target, and a set of heroes
     '''
 
-    def __init__(self, heroes=None, door_deck=None, target=None, boss=None):
+    def __init__(self, notifier, heroes=None, door_deck=None, target=None, boss=None):
+        self.notifier = notifier
+
         self.heroes = heroes
         self.door_deck = door_deck
         self.boss = boss
@@ -32,18 +34,18 @@ class GameState:
 
         # If card is not valid, don't let it be played
         if not card:
-            print("That's not a valid card name!\n")
+            self.notifier.error("That's not a valid card name!\n")
             return
 
         # Check if the card is available to the hero
         if not hero.has_card(card):
-            print(f"{hero.name} doesn't have that card!\n")
+            self.notifier.error(f"{hero.name} doesn't have that card!\n")
             return
 
         # Play the card
         hero.discard(card)
         card.play(self)
-        print(f"{hero.name} played {card}!\n")
+        self.notifier.info(f"{hero.name} played {card}!\n")
 
     def bring_out_yer_dead(self):
         '''
@@ -52,16 +54,16 @@ class GameState:
 
         if self.target.is_dead():
             if self.target == self.boss:
-                print(f'Killed the boss!')
-                return
+                msg = 'Killed the boss!'
 
             if self.door_deck.try_draw():
-                print(f'Defeated a fearsome enemy. Grr!')
+                msg = 'Defeated a fearsome enemy. Grr!'
                 self.target = self.door_deck.current_enemy
             else:
-                print('Now we\'re fighting the boss. Ahh!')
+                msg = "Now we're fighting the boss. Ahh!"
                 self.target = self.boss
-                return
+
+            self.notifier.info(msg)
 
     def do_target_script(self):
         '''
@@ -72,7 +74,7 @@ class GameState:
             return
 
         # Else run the script
-        print('Running target script')
+        self.notifier.log('Running target script')
         self.target.do_script(self)
 
     def is_defeated(self):

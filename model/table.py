@@ -1,3 +1,4 @@
+from .heroes.complaint import Complaint
 from .heroes import factory as hero_factory
 
 
@@ -13,24 +14,32 @@ class Table:
         self.gamestate = game
 
     def display_status(self):
-        print(self.gamestate)
+        self.gamestate.notifier.info(str(self.gamestate))
 
     def process_hero_command(self, hero, args):
         '''
         Process a command specific to a hero.
         '''
 
-        if args[0] == 'play':
-            # Forces card into a lower case string to prevent capitalization issues with input
-            card_name = args[1].lower()
-            card = hero_factory.get_card(card_name)
-            self.gamestate.play_card(hero, card)
-        elif args[0] == 'discard':
-            hero.discard(args[1])
-        elif args[0] == 'draw':
-            card_drawn = hero.draw_card()
-            print(f'{hero.name} drew a %s.' % card_drawn)
-            print(f'{hero.name}\'s deck has {len(hero.deck)} cards left.')
+        try:
+            if args[0] == 'play':
+                # Forces card into a lower case string to prevent capitalization issues with input
+                card_name = args[1].lower()
+                card = hero_factory.get_card(card_name)
+                self.gamestate.play_card(hero, card)
+            elif args[0] == 'discard':
+
+                hero.discard(args[1])
+            elif args[0] == 'draw':
+                card_drawn = hero.draw_card()
+
+                self.gamestate.notifier.info(
+                    f'{hero.name} drew a %s.' % card_drawn)
+                self.gamestate.notifier.info(
+                    f'{hero.name}\'s deck has {len(hero.deck)} cards left.')
+        except Complaint as c:
+            self.gamestate.notifier.error(str(c))
+            return
 
     def process_command(self, command):
         '''
@@ -53,17 +62,17 @@ class Table:
         elif args[0] == '':
             # Repeat the last command
             if not self.last_command:
-                print('No previous command.')
+                self.gamestate.notifier.error('No previous command.')
             else:
-                print(f'Redo "{command}"')
+                self.gamestate.notifier.log(f'Redo "{command}"')
                 self.process_command(self.last_command)
         elif args[0] == '<3':
             # Love on u
-            print('3<')
+            self.gamestate.notifier.send('3<')
         else:
             # Catch any command that we don't know
             # and let the user know about it
-            print('Unrecognized command')
+            self.gamestate.notifier.send('Unrecognized command')
 
         # save the last command we've done
         if command != '':
@@ -77,5 +86,5 @@ class Table:
 
         # break out when all enemies isded
         if self.gamestate.is_defeated():
-            print('You won!')
+            self.gamestate.notifier.info('You won!')
             self.game_over = True
