@@ -1,6 +1,8 @@
 from .heroes.hero import Hero
+from .heroes.complaint import Complaint
 from .test_utils import mock_hero
 from .symbol import Symbol
+import pytest
 
 
 def test_hero_created_empty():
@@ -13,7 +15,8 @@ def test_draw_a_lot():
     for _ in range(h.deck_size()):
         assert h.draw_card() is not None
 
-    assert h.draw_card() is None
+    with pytest.raises(Complaint):
+        assert h.draw_card() is None
 
 
 def test_discard():
@@ -28,4 +31,5 @@ def test_discard():
 def test_discard_when_hand_empty():
     h = mock_hero()
 
-    assert h.discard(Symbol.sword) is None
+    with pytest.raises(Complaint):
+        assert h.discard(Symbol.sword) is None

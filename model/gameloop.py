@@ -5,6 +5,7 @@ from .heroes import factory as hero_factory
 from .table import Table
 from .gamestate import GameState
 from .user_input import get_command
+from .console_notifier import ConsoleNotifier
 
 
 class GameLoop():
@@ -40,20 +41,6 @@ class GameLoop():
 
 
 if __name__ == '__main__':
-    from datetime import datetime
-
-    class ConsoleNotifier():
-        def info(self, msg):
-            print(f'[inf] {self.now()} {msg}')
-
-        def error(self, msg):
-            print(f'[err] {self.now()} {msg}')
-
-        def log(self, msg):
-            print(f'[log] {self.now()} {msg}')
-
-        def now(self):
-            return datetime.now().strftime("%H:%M:%S")
     console_notifier = ConsoleNotifier()
 
     gp = GameLoop(console_notifier)

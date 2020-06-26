@@ -7,6 +7,7 @@ from .symbol import Symbol
 from .heroes.singlesymbol import SingleSymbol
 from .doorcards.boss import Boss
 from .table import Table
+from .console_notifier import ConsoleNotifier
 import pytest
 
 
@@ -19,7 +20,8 @@ def mock_scenario():
     door_deck = DoorDeck([mock_enemy([Symbol.arrow]), Event('ooo'), target])
     assert target == door_deck.current_enemy
     boss = Boss([Symbol.jump], 10)
-    state = GameState(heroes, door_deck, door_deck.current_enemy, boss)
+    state = GameState(ConsoleNotifier(), heroes, door_deck,
+                      door_deck.current_enemy, boss)
     return benji, Table(state)
 
 

@@ -4,6 +4,7 @@ from .doorcards.event import Event
 from .test_utils import gen_mock_heroes
 from .doorcards.scripts import all_heroes_discard_one
 from .gamestate import GameState
+from .console_notifier import ConsoleNotifier
 
 
 def test_all_heroes_discard_one():
@@ -11,7 +12,7 @@ def test_all_heroes_discard_one():
     for h in heroes.values():
         h.draw_card()
     deck_sizes = [len(hero.hand) for hero in heroes.values()]
-    game = GameState(heroes=heroes)
+    game = GameState(ConsoleNotifier(), heroes=heroes)
 
     all_heroes_discard_one(game)
 
@@ -27,7 +28,7 @@ def test_event_all_heroes_discard_one():
 
     ouch = Event('ouchie', all_heroes_discard_one.__name__)
 
-    c = GameState(heroes=heroes)
+    c = GameState(ConsoleNotifier(), heroes=heroes)
 
     ouch.do_script(c)
 

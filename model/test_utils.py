@@ -3,6 +3,7 @@ from .heroes.factory import hero
 from .gamestate import GameState
 from .doorcards.enemy import Enemy
 from .doorcards.doordeck import DoorDeck
+from .console_notifier import ConsoleNotifier
 
 
 def mock_hero():
@@ -20,4 +21,4 @@ def mock_enemy(symbols):
 
 def mock_enemy_ctx(enemy):
     dd = DoorDeck([enemy])
-    return GameState(door_deck=dd, target=dd.current_enemy)
+    return GameState(notifier=ConsoleNotifier, door_deck=dd, target=dd.current_enemy)
