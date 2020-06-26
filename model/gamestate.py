@@ -5,7 +5,7 @@ from .doorcards.types import DoorCardTypes
 
 class GameState:
     '''
-    A set of boss mat, door deck, target, and a set of heroes
+    A set of boss mat, door deck, target, and a set of heroes.
     '''
 
     def __init__(self, notifier, heroes=None, door_deck=None, target=None, boss=None):
