@@ -12,10 +12,18 @@
       "console": "integratedTerminal"
     },
     {
-      "name": "Play game",
+      "name": "Server",
       "type": "python",
       "request": "launch",
-      "program": "main.py",
+      "program": "server.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Core",
+      "type": "python",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "module": "model.gameloop",
       "console": "integratedTerminal"
     }
   ]
