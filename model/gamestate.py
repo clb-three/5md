@@ -1,4 +1,6 @@
 
+import json
+
 
 class GameState:
     '''
@@ -7,10 +9,6 @@ class GameState:
 
     def __init__(self, notifier, heroes=None, door_deck=None, target=None, boss=None):
         self.notifier = notifier
-
-        self.heroes = heroes
-        self.door_deck = door_deck
-        self.boss = boss
 
         self.heroes = heroes
         self.door_deck = door_deck
@@ -34,18 +32,18 @@ class GameState:
 
         # If card is not valid, don't let it be played
         if not card:
-            self.notifier.error("That's not a valid card name!\n")
+            self.notifier.error('invalidcard')
             return
 
-        # Check if the card is available to the hero
+        # Check if the card is in the hero's hand
         if not hero.has_card(card):
-            self.notifier.error(f"{hero.name} doesn't have that card!\n")
+            self.notifier.error('notinhand')
             return
 
         # Play the card
         hero.discard(card)
         card.play(self)
-        self.notifier.info(f"{hero.name} played {card}!\n")
+        self.notifier.info(f'playcard "{hero.name}" "{card}"')
 
     def bring_out_yer_dead(self):
         '''
@@ -54,14 +52,14 @@ class GameState:
 
         if self.target.is_dead():
             if self.target == self.boss:
-                msg = 'Killed the boss!'
-
-            if self.door_deck.try_draw():
-                msg = 'Defeated a fearsome enemy. Grr!'
-                self.target = self.door_deck.current_enemy
+                msg = 'killboss!'
             else:
-                msg = "Now we're fighting the boss. Ahh!"
-                self.target = self.boss
+                if self.door_deck.try_draw():
+                    msg = 'killenemy'
+                    self.target = self.door_deck.current_enemy
+                else:
+                    msg = 'killdeck'
+                    self.target = self.boss
 
             self.notifier.info(msg)
 
@@ -81,7 +79,11 @@ class GameState:
         return self.target == self.boss and self.boss.is_dead()
 
     def __str__(self):
-        return f'''Heroes: {', '.join([str(h) for h in self.heroes.values()])}
-Target: {{{self.target}}}
-Boss: {self.boss}
-Cards left: {len(self.door_deck.deck)}'''
+        heroes = {n: o.__dict__() for n, o in self.heroes.items()}
+        selfobj = {
+            'heroes': heroes,
+            'door_deck': self.door_deck.__dict__(),
+            'boss': self.boss.__dict__(),
+            'target': self.target.__dict__(),
+        }
+        return json.dumps(selfobj)

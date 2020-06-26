@@ -1,3 +1,5 @@
+import json
+
 
 class BaseDoorCard:
     def __init__(self, symbols, card_type):
@@ -19,9 +21,16 @@ class BaseDoorCard:
 
         del self.symbols[:]
 
+    def __dict__(self):
+        return {
+            'type': str(self.type),
+            'hp': [str(s) for s in self.symbols]
+        }
+
     def __str__(self):
         '''
         Return a list of the enemy's symbols
         '''
 
-        return f'type: {str(self.type)} HP: {str(self.symbols)}'
+        selfobj = self.__dict__()
+        return json.dumps(selfobj)

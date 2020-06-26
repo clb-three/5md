@@ -14,7 +14,7 @@ class Table:
         self.gamestate = game
 
     def display_status(self):
-        self.gamestate.notifier.info(str(self.gamestate))
+        self.gamestate.notifier.info(f'gamestate {str(self.gamestate)}')
 
     def process_hero_command(self, hero, args):
         '''
@@ -34,9 +34,9 @@ class Table:
                 card_drawn = hero.draw_card()
 
                 self.gamestate.notifier.info(
-                    f'{hero.name} drew a %s.' % card_drawn)
+                    f'drawcard {hero.name} {card_drawn}')
                 self.gamestate.notifier.info(
-                    f'{hero.name}\'s deck has {len(hero.deck)} cards left.')
+                    f'cardsleft {hero.name} {len(hero.deck)}')
         except Complaint as c:
             self.gamestate.notifier.error(str(c))
             return
@@ -86,5 +86,5 @@ class Table:
 
         # break out when all enemies isded
         if self.gamestate.is_defeated():
-            self.gamestate.notifier.info('You won!')
+            self.gamestate.notifier.info('won')
             self.game_over = True

@@ -13,3 +13,9 @@ class Boss(BaseDoorCard):
         # and be referenced just by the boss's name.
         super().__init__(symbols, DoorCardTypes.boss)
         self.num_door_cards = num_door_cards
+
+    def __dict__(self):
+        selfobj = super().__dict__()
+        selfobj['num_door_cards'] = self.num_door_cards
+
+        return selfobj

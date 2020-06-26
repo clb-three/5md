@@ -36,5 +36,8 @@ class Event(BaseDoorCard):
 
         return True
 
-    def __str__(self):
-        return f'Event: {self.name}'
+    def __dict__(self):
+        selfobj = super().__dict__()
+        selfobj['name'] = self.name
+
+        return selfobj

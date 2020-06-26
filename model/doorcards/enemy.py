@@ -27,9 +27,12 @@ class Enemy(BaseDoorCard):
 
         self.name = name
 
-    def __str__(self):
+    def __dict__(self):
         '''
         Return a list of the enemy's symbols
         '''
 
-        return f'Name: "{self.name}" {super().__str__()}'
+        selfobj = super().__dict__()
+        selfobj['name'] = self.name
+
+        return selfobj

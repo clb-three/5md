@@ -35,7 +35,7 @@ def deal_deck(num_door_cards, num_players):
     Deal out and return a DoorDeck with the given num_cards.
     '''
 
-    def draw_random(deck): return copy.deepcopy(random.choice(deck))
+    def draw_random(deck): return random.choice(deck)
     door_cards, challenge_cards = draw_deck()
 
     cards = []

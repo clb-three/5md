@@ -39,7 +39,7 @@ class SocketIoNotifier():
         self.echo_func(f'[err] {self.now()} {msg}')
 
     def log(self, msg):
-        self.echo_func(f'[log] {self.now()} {msg}')
+        globallog.info(f'[log] {self.now()} {msg}')
 
     def now(self):
         from datetime import datetime
