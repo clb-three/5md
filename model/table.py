@@ -13,9 +13,6 @@ class Table:
         self.last_command = None
         self.gamestate = game
 
-    def display_status(self):
-        self.gamestate.notifier.info(str(self.gamestate))
-
     def process_hero_command(self, hero, args):
         '''
         Process a command specific to a hero.
@@ -34,9 +31,9 @@ class Table:
                 card_drawn = hero.draw_card()
 
                 self.gamestate.notifier.info(
-                    f'{hero.name} drew a %s.' % card_drawn)
+                    f'drawcard {hero.name} {card_drawn}')
                 self.gamestate.notifier.info(
-                    f'{hero.name}\'s deck has {len(hero.deck)} cards left.')
+                    f'cardsleft {hero.name} {len(hero.deck)}')
         except Complaint as c:
             self.gamestate.notifier.error(str(c))
             return
@@ -62,17 +59,20 @@ class Table:
         elif args[0] == '':
             # Repeat the last command
             if not self.last_command:
-                self.gamestate.notifier.error('No previous command.')
+                self.gamestate.notifier.log('Error: no previous command.')
             else:
-                self.gamestate.notifier.log(f'Redo "{command}"')
+                self.gamestate.notifier.log(f'Redoing "{self.last_command}"')
                 self.process_command(self.last_command)
+                return
         elif args[0] == '<3':
             # Love on u
             self.gamestate.notifier.send('3<')
+        elif args[0] == 'getstate':
+            self.gamestate.notifier.info(self.gamestate)
         else:
             # Catch any command that we don't know
             # and let the user know about it
-            self.gamestate.notifier.send('Unrecognized command')
+            self.gamestate.notifier.error('invalidcommand')
 
         # save the last command we've done
         if command != '':
@@ -86,5 +86,5 @@ class Table:
 
         # break out when all enemies isded
         if self.gamestate.is_defeated():
-            self.gamestate.notifier.info('You won!')
+            self.gamestate.notifier.info('won')
             self.game_over = True

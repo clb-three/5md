@@ -1,6 +1,7 @@
 from .private.base import BaseDoorCard
 from .private.types import DoorCardTypes
 from .scripts import scripts
+from copy import deepcopy
 
 # TODO: Make functionality for Event cards. It'll probably be a class that goes in the door deck.
 # When you flip over an Event, your team must immediately do whatever the card says.
@@ -36,5 +37,11 @@ class Event(BaseDoorCard):
 
         return True
 
-    def __str__(self):
-        return f'Event: {self.name}'
+    def __dict__(self):
+        selfobj = super().__dict__()
+        selfobj['name'] = self.name
+
+        return selfobj
+
+    def deepcopy(self):
+        return Event(deepcopy(self.name), self.do_script.__name__)

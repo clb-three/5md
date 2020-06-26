@@ -1,4 +1,5 @@
 import random
+import json
 from .complaint import Complaint
 
 
@@ -37,8 +38,12 @@ class Hero:
 
         return False
 
-    def __repr__(self):
-        return self.__str__()
+    def __dict__(self):
+        return {
+            'name': self.name,
+            'class': self.classname,
+            'hand': sorted([str(c) for c in self.hand])
+        }
 
     def __str__(self):
         '''
@@ -46,7 +51,7 @@ class Hero:
         '''
         # TODO: Make hand just list out how many of each card we have.
         # sword: 2: shield: 3, etc.
-        return f'{self.name}({self.classname}): {sorted(self.hand)}'
+        return json.dumps(self.asdict)
 
     def draw_card(self):
         '''

@@ -12,3 +12,6 @@ class MultiSymbol(BaseHeroCard):
         Play this multisymbol against the target
         '''
         pass  # TODO: Implement MultiSymbol
+
+    def __str__(self):
+        return [str(s) for s in self.symbols]

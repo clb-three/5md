@@ -31,3 +31,10 @@ class DoorDeck:
             return True
         else:
             return False
+
+    def __dict__(self):
+        selfobj = {
+            'deck': [c.__dict__() for c in self.deck],
+            'top': self.current_enemy.__dict__()
+        }
+        return selfobj

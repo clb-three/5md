@@ -34,7 +34,6 @@ class GameLoop():
 
     def loop(self, command_getter):
         while not self.table.game_over:
-            self.table.display_status()
             command = command_getter()
             self.table.process_command(command)
 

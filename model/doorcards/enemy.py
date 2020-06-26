@@ -1,5 +1,6 @@
 from .private.base import BaseDoorCard
 from .private.types import DoorCardTypes
+from copy import deepcopy
 # enemy.py: an Enemy is a door card that
 # you have to kill with a few different attack cards.
 # Certainn enemy types can be insta-killed by certain cards.
@@ -27,9 +28,15 @@ class Enemy(BaseDoorCard):
 
         self.name = name
 
-    def __str__(self):
+    def __dict__(self):
         '''
         Return a list of the enemy's symbols
         '''
 
-        return f'Name: "{self.name}" {super().__str__()}'
+        selfobj = super().__dict__()
+        selfobj['name'] = self.name
+
+        return selfobj
+
+    def deepcopy(self):
+        return Enemy(deepcopy(self.name), deepcopy(self.symbols), deepcopy(self.type))
