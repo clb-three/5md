@@ -79,7 +79,7 @@ class Table:
             self.last_command = command
 
         # Trigger "on draw" effect
-        self.gamestate.do_target_script()
+        # self.gamestate.do_target_script()
 
         # Switch out target when they're dead
         self.gamestate.bring_out_yer_dead()

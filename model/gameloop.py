@@ -30,6 +30,7 @@ class GameLoop():
 
         game = GameState(notifier, self.heroes, self.doordeck,
                          self.doordeck.current_enemy, self.boss)
+        game.bring_out_yer_dead()
         self.table = Table(game)
 
     def loop(self, command_getter):

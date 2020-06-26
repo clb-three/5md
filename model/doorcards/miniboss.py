@@ -1,6 +1,6 @@
 
 from .enemy import Enemy
-from .private.types import DoorCardTypes
+from .types import DoorCardTypes
 from copy import deepcopy
 
 

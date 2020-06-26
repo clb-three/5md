@@ -1,5 +1,5 @@
 from .private.base import BaseDoorCard
-from .private.types import DoorCardTypes
+from .types import DoorCardTypes
 from copy import deepcopy
 
 

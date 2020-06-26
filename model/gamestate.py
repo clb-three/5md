@@ -1,5 +1,6 @@
 
 import json
+from .doorcards.types import DoorCardTypes
 
 
 class GameState:
@@ -42,8 +43,23 @@ class GameState:
 
         # Play the card
         hero.discard(card)
-        card.play(self)
-        self.notifier.info(f'playcard "{hero.name}" "{card}"')
+        effect = card.play(self)
+        self.notifier.info(f'playcard "{hero.name}" "{card}" "{effect}"')
+
+    def draw(self):
+        if self.door_deck.try_draw():
+            self.target = self.door_deck.current_enemy
+
+            if self.target.type == DoorCardTypes.event:
+                self.notifier.info(f'nowevent {self.target}')
+                self.do_target_script()
+                return self.draw()
+            else:
+                msg = f'nowenemy "{self.target}"'
+        else:
+            msg = f'nowboss "{self.boss}'
+            self.target = self.boss
+        return msg
 
     def bring_out_yer_dead(self):
         '''
@@ -54,13 +70,7 @@ class GameState:
             if self.target == self.boss:
                 msg = 'killboss'
             else:
-                if self.door_deck.try_draw():
-                    new_enemy = self.door_deck.current_enemy
-                    self.target = new_enemy
-                    msg = f'nowenemy "{new_enemy}"'
-                else:
-                    msg = f'nowboss "{self.boss}'
-                    self.target = self.boss
+                msg = self.draw()
 
             self.notifier.info(msg)
 

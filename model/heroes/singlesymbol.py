@@ -11,6 +11,7 @@ class SingleSymbol(BaseHeroCard):
         '''
         if self.symbol in ctx.target.symbols:
             ctx.target.symbols.remove(self.symbol)
+            return f'target removesymbol "{self.symbol}"'
         else:
             raise Exception(f'{self.symbol} not in ctx.target.symbols')
 
