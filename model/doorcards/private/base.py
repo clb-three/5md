@@ -37,7 +37,7 @@ class BaseDoorCard(ABC):
         Return a list of the enemy's symbols
         '''
 
-        return json.dumps(self.__dict__)
+        return json.dumps(dict(self.__dict__))
 
     # TODO: Make this shit work with with copy.deepcopy
     @abstractmethod

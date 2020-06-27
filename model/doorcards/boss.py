@@ -17,7 +17,7 @@ class Boss(BaseDoorCard):
         self.num_door_cards = num_door_cards
 
     def __dict__(self):
-        selfobj = deepcopy(super().__dict__)
+        selfobj = super().__dict__()
         selfobj['num_door_cards'] = self.num_door_cards
 
         return selfobj
