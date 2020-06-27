@@ -1,7 +1,7 @@
 from flask import Flask, request
 from flask_socketio import SocketIO
 
-from gameloop import Looper
+from gameadapter import GameAdapter
 from logs import GLOBAL_LOG
 from socketio_notifier import SocketIoNotifier
 
@@ -35,5 +35,5 @@ def root():
 
 if __name__ == '__main__':
     notifier = SocketIoNotifier(app, socketio)
-    with Looper(notifier, commands):
+    with GameAdapter(notifier, commands):
         socketio.run(app)

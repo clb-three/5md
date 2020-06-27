@@ -5,7 +5,12 @@ from logs import GLOBAL_LOG
 from model.gameloop import GameLoop
 
 
-class Looper:
+class GameAdapter:
+    '''
+    Provide an interface with the game's command queue and
+    provide a notifier.
+    '''
+
     def __init__(self, notifier, commands):
         '''
         Emit the 
