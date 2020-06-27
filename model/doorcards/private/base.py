@@ -1,8 +1,8 @@
 import json
-from copy import deepcopy
+from abc import ABC, abstractmethod
 
 
-class BaseDoorCard:
+class BaseDoorCard(ABC):
     def __init__(self, symbols, card_type):
         self.symbols = symbols
         self.type = card_type
@@ -22,7 +22,11 @@ class BaseDoorCard:
 
         del self.symbols[:]
 
+    @abstractmethod
     def __dict__(self):
+        '''
+        Return a dict representation of this class
+        '''
         return {
             'type': str(self.type),
             'hp': [str(s) for s in self.symbols]
@@ -33,9 +37,9 @@ class BaseDoorCard:
         Return a list of the enemy's symbols
         '''
 
-        selfobj = self.__dict__()
-        return json.dumps(selfobj)
+        return json.dumps(self.__dict__)
 
     # TODO: Make this shit work with with copy.deepcopy
-    # def deepcopy(self):
-    #     return BaseDoorCard(self.symbols, self.type, self.do_script)
+    @abstractmethod
+    def deepcopy(self):
+        '''Return a deep copy of this class.'''

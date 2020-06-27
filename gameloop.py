@@ -1,25 +1,24 @@
-from io import StringIO
 import contextlib
-from logs import globallog
-from model.gameloop import GameLoop
 import time
-import asyncio
+from datetime import datetime
 from threading import Thread
 
+from logs import GLOBAL_LOG
+from model.gameloop import GameLoop
 
 commands = []
-shouldrun = True
+SHOULD_RUN = True
 
 
 def get_command():
-    globallog.info('waiting for command')
-    while shouldrun and not any(commands):
+    GLOBAL_LOG.info('waiting for command')
+    while SHOULD_RUN and not any(commands):
         time.sleep(1 / 100)
 
-    if not shouldrun:
+    if not SHOULD_RUN:
         return 'quit'
 
-    globallog.info('getting command')
+    GLOBAL_LOG.info('getting command')
     return commands.pop()
 
 
@@ -39,10 +38,9 @@ class SocketIoNotifier():
         self.echo_func(f'[err] {self.now()} {msg}')
 
     def log(self, msg):
-        globallog.info(f'[log] {self.now()} {msg}')
+        GLOBAL_LOG.info('[log] %s %s', self.now(), msg)
 
     def now(self):
-        from datetime import datetime
         return datetime.now().strftime("%H:%M:%S")
 
 
@@ -53,8 +51,9 @@ def gib(echo_func):
     The game loop runs in a background thread.
     '''
 
-    loop = asyncio.new_event_loop()
-    shouldrun = True
+    global SHOULD_RUN
+
+    SHOULD_RUN = True
     commands.clear()
     notifier = SocketIoNotifier(echo_func)
     gameloop = GameLoop(notifier)
@@ -64,5 +63,5 @@ def gib(echo_func):
 
     yield gameloop
 
-    shouldrun = False
+    SHOULD_RUN = False
     t.join()

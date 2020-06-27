@@ -8,6 +8,9 @@ from .symbol import Symbol
 
 
 class TestSingleSymbol():
+    def __init__(self):
+        self.enemy = None
+
     def setup_method(self):
         self.enemy = mock.enemy(Symbol.sword, Symbol.arrow)
         assert self.enemy.is_dead() is False
@@ -30,6 +33,9 @@ class TestSingleSymbol():
 
 
 class TestMultiSymbol():
+    def __init__(self):
+        self.enemy = None
+
     def setup_method(self):
         self.enemy = mock.enemy(Symbol.sword, Symbol.arrow)
         assert self.enemy.is_dead() is False

@@ -1,10 +1,9 @@
 
-from .heroes.hero import Hero
-from .doorcards.event import Event
 from . import test_mocks as mock
+from .console_notifier import ConsoleNotifier
+from .doorcards.event import Event
 from .doorcards.scripts import all_heroes_discard_one
 from .gamestate import GameState
-from .console_notifier import ConsoleNotifier
 
 
 def test_all_heroes_discard_one():
@@ -16,7 +15,7 @@ def test_all_heroes_discard_one():
 
     all_heroes_discard_one(game)
 
-    for i, hero in enumerate(heroes.values()):
+    for _, hero in enumerate(heroes.values()):
         assert len(hero.hand) == deck_sizes[1] - 1
 
 
@@ -28,9 +27,9 @@ def test_event_all_heroes_discard_one():
 
     ouch = Event('ouchie', all_heroes_discard_one.__name__)
 
-    c = GameState(ConsoleNotifier(), heroes=heroes)
+    ctx = GameState(ConsoleNotifier(), heroes=heroes)
 
-    ouch.do_script(c)
+    ouch.do_script(ctx)
 
-    for i, hero in enumerate(heroes.values()):
+    for _, hero in enumerate(heroes.values()):
         assert len(hero.hand) == deck_sizes[1] - 1

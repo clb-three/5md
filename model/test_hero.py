@@ -1,10 +1,13 @@
-from .heroes.complaint import Complaint
-from . import test_mocks as mock
-from .symbol import Symbol
 import pytest
+
+from . import test_mocks as mock
+from .heroes.complaint import Complaint
+from .symbol import Symbol
 
 
 class TestHero():
+    def __init__(self):
+        self.hero = None
 
     def setup_method(self):
         self.hero = mock.hero('barbarian')

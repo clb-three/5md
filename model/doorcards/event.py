@@ -1,7 +1,8 @@
-from .private.base import BaseDoorCard
-from .types import DoorCardTypes
-from .scripts import scripts
 from copy import deepcopy
+
+from .private.base import BaseDoorCard
+from .scripts import scripts
+from .types import DoorCardTypes
 
 # TODO: Make functionality for Event cards. It'll probably be a class that goes in the door deck.
 # When you flip over an Event, your team must immediately do whatever the card says.
@@ -20,14 +21,6 @@ class Event(BaseDoorCard):
             if script_name not in scripts:
                 raise Exception(f'Script "{script_name}" not found.')
             self.do_script = scripts[script_name]
-
-    def is_dead(self):
-        '''
-        Always consider this card "dead", since it gets
-        burned up and cycled.
-        '''
-
-        return True
 
     def is_dead(self):
         '''

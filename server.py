@@ -1,7 +1,8 @@
 from flask import Flask, request
 from flask_socketio import SocketIO
-from logs import globallog
+
 from gameloop import commands, gib
+from logs import GLOBAL_LOG
 
 app = Flask(__name__, static_url_path='')
 socketio = SocketIO(app)
@@ -9,24 +10,24 @@ clients = []
 
 
 @socketio.on('hello')
-def handle_message(message):
-    globallog.info('received message: ' + message)
+def handle_hello(message):
+    GLOBAL_LOG.info('received message: %s', message)
     sid = request.sid
     clients.append(sid)
-    globallog.info('said hello to client: ' + message)
+    GLOBAL_LOG.info('said hello to client: %s', message)
     socketio.send(f'echo: {message}')
 
 
 @socketio.on('command')
-def handle_message(cmd):
-    globallog.info(f'queue command: {cmd}')
+def handle_command(cmd):
+    GLOBAL_LOG.info('queue command: %s', cmd)
     commands.append(cmd)
-    socketio.send(f'queued command')
+    socketio.send('queued command')
 
 
 @app.route('/')
 def root():
-    globallog.info('Returning index.html')
+    GLOBAL_LOG.info('Returning index.html')
     return app.send_static_file('index.html')
 
 

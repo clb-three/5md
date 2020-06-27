@@ -1,7 +1,8 @@
-from ..symbol import Symbol
-from .singlesymbol import SingleSymbol
-from .hero import Hero
 import random
+
+from ..symbol import Symbol
+from .hero import Hero
+from .singlesymbol import SingleSymbol
 
 
 def draw_deck(classname):

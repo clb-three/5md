@@ -1,5 +1,6 @@
-import random
 import json
+import random
+
 from .complaint import Complaint
 
 
@@ -51,7 +52,7 @@ class Hero:
         '''
         # TODO: Make hand just list out how many of each card we have.
         # sword: 2: shield: 3, etc.
-        return json.dumps(self.asdict)
+        return json.dumps(self.__dict__)
 
     def draw_card(self):
         '''

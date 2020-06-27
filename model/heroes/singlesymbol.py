@@ -1,5 +1,5 @@
-from .private.base_herocard import BaseHeroCard
 from .complaint import Complaint
+from .private.base_herocard import BaseHeroCard
 
 
 class SingleSymbol(BaseHeroCard):

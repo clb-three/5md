@@ -1,6 +1,7 @@
+from copy import deepcopy
+
 from .private.base import BaseDoorCard
 from .types import DoorCardTypes
-from copy import deepcopy
 
 
 class Boss(BaseDoorCard):
@@ -16,7 +17,7 @@ class Boss(BaseDoorCard):
         self.num_door_cards = num_door_cards
 
     def __dict__(self):
-        selfobj = super().__dict__()
+        selfobj = deepcopy(super().__dict__)
         selfobj['num_door_cards'] = self.num_door_cards
 
         return selfobj

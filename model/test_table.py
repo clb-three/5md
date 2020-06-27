@@ -5,13 +5,17 @@ from .symbol import Symbol
 
 
 class TestTable():
+    def __init__(self):
+        self.hero = None
+        self.table = None
+
     def setup_method(self):
-        self.hero, self.table = mock.table(Symbol.sword)
+        self.hero, self.table = mock.table(mock.enemy(Symbol.sword))
 
     def test_quit(self):
-        assert self.table.game_over == False
+        assert not self.table.game_over
         self.table.process_command('quit')
-        assert self.table.game_over == True
+        assert self.table.game_over
 
     def test_last_command(self):
         self.table.process_command('nuke')
@@ -22,7 +26,7 @@ class TestTable():
         assert self.table.last_command == 'benji play sword'
 
     def test_nuke(self):
-        assert self.table.gamestate.target != None
+        assert self.table.gamestate.target is None
         old_target = self.table.gamestate.target
         self.table.process_command('nuke')
         assert self.table.gamestate.target != old_target

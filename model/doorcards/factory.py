@@ -1,15 +1,14 @@
 
+import json
+import random
+from pathlib import Path
+
+from ..symbol import Symbol
+from .boss import Boss
 from .doordeck import DoorDeck
 from .enemy import Enemy
 from .event import Event
 from .miniboss import Miniboss
-from .boss import Boss
-from ..symbol import Symbol
-import random
-import copy
-import json
-from pathlib import Path
-from copy import deepcopy
 
 
 def draw_deck():

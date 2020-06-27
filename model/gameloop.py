@@ -1,11 +1,10 @@
 # gameloop.py: execute commands based on the input
 
+from .console_notifier import ConsoleNotifier
 from .doorcards import factory as doorcard_factory
+from .gamestate import GameState
 from .heroes import factory as hero_factory
 from .table import Table
-from .gamestate import GameState
-from .user_input import get_command
-from .console_notifier import ConsoleNotifier
 
 
 class GameLoop():
@@ -20,7 +19,7 @@ class GameLoop():
             'austin': hero_factory.hero('austin', 'healer'),
         }
         # Draws the hero's initial hand
-        for j in range(0, 5):
+        for _ in range(0, 5):
             for h in self.heroes.values():
                 h.draw_card()
 
@@ -44,4 +43,4 @@ if __name__ == '__main__':
     console_notifier = ConsoleNotifier()
 
     gp = GameLoop(console_notifier)
-    gp.loop(get_command)
+    gp.loop(lambda: input('Enter a command'))

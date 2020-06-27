@@ -1,5 +1,6 @@
 
 import json
+
 from .doorcards.types import DoorCardTypes
 
 
@@ -15,16 +16,6 @@ class GameState:
         self.door_deck = door_deck
         self.boss = boss
         self.target = target
-
-    def __str__(self):
-        '''
-        Print current target's HP
-        '''
-
-        return f'''
-    {self.heroes.values()}
-    {self.target}
-'''
 
     def play_card(self, hero, card):
         '''

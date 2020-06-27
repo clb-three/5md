@@ -1,7 +1,8 @@
 
+from copy import deepcopy
+
 from .enemy import Enemy
 from .types import DoorCardTypes
-from copy import deepcopy
 
 
 class Miniboss(Enemy):

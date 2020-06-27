@@ -1,5 +1,5 @@
-from .heroes.complaint import Complaint
 from .heroes import factory as hero_factory
+from .heroes.complaint import Complaint
 
 
 class Table:
@@ -34,8 +34,8 @@ class Table:
                     f'drawcard {hero.name} {card_drawn}')
                 self.gamestate.notifier.info(
                     f'cardsleft {hero.name} {len(hero.deck)}')
-        except Complaint as c:
-            self.gamestate.notifier.error(str(c))
+        except Complaint as complaint:
+            self.gamestate.notifier.error(str(complaint))
             return
 
     def process_command(self, command):
