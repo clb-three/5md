@@ -1,12 +1,14 @@
 from flask import Flask, request
 from flask_socketio import SocketIO
 
-from gameloop import commands, gib
+from gameloop import Looper
 from logs import GLOBAL_LOG
+from socketio_notifier import SocketIoNotifier
 
 app = Flask(__name__, static_url_path='')
 socketio = SocketIO(app)
 clients = []
+commands = []
 
 
 @socketio.on('hello')
@@ -31,11 +33,7 @@ def root():
     return app.send_static_file('index.html')
 
 
-def echo_func(message):
-    with app.app_context():
-        socketio.emit('gameevent', message, broadcast=True)
-
-
 if __name__ == '__main__':
-    with gib(echo_func):
+    notifier = SocketIoNotifier(app, socketio)
+    with Looper(notifier, commands):
         socketio.run(app)

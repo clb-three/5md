@@ -1,8 +1,10 @@
 
 from datetime import datetime
 
+from .basenotifier import BaseNotifier
 
-class ConsoleNotifier():
+
+class ConsoleNotifier(BaseNotifier):
     def info(self, msg):
         print(f'[inf] {self.now()} {msg}')
 

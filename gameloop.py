@@ -1,67 +1,42 @@
-import contextlib
 import time
-from datetime import datetime
 from threading import Thread
 
 from logs import GLOBAL_LOG
 from model.gameloop import GameLoop
 
-commands = []
-SHOULD_RUN = True
 
+class Looper:
+    def __init__(self, notifier, commands):
+        '''
+        Emit the 
+        '''
+        self.gameloop = GameLoop(notifier)
 
-def get_command():
-    GLOBAL_LOG.info('waiting for command')
-    while SHOULD_RUN and not any(commands):
-        time.sleep(1 / 100)
+        self.commands = commands
 
-    if not SHOULD_RUN:
-        return 'quit'
+        self.shouldrun = True
+        self.loop_task = None
 
-    GLOBAL_LOG.info('getting command')
-    return commands.pop()
+    def get_command(self):
+        GLOBAL_LOG.info('waiting for command')
+        while self.shouldrun and not any(self.commands):
+            time.sleep(1 / 100)
 
+        if not self.shouldrun:
+            return 'quit'
 
-def run(gameloop, command_getter):
-    gameloop.loop(command_getter)
+        GLOBAL_LOG.info('getting command')
+        return self.commands.pop()
 
+    def run(self):
+        self.gameloop.loop(self.get_command)
 
-class SocketIoNotifier():
+    def __enter__(self):
+        self.shouldrun = True
+        self.commands.clear()
+        self.loop_task = Thread(target=self.run)
+        self.loop_task.start()
 
-    def __init__(self, echo_func):
-        self.echo_func = echo_func
-
-    def info(self, msg):
-        self.echo_func(f'[inf] {self.now()} {msg}')
-
-    def error(self, msg):
-        self.echo_func(f'[err] {self.now()} {msg}')
-
-    def log(self, msg):
-        GLOBAL_LOG.info('[log] %s %s', self.now(), msg)
-
-    def now(self):
-        return datetime.now().strftime("%H:%M:%S")
-
-
-@contextlib.contextmanager
-def gib(echo_func):
-    '''
-    GIB: Game loop running In Background.
-    The game loop runs in a background thread.
-    '''
-
-    global SHOULD_RUN
-
-    SHOULD_RUN = True
-    commands.clear()
-    notifier = SocketIoNotifier(echo_func)
-    gameloop = GameLoop(notifier)
-
-    t = Thread(target=run, args=(gameloop, get_command))
-    t.start()
-
-    yield gameloop
-
-    SHOULD_RUN = False
-    t.join()
+    def __exit__(self, *args):
+        self.shouldrun = False
+        self.loop_task.join()
