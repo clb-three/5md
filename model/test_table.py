@@ -1,3 +1,4 @@
+# pylint: disable=W0201
 import pytest
 
 from . import test_mocks as mock
@@ -5,10 +6,6 @@ from .symbol import Symbol
 
 
 class TestTable():
-    def __init__(self):
-        self.hero = None
-        self.table = None
-
     def setup_method(self):
         self.hero, self.table = mock.table(mock.enemy(Symbol.sword))
 
