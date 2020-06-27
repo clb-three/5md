@@ -7,7 +7,7 @@ class MultiSymbol(BaseHeroCard):
         assert len(symbols) > 0
         self.symbols = symbols
 
-    def play(self, ctx):
+    def play(self, target, ctx=None):
         '''
         Play this multisymbol against the target
         '''

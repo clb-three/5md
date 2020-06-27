@@ -43,7 +43,7 @@ class GameState:
 
         # Play the card
         hero.discard(card)
-        effect = card.play(self)
+        effect = card.play(self.target, self)
         self.notifier.info(f'playcard "{hero.name}" "{card}" "{effect}"')
 
     def draw(self):

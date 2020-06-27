@@ -1,91 +1,59 @@
-from .test_utils import mock_enemy
-from .heroes.hero import Hero
-from .gamestate import GameState
-from .doorcards.doordeck import DoorDeck
-from .doorcards.event import Event
-from .symbol import Symbol
-from .heroes.singlesymbol import SingleSymbol
-from .doorcards.boss import Boss
-from .table import Table
-from .console_notifier import ConsoleNotifier
 import pytest
 
-
-def mock_scenario():
-    benji = Hero('benji', 'ranger', [SingleSymbol(Symbol.sword)])
-    heroes = {
-        'benji': benji
-    }
-    target = mock_enemy([Symbol.sword])
-    door_deck = DoorDeck([mock_enemy([Symbol.arrow]), Event('ooo'), target])
-    assert target == door_deck.current_enemy
-    boss = Boss([Symbol.jump], 10)
-    state = GameState(ConsoleNotifier(), heroes, door_deck,
-                      door_deck.current_enemy, boss)
-    return benji, Table(state)
+from . import test_mocks as mock
+from .symbol import Symbol
 
 
-def test_quit():
-    _, table = mock_scenario()
-    assert table.game_over == False
-    table.process_command('quit')
-    assert table.game_over == True
+class TestTable():
+    def setup_method(self):
+        self.hero, self.table = mock.table(Symbol.sword)
 
+    def test_quit(self):
+        assert self.table.game_over == False
+        self.table.process_command('quit')
+        assert self.table.game_over == True
 
-def test_last_command():
-    _, table = mock_scenario()
-    table.process_command('nuke')
-    assert table.last_command == 'nuke'
-    table.process_command('')
-    assert table.last_command == 'nuke'
-    table.process_command('benji play sword')
-    assert table.last_command == 'benji play sword'
+    def test_last_command(self):
+        self.table.process_command('nuke')
+        assert self.table.last_command == 'nuke'
+        self.table.process_command('')
+        assert self.table.last_command == 'nuke'
+        self.table.process_command('benji play sword')
+        assert self.table.last_command == 'benji play sword'
 
+    def test_nuke(self):
+        assert self.table.gamestate.target != None
+        old_target = self.table.gamestate.target
+        self.table.process_command('nuke')
+        assert self.table.gamestate.target != old_target
 
-def test_nuke():
-    _, table = mock_scenario()
-    assert table.gamestate.target != None
-    old_target = table.gamestate.target
-    table.process_command('nuke')
-    assert table.gamestate.target != old_target
+    def test_draw(self):
+        assert self.hero.hand_size() == 0
+        assert self.hero.deck_size() == 1
+        self.table.process_hero_command(self.hero, ['draw'])
+        assert self.hero.hand_size() == 1
+        assert self.hero.deck_size() == 0
 
+    def test_play(self):
+        assert self.hero.hand_size() == 0
+        self.hero.draw_card()
+        assert self.hero.hand_size() == 1
+        self.table.process_hero_command(self.hero, ['play', 'sword'])
+        assert self.hero.hand_size() == 0
 
-def test_draw():
-    hero, table = mock_scenario()
-    assert hero.hand_size() == 0
-    assert hero.deck_size() == 1
-    table.process_hero_command(hero, ['draw'])
-    assert hero.hand_size() == 1
-    assert hero.deck_size() == 0
+    @pytest.mark.xfail
+    def test_play_fail(self):
+        assert self.hero.hand_size() == 0
+        self.table.process_hero_command(self.hero, ['play', 'sword'])
 
+    def test_discard(self):
+        assert self.hero.hand_size() == 0
+        self.hero.draw_card()
+        assert self.hero.hand_size() == 1
+        self.table.process_hero_command(self.hero, ['discard', 'sword'])
+        assert self.hero.hand_size() == 0
 
-def test_play():
-    hero, table = mock_scenario()
-    assert hero.hand_size() == 0
-    hero.draw_card()
-    assert hero.hand_size() == 1
-    table.process_hero_command(hero, ['play', 'sword'])
-    assert hero.hand_size() == 0
-
-
-@pytest.mark.xfail
-def test_play_fail():
-    hero, table = mock_scenario()
-    assert hero.hand_size() == 0
-    table.process_hero_command(hero, ['play', 'sword'])
-
-
-def test_discard():
-    hero, table = mock_scenario()
-    assert hero.hand_size() == 0
-    hero.draw_card()
-    assert hero.hand_size() == 1
-    table.process_hero_command(hero, ['discard', 'sword'])
-    assert hero.hand_size() == 0
-
-
-@pytest.mark.xfail
-def test_discard_fail():
-    hero, table = mock_scenario()
-    assert hero.hand_size() == 0
-    table.process_hero_command(hero, ['discard', 'sword'])
+    @pytest.mark.xfail
+    def test_discard_fail(self):
+        assert self.hero.hand_size() == 0
+        self.table.process_hero_command(self.hero, ['discard', 'sword'])

@@ -16,10 +16,9 @@ class DoorDeck:
         # Place an initial deck of 5 enemies
         self.deck = cards
 
-        # The enemy face up on the top of the deck
-        self.current_enemy = None
-
-        self.try_draw()
+    @property
+    def current_enemy(self):
+        return self.deck[0]
 
     def try_draw(self):
         '''
@@ -27,10 +26,17 @@ class DoorDeck:
         '''
 
         if len(self.deck) > 0:
-            self.current_enemy = self.deck.pop()
+            self.deck.pop(0)
             return True
         else:
             return False
+
+    def put_on_top(self, card):
+        '''
+        Put the given card on top.
+        '''
+
+        self.deck.insert(0, card)
 
     def __dict__(self):
         selfobj = {

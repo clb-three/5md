@@ -1,19 +1,20 @@
 from .private.base_herocard import BaseHeroCard
+from .complaint import Complaint
 
 
 class SingleSymbol(BaseHeroCard):
     def __init__(self, symbol):
         self.symbol = symbol
 
-    def play(self, ctx):
+    def play(self, target, ctx=None):
         '''
         Play this symbol against the target
         '''
-        if self.symbol in ctx.target.symbols:
-            ctx.target.symbols.remove(self.symbol)
+        if self.symbol in target.symbols:
+            target.symbols.remove(self.symbol)
             return f'target removesymbol "{self.symbol}"'
         else:
-            raise Exception(f'{self.symbol} not in ctx.target.symbols')
+            raise Complaint(f'target nosymbol {self.symbol}')
 
     def __repr__(self):
         return self.__str__()

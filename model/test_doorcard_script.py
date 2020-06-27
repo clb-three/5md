@@ -1,14 +1,14 @@
 
 from .heroes.hero import Hero
 from .doorcards.event import Event
-from .test_utils import gen_mock_heroes
+from . import test_mocks as mock
 from .doorcards.scripts import all_heroes_discard_one
 from .gamestate import GameState
 from .console_notifier import ConsoleNotifier
 
 
 def test_all_heroes_discard_one():
-    heroes = gen_mock_heroes(10)
+    heroes = mock.gen_mock_heroes(10)
     for h in heroes.values():
         h.draw_card()
     deck_sizes = [len(hero.hand) for hero in heroes.values()]
@@ -21,7 +21,7 @@ def test_all_heroes_discard_one():
 
 
 def test_event_all_heroes_discard_one():
-    heroes = gen_mock_heroes(10)
+    heroes = mock.gen_mock_heroes(10)
     for h in heroes.values():
         h.draw_card()
     deck_sizes = [len(hero.hand) for hero in heroes.values()]
