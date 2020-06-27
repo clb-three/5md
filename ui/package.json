@@ -1,0 +1,30 @@
+{
+  "name": "5md",
+  "version": "1.0.0",
+  "description": "Five Minute Dungeon UI",
+  "main": "index.js",
+  "dependencies": {
+    "package.json": "^2.0.1",
+    "pixi.js": "^5.3.0"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^6.0.2",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12"
+  },
+  "scripts": {
+    "build": "node_modules/.bin/webpack",
+    "watch": "node_modules/.bin/webpack --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clb-three/5md.git"
+  },
+  "author": "Ben Steenhoek",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/clb-three/5md/issues"
+  },
+  "homepage": "https://github.com/clb-three/5md#readme"
+}

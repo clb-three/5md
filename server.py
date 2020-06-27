@@ -5,7 +5,7 @@ from gameadapter import GameAdapter
 from logs import GLOBAL_LOG
 from socketio_notifier import SocketIoNotifier
 
-app = Flask(__name__, static_url_path='')
+app = Flask(__name__, static_url_path='', static_folder='ui/dist')
 socketio = SocketIO(app)
 clients = []
 commands = []
