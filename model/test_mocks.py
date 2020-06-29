@@ -41,7 +41,7 @@ def door_deck(deck_contents):
 
 def gamestate(deck=None, boss=None, heroes=None):
     '''Create a GameState with ConsoleNotifier and the given DoorDeck.'''
-    target = deck.current_enemy if None is None else deck
+    target = deck.current_enemy if deck is None else deck.current_enemy
     return GameState(notifier=ConsoleNotifier, door_deck=deck, target=target, boss=boss, heroes=heroes)
 
 
