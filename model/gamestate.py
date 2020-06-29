@@ -37,6 +37,7 @@ class GameState:
         effect = card.play(self.target, self)
         self.notifier.info(f'playcard "{hero.name}" "{card}" "{effect}"')
 
+        self.update_target()
     def draw(self):
         if self.door_deck.try_draw():
             self.target = self.door_deck.current_enemy
@@ -52,7 +53,7 @@ class GameState:
             self.target = self.boss
         return msg
 
-    def bring_out_yer_dead(self):
+    def update_target(self):
         '''
         Switch to next enemy or boss when all enemies are dead
         '''

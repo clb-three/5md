@@ -56,6 +56,7 @@ class Table:
         elif args[0] == 'nuke':
             # Kill the current enemy
             self.gamestate.target.kill()
+            self.gamestate.update_target()
         elif args[0] == '':
             # Repeat the last command
             if not self.last_command:
@@ -77,12 +78,6 @@ class Table:
         # save the last command we've done
         if command != '':
             self.last_command = command
-
-        # Trigger "on draw" effect
-        # self.gamestate.do_target_script()
-
-        # Switch out target when they're dead
-        self.gamestate.bring_out_yer_dead()
 
         # break out when all enemies isded
         if self.gamestate.is_defeated():
