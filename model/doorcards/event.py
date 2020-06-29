@@ -1,7 +1,6 @@
 from copy import deepcopy
 
 from .private.base import BaseDoorCard
-from .scripts import scripts
 from .types import DoorCardTypes
 
 # TODO: Make functionality for Event cards. It'll probably be a class that goes in the door deck.
@@ -14,13 +13,10 @@ class Event(BaseDoorCard):
     Event will do something bad to the players!
     '''
 
-    def __init__(self, name, script_name=None):
-        self.name = name
+    def __init__(self, name, script):
         super().__init__([], DoorCardTypes.event)
-        if script_name is not None:
-            if script_name not in scripts:
-                raise Exception(f'Script "{script_name}" not found.')
-            self.do_script = scripts[script_name]
+        self.name = name
+        self.do_script = script
 
     def is_dead(self):
         '''
@@ -37,4 +33,4 @@ class Event(BaseDoorCard):
         return selfobj
 
     def deepcopy(self):
-        return Event(deepcopy(self.name), self.do_script.__name__)
+        return Event(deepcopy(self.name), self.do_script)

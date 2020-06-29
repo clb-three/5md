@@ -25,7 +25,7 @@ def test_event_all_heroes_discard_one():
         h.draw_card()
     deck_sizes = [len(hero.hand) for hero in heroes.values()]
 
-    ouch = Event('ouchie', all_heroes_discard_one.__name__)
+    ouch = Event('ouchie', all_heroes_discard_one)
 
     ctx = GameState(ConsoleNotifier(), heroes=heroes)
 

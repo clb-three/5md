@@ -9,10 +9,18 @@ from .doordeck import DoorDeck
 from .enemy import Enemy
 from .event import Event
 from .miniboss import Miniboss
+from .scripts import scripts
 
 
 def draw_deck():
-    def init_symbols(symbols): return [Symbol.convert(s) for s in symbols]
+    def init_symbols(symbols):
+        return [Symbol.convert(s) for s in symbols]
+
+    def get_script(name):
+        if name is not None:
+            if name not in scripts:
+                raise Exception(f'Script "{name}" not found.')
+            return scripts[name]
 
     resources_dir = Path(__file__).parent / 'resources'
 
@@ -20,11 +28,12 @@ def draw_deck():
         door_cards = [
             Enemy(c['name'], init_symbols(c['symbols']), c['type']) for c in json.load(file)]
 
-    with open(resources_dir / 'minibosses.json', 'r') as minibosses, open(resources_dir / 'events.json', 'r') as events:
+    with open(resources_dir / 'minibosses.json', 'r') as minibosses, \
+            open(resources_dir / 'events.json', 'r') as events:
         challenge_cards = \
             [Miniboss(c['name'], init_symbols(c['symbols']))
                 for c in json.load(minibosses)] + \
-            [Event(c['name'], c['script_name'])
+            [Event(c['name'], get_script(c['script_name']))
                 for c in json.load(events)]
 
     return door_cards, challenge_cards
