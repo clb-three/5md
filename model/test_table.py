@@ -23,7 +23,7 @@ class TestTable():
         assert self.table.last_command == 'benji play sword'
 
     def test_nuke(self):
-        assert self.table.gamestate.target is None
+        assert self.table.gamestate.target is not None
         old_target = self.table.gamestate.target
         self.table.process_command('nuke')
         assert self.table.gamestate.target != old_target
