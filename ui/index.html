@@ -12,37 +12,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="main.js"></script>
-    <script type="text/javascript" charset="utf-8">
-      var socket = io.connect();
-      socket.on("connect", function () {
-        console.log("connected");
-        socket.emit("hello", "I'm connected!");
-      });
-      socket.on("message", function (msg) {
-        console.log("got a message:", msg);
-      });
-      socket.on("hello", function (msg) {
-        console.log("hello!", msg);
-      });
-      socket.on("gameevent", function (event) {
-        console.log("got game event:", event);
-      });
-
-      function handleErrors(err) {
-        console.error("do something about this!", err);
-      }
-
-      socket.on("connect_error", handleErrors);
-      socket.on("connect_failed", handleErrors);
-      socket.on("disconnect", handleErrors);
-
-      const input = document.getElementById("command");
-      const submit = document.getElementById("submit-command");
-      submit.addEventListener("click", function () {
-        socket.emit("command", input.value);
-        input.value = "";
-      });
-    </script>
     <!-- <script>
       const input = document.getElementById("command");
       const submit = document.getElementById("submit-command");
