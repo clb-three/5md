@@ -2,11 +2,13 @@
 import json
 from threading import Lock
 
+from model.dictable import Dictable
+
 from .doorcards.types import DoorCardTypes
 from .event_timeout import EventTimeout
 
 
-class GameState:
+class GameState(Dictable):
     '''
     A set of boss mat, door deck, target, and a set of heroes.
     '''
@@ -86,13 +88,3 @@ class GameState:
 
     def is_defeated(self):
         return self.target == self.boss and self.boss.is_dead()
-
-    def __str__(self):
-        heroes = {n: o.__dict__() for n, o in self.heroes.items()}
-        selfobj = {
-            'heroes': heroes,
-            'door_deck': self.door_deck.__dict__(),
-            'boss': self.boss.__dict__(),
-            'target': self.target.__dict__(),
-        }
-        return json.dumps(selfobj)

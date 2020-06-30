@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from .dictable import Dictable
+from model.dictable import Dictable
 
 
 class BaseDoorCard(ABC, Dictable):

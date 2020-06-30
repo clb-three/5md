@@ -17,12 +17,6 @@ class SingleSymbol(BaseHeroCard):
         else:
             raise Complaint(f'target nosymbol {self.symbol}')
 
-    def __repr__(self):
-        return self.__str__()
-
-    def __str__(self):
-        return self.symbol.__str__()
-
     def __lt__(self, other):
         if isinstance(other, SingleSymbol):
             return self.symbol.name < other.symbol.name

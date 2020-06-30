@@ -1,10 +1,12 @@
 import json
 import random
 
+from model.dictable import Dictable
+
 from .complaint import Complaint
 
 
-class Hero:
+class Hero(Dictable):
     '''
     A hero is a player character, eventually will need to have different heros with set decks.
     The hero is initialized with a deck that is chosen randomly from a set of 5 basic actions
@@ -29,22 +31,15 @@ class Hero:
         # FIXME: Not necessary maybe??? You just like shuffling or
         random.shuffle(self.deck)
 
-    def has_card(self, card):
+    def has_card(self, card_in_bush):
         '''
         Return whether card matches one of my cards.
         '''
-        for c in self.hand:
-            if card == c:
+        for card_in_hand in self.hand:
+            if card_in_bush == card_in_hand:
                 return True
 
         return False
-
-    def __dict__(self):
-        return {
-            'name': self.name,
-            'class': self.classname,
-            'hand': sorted([str(c) for c in self.hand])
-        }
 
     def __str__(self):
         '''
@@ -52,7 +47,7 @@ class Hero:
         '''
         # TODO: Make hand just list out how many of each card we have.
         # sword: 2: shield: 3, etc.
-        return json.dumps(self.__dict__)
+        return json.dumps(dict(self))
 
     def draw_card(self):
         '''
