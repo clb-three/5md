@@ -25,8 +25,9 @@ class Table:
                 card = hero_factory.get_card(card_name)
                 self.gamestate.play_card(hero, card)
             elif args[0] == 'discard':
-
-                hero.discard(args[1])
+                card_name = args[1].lower()
+                card = hero_factory.get_card(card_name)
+                hero.discard(card)
             elif args[0] == 'draw':
                 card_drawn = hero.draw_card()
 
