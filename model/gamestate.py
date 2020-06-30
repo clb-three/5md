@@ -1,5 +1,6 @@
 
 import json
+from threading import Lock
 
 from .doorcards.types import DoorCardTypes
 from .event_timeout import EventTimeout
@@ -18,6 +19,7 @@ class GameState:
         self.boss = boss
         self.target = target
         self.event_task = None
+        self.mutex = Lock()
 
     def play_card(self, hero, card):
         '''
@@ -35,26 +37,15 @@ class GameState:
             return
 
         # Play the card
-        hero.discard(card)
-        effect = card.play(self.target, self)
+        try:
+            self.mutex.acquire()
+            hero.discard(card)
+            effect = card.play(self.target, self)
+            self.update_target()
+        finally:
+            self.mutex.release()
+
         self.notifier.info(f'playcard "{hero.name}" "{card}" "{effect}"')
-
-        self.update_target()
-
-    def draw(self):
-        if self.door_deck.try_draw():
-            self.target = self.door_deck.current_enemy
-
-            if self.target.type == DoorCardTypes.event:
-                self.notifier.info(f'nowevent {self.target}')
-                self.start_event(self.target)
-                return self.draw()
-            else:
-                msg = f'nowenemy "{self.target}"'
-        else:
-            msg = f'nowboss "{self.boss}'
-            self.target = self.boss
-        return msg
 
     def update_target(self):
         '''
@@ -65,7 +56,17 @@ class GameState:
             if self.target == self.boss:
                 msg = 'killboss'
             else:
-                msg = self.draw()
+                if self.door_deck.try_draw():
+                    self.target = self.door_deck.current_enemy
+
+                    if self.target.type == DoorCardTypes.event:
+                        self.start_event(self.target)
+                        return f'nowevent {self.target}'
+
+                    msg = f'nowenemy "{self.target}"'
+                else:
+                    self.target = self.boss
+                    msg = f'nowboss "{self.boss}'
 
             self.notifier.info(msg)
 

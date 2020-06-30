@@ -10,6 +10,7 @@ class SingleSymbol(BaseHeroCard):
         '''
         Play this symbol against the target
         '''
+
         if self.symbol in target.symbols:
             target.symbols.remove(self.symbol)
             return f'target removesymbol "{self.symbol}"'

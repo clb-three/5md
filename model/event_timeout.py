@@ -14,8 +14,12 @@ class EventTimeout(Thread):
     def __init__(self, event, ctx):
         def timer():
             time.sleep(EventTimeout.DEFAULT_TIMEOUT_SEC)
-            if ctx.target is event:
-                event.do_script(ctx)
-                ctx.update_target()
+            try:
+                ctx.mutex.acquire()
+                if ctx.target is event:
+                    event.do_script(ctx)
+                    ctx.update_target()
+            finally:
+                ctx.mutex.release()
 
         super().__init__(target=timer)
