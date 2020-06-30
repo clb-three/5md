@@ -3,9 +3,10 @@ import random
 
 def all_heroes_discard_one(ctx):
     '''Make all heroes discard one card'''
-    for hero_name in ctx.heroes:
-        ctx.heroes[hero_name].hand.remove(
-            random.choice(ctx.heroes[hero_name].hand))
+    for _, hero in ctx.heroes.items():
+        if len(hero.hand) > 0:
+            choice = random.choice(hero.hand)
+            hero.discard(choice)
 
 
 script_funcs = [all_heroes_discard_one]
