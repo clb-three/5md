@@ -70,7 +70,7 @@ class Table:
             # Love on u
             self.gamestate.notifier.send('3<')
         elif args[0] == 'getstate':
-            self.gamestate.notifier.info(self.gamestate)
+            self.gamestate.notifier.info(dict(self.gamestate))
         else:
             # Catch any command that we don't know
             # and let the user know about it

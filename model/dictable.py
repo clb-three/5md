@@ -1,10 +1,10 @@
 import json
 
 
-class Dictable:
+class Dictable(str):
 
     def __iter__(self):
-        blacklist = ['script']
+        blacklist = ['script', 'notifier', 'mutex', 'event_task']
 
         # first start by grabbing the Class items
         iters = dict((k, v) for k, v in self.__dict__.items()
@@ -15,7 +15,8 @@ class Dictable:
 
         # now 'yield' through the items
         for key, val in iters.items():
-            yield key, val
+            if key not in blacklist:
+                yield key, val
 
     def __str__(self):
         '''

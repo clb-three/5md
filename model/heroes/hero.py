@@ -41,14 +41,6 @@ class Hero(Dictable):
 
         return False
 
-    def __str__(self):
-        '''
-        Return a list of the hero's cards
-        '''
-        # TODO: Make hand just list out how many of each card we have.
-        # sword: 2: shield: 3, etc.
-        return json.dumps(dict(self))
-
     def draw_card(self):
         '''
         Draw a card into your hand and return it.
