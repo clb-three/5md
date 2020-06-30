@@ -1,3 +1,17 @@
+import io from "socket.io-client";
+
+const socket = io.connect();
+
+// Initialize the socket
+export function initialize() {
+  wire_up_events(socket);
+  wire_up_errors(socket);
+}
+
+export function emit(name, message) {
+  socket.emit(name, message);
+}
+
 function handleErrors(err) {
   console.error("do something about this!", err);
 }
@@ -22,16 +36,4 @@ function wire_up_errors(socket) {
   socket.on("connect_error", handleErrors);
   socket.on("connect_failed", handleErrors);
   socket.on("disconnect", handleErrors);
-}
-
-const socket = io.connect();
-
-// Initialize the socket
-export function initialize() {
-  wire_up_events(socket);
-  wire_up_errors(socket);
-}
-
-export function emit(name, message) {
-  socket.emit(name, message);
 }
