@@ -2,6 +2,7 @@
 import json
 
 from .doorcards.types import DoorCardTypes
+from .event_timeout import EventTimeout
 
 
 class GameState:
@@ -16,6 +17,7 @@ class GameState:
         self.door_deck = door_deck
         self.boss = boss
         self.target = target
+        self.event_task = None
 
     def play_card(self, hero, card):
         '''
@@ -38,13 +40,14 @@ class GameState:
         self.notifier.info(f'playcard "{hero.name}" "{card}" "{effect}"')
 
         self.update_target()
+
     def draw(self):
         if self.door_deck.try_draw():
             self.target = self.door_deck.current_enemy
 
             if self.target.type == DoorCardTypes.event:
                 self.notifier.info(f'nowevent {self.target}')
-                self.do_target_script()
+                self.start_event(self.target)
                 return self.draw()
             else:
                 msg = f'nowenemy "{self.target}"'
@@ -66,17 +69,19 @@ class GameState:
 
             self.notifier.info(msg)
 
-    def do_target_script(self):
+    def start_event(self, event):
         '''
-        Run this card's script on the model.
+        Schedule running the event's script on the model.
         '''
 
-        if not self.target.do_script:
+        if not event.do_script:
             return
 
         # Else run the script
-        self.notifier.log('Running target script')
-        self.target.do_script(self)
+        # self.notifier.log('Running target script')
+
+        self.event_task = EventTimeout(event, self)
+        self.event_task.start()
 
     def is_defeated(self):
         return self.target == self.boss and self.boss.is_dead()
