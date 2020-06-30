@@ -34,7 +34,7 @@ def enemy(*symbols):
 
 def door_deck(deck_contents):
     '''Create a DoorDeck with the given cards.'''
-    if deck_contents is not list:
+    if not isinstance(deck_contents, list):
         deck_contents = [deck_contents]
     return DoorDeck(deck_contents)
 
@@ -42,7 +42,7 @@ def door_deck(deck_contents):
 def gamestate(deck=None, boss=None, heroes=None):
     '''Create a GameState with ConsoleNotifier and the given DoorDeck.'''
     target = deck.current_enemy if deck is None else deck.current_enemy
-    return GameState(notifier=ConsoleNotifier, door_deck=deck, target=target, boss=boss, heroes=heroes)
+    return GameState(notifier=ConsoleNotifier(), door_deck=deck, target=target, boss=boss, heroes=heroes)
 
 
 def table(top_enemy):
