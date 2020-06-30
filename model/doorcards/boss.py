@@ -16,11 +16,5 @@ class Boss(BaseDoorCard):
         super().__init__(symbols, DoorCardTypes.boss)
         self.num_door_cards = num_door_cards
 
-    def __dict__(self):
-        selfobj = super().__dict__()
-        selfobj['num_door_cards'] = self.num_door_cards
-
-        return selfobj
-
     def deepcopy(self):
         return Boss(deepcopy(self.symbols), deepcopy(self.num_door_cards))

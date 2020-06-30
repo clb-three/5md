@@ -26,11 +26,5 @@ class Event(BaseDoorCard):
 
         return True
 
-    def __dict__(self):
-        selfobj = super().__dict__()
-        selfobj['name'] = self.name
-
-        return selfobj
-
     def deepcopy(self):
         return Event(deepcopy(self.name), self.do_script)
