@@ -1,6 +1,7 @@
 import random
 
-from ..symbol import Symbol
+from model.symbol import Symbol
+
 from .hero import Hero
 from .singlesymbol import SingleSymbol
 

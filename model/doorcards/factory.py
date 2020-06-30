@@ -3,7 +3,8 @@ import json
 import random
 from pathlib import Path
 
-from ..symbol import Symbol
+from model.symbol import Symbol
+
 from .boss import Boss
 from .doordeck import DoorDeck
 from .enemy import Enemy
