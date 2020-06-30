@@ -14,7 +14,8 @@ class EventTimeout(Thread):
     def __init__(self, event, ctx):
         def timer():
             time.sleep(EventTimeout.DEFAULT_TIMEOUT_SEC)
-            if ctx.target is not event:
+            if ctx.target is event:
                 event.do_script(ctx)
+                ctx.update_target()
 
         super().__init__(target=timer)

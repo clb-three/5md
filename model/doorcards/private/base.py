@@ -7,7 +7,7 @@ class BaseDoorCard(ABC, Dictable):
     def __init__(self, symbols, card_type):
         self.symbols = symbols
         self.type = card_type
-        self.do_script = None
+        self.script = None
 
     def is_dead(self):
         '''

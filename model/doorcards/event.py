@@ -16,7 +16,16 @@ class Event(BaseDoorCard):
     def __init__(self, name, script):
         super().__init__([], DoorCardTypes.event)
         self.name = name
-        self.do_script = script
+        self.script = script
+        self.done = False
+
+    def kill(self):
+        self.done = True
+
+    def do_script(self, ctx):
+        if not self.done:
+            self.script(ctx)
+            self.kill()
 
     def is_dead(self):
         '''
@@ -24,7 +33,7 @@ class Event(BaseDoorCard):
         burned up and cycled.
         '''
 
-        return True
+        return self.done
 
     def deepcopy(self):
         return Event(deepcopy(self.name), self.do_script)
