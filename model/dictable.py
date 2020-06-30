@@ -1,7 +1,7 @@
 import json
 
 
-class Dictable(str):
+class Dictable():
 
     def __iter__(self):
         blacklist = ['script', 'notifier', 'mutex', 'event_task']
