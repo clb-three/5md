@@ -1,5 +1,8 @@
+import json
+
 from .heroes import factory as hero_factory
 from .heroes.complaint import Complaint
+from .serialization.complex_encoder import ComplexEncoder
 
 
 class Table:
@@ -70,7 +73,9 @@ class Table:
             # Love on u
             self.gamestate.notifier.send('3<')
         elif args[0] == 'getstate':
-            self.gamestate.notifier.info(dict(self.gamestate))
+            stringified = json.dumps(
+                dict(self.gamestate), cls=ComplexEncoder)
+            self.gamestate.notifier.info(stringified)
         else:
             # Catch any command that we don't know
             # and let the user know about it

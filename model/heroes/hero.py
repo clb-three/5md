@@ -1,12 +1,11 @@
-import json
 import random
 
-from model.dictable import Dictable
+from model.serialization.stringable import Stringable
 
 from .complaint import Complaint
 
 
-class Hero(Dictable):
+class Hero(Stringable):
     '''
     A hero is a player character, eventually will need to have different heros with set decks.
     The hero is initialized with a deck that is chosen randomly from a set of 5 basic actions

@@ -1,14 +1,12 @@
 
-import json
 from threading import Lock
-
-from model.dictable import Dictable
 
 from .doorcards.types import DoorCardTypes
 from .event_timeout import EventTimeout
+from .serialization.stringable import Stringable
 
 
-class GameState(Dictable):
+class GameState(Stringable):
     '''
     A set of boss mat, door deck, target, and a set of heroes.
     '''

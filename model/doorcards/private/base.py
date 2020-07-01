@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 
-from model.dictable import Dictable
+from model.serialization.stringable import Stringable
 
 
-class BaseDoorCard(ABC, Dictable):
+class BaseDoorCard(ABC, Stringable):
     def __init__(self, symbols, card_type):
         self.symbols = symbols
         self.type = card_type

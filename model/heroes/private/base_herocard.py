@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 
-from model.dictable import Dictable
+from model.serialization.stringable import Stringable
 
 
-class BaseHeroCard(ABC, Dictable):
+class BaseHeroCard(ABC, Stringable):
     @abstractmethod
     def play(self, target, ctx=None):
         '''Play this card on the given game state, with the given target'''

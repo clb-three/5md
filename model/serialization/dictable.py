@@ -1,8 +1,6 @@
-import json
 
 
-class Dictable():
-
+class Dictable:
     def __iter__(self):
         blacklist = ['script', 'notifier', 'mutex', 'event_task']
 
@@ -17,10 +15,3 @@ class Dictable():
         for key, val in iters.items():
             if key not in blacklist:
                 yield key, val
-
-    def __str__(self):
-        '''
-        Return a list of the enemy's symbols
-        '''
-
-        return json.dumps(dict(self))

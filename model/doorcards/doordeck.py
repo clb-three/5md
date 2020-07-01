@@ -1,7 +1,8 @@
 # A deck of door cards you must defeat
+from model.serialization.stringable import Stringable
 
 
-class DoorDeck:
+class DoorDeck(Stringable):
     '''
     A DoorDeck is a closed system of door cards.
     Reveals the top door card to fight the players until we're out of cards.
@@ -37,10 +38,3 @@ class DoorDeck:
         '''
 
         self.deck.insert(0, card)
-
-    def __dict__(self):
-        selfobj = {
-            'deck': [c.__dict__() for c in self.deck],
-            'top': self.current_enemy.__dict__()
-        }
-        return selfobj
