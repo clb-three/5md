@@ -1,7 +1,12 @@
-let socket;
+import log from "./log";
+import * as socket from "./socket";
 
-export function initialize(sock) {
-  socket = sock;
+var initialized;
+
+export function initialize() {
+  if (initialized !== undefined) return;
+  initialized = true;
+  log.initialized("input");
 
   const input = document.createElement("input");
   input.placeholder = "Enter command here";
@@ -15,3 +20,4 @@ export function initialize(sock) {
   });
   document.body.appendChild(submit);
 }
+initialize();

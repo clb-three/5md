@@ -1,34 +1,48 @@
 import * as PIXI from "pixi.js";
+import log from "./log";
+import * as socket from "./socket";
 
-function load_assets(app) {
-  // load the texture we need
-  app.loader.add("bunny", "images/bunny.jpg").load((loader, resources) => {
-    // This creates a texture from a 'bunny.png' image
-    const bunny = new PIXI.Sprite(resources.bunny.texture);
-
-    // Setup the position of the bunny
-    bunny.x = app.renderer.width / 2;
-    bunny.y = app.renderer.height / 2;
-
-    // Rotate around the center
-    bunny.anchor.x = 0.5;
-    bunny.anchor.y = 0.5;
-
-    // Add the bunny to the scene we are building
-    app.stage.addChild(bunny);
-
-    // Listen for frame updates
-    app.ticker.add(() => {
-      // each frame we spin the bunny around a bit
-      bunny.rotation += 0.01;
-    });
-  });
-}
+var app;
 
 // Initialize the display
 export function initialize() {
-  var app = new PIXI.Application();
-  document.body.appendChild(app.view);
+  if (app !== undefined) return;
+  app = new PIXI.Application({
+    width: 800,
+    height: 600,
+  });
+  log.initialized("display");
 
-  load_assets(app);
+  document.body.appendChild(app.view);
+}
+initialize();
+
+function onDown(cardName) {
+  socket.emit("command", `benji play ${cardName}`);
+}
+
+export function load_cards() {
+  // load the texture we need
+  app.loader
+    .add("scroll", `images/scroll.png`)
+    .add("jump", `images/jump.png`)
+    .add("arrow", `images/arrow.png`)
+    .add("shield", `images/shield.png`)
+    .add("sword", `images/sword.png`)
+    .load((_, resources) => {
+      let x = 20;
+      for (const n of ["scroll", "jump", "arrow", "shield", "sword"]) {
+        const card = new PIXI.Sprite(resources[n].texture);
+        card.x = x;
+        x += 110;
+        card.y = 200;
+        card.width = 100;
+        card.height = 160;
+        app.stage.addChild(card);
+
+        card.interactive = true;
+        card.on("mousedown", () => onDown(n));
+        card.on("touchstart", () => onDown(n));
+      }
+    });
 }

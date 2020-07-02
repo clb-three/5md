@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
-  devtool: "inline-source-map",
+  devtool: "source-map",
   mode: "development",
   output: {
     filename: "[name].[contenthash].js",
@@ -19,13 +19,16 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: "./images/*",
+          from: "./resources/images/*",
+          to: "./images",
+          flatten: true,
         },
       ],
     }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: "Output Management",
+      title: "Five Minute Dungeon",
+      favicon: "./favicon.ico",
     }),
   ],
 };

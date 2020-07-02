@@ -14,5 +14,8 @@ class ConsoleNotifier(BaseNotifier):
     def log(self, msg):
         print(f'[log] {self.now()} {msg}')
 
+    def state(self, msg):
+        print(f'[state] {self.now()} {msg}')
+
     def now(self):
         return datetime.now().strftime("%H:%M:%S")

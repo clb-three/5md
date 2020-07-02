@@ -39,13 +39,13 @@ class GameState(Stringable):
         # Play the card
         try:
             self.mutex.acquire()
-            hero.discard(card)
             effect = card.play(self.target, self)
+            hero.discard(card)
             self.update_target()
         finally:
             self.mutex.release()
 
-        self.notifier.info(f'playcard "{hero.name}" "{card}" "{effect}"')
+        self.notifier.info(f'playcard {hero.name} {card} {effect}')
 
     def update_target(self):
         '''

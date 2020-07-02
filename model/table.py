@@ -74,8 +74,8 @@ class Table:
             self.gamestate.notifier.send('3<')
         elif args[0] == 'getstate':
             stringified = json.dumps(
-                dict(self.gamestate), cls=ComplexEncoder)
-            self.gamestate.notifier.info(stringified)
+                dict(self.gamestate), cls=ComplexEncoder, separators=(',', ':'))
+            self.gamestate.notifier.state(stringified)
         else:
             # Catch any command that we don't know
             # and let the user know about it

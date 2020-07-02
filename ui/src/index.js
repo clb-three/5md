@@ -4,4 +4,6 @@ import * as socket from "./socket";
 
 socket.initialize();
 display.initialize();
-input.initialize(socket);
+input.initialize();
+
+display.load_cards();

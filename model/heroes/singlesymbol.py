@@ -13,10 +13,13 @@ class SingleSymbol(BaseHeroCard):
 
         if self.symbol in target.symbols:
             target.symbols.remove(self.symbol)
-            return f'target removesymbol "{self.symbol}"'
+            return f'target removesymbol {self.symbol}'
         else:
             raise Complaint(f'target nosymbol {self.symbol}')
 
     def __lt__(self, other):
         if isinstance(other, SingleSymbol):
             return self.symbol.name < other.symbol.name
+
+    def __str__(self):
+        return str(self.symbol)

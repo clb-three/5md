@@ -13,13 +13,16 @@ class SocketIoNotifier(BaseNotifier):
                 'gameevent', message, broadcast=True)
 
     def info(self, msg):
-        self.echo_func(f'[inf] {self.now()} {msg}')
+        self.echo_func(f'inf {msg}')
 
     def error(self, msg):
-        self.echo_func(f'[err] {self.now()} {msg}')
+        self.echo_func(f'err {msg}')
+
+    def state(self, msg):
+        self.echo_func(f'state {msg}')
 
     def log(self, msg):
-        GLOBAL_LOG.info('[log] %s %s', self.now(), msg)
+        GLOBAL_LOG.info(f'log {msg}')
 
     def now(self):
         return datetime.now().strftime("%H:%M:%S")

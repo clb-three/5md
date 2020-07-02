@@ -11,4 +11,4 @@ class Stringable(Dictable):
             Return a list of the enemy's symbols
             '''
 
-        return json.dumps(dict(self), cls=ComplexEncoder)
+        return json.dumps(dict(self), cls=ComplexEncoder, separators=(',', ':'))
