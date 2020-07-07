@@ -1,5 +1,6 @@
 import random
 
+from model.message import Message
 from model.serialization.stringable import Stringable
 
 from .complaint import Complaint
@@ -54,7 +55,7 @@ class Hero(Stringable):
             card = self.deck.pop(0)
             return card
         else:
-            raise Complaint("You have no more cards in your deck!\n")
+            raise Complaint(Message('error', 'deckempty'))
 
     def discard(self, card):
         '''
@@ -64,9 +65,9 @@ class Hero(Stringable):
         # Checks if the card is held by the hero
         if self.has_card(card):
             # If it is a valid card to remove, remove it
-            return self.hand.remove(card)
+            self.hand.remove(card)
         else:
-            raise Complaint("You can't discard a card you don't have!\n")
+            raise Complaint(Message('error', 'nocard'))
 
     def deck_size(self):
         return len(self.deck)

@@ -22,37 +22,10 @@ function handleErrors(err) {
   console.error("do something about this!", err);
 }
 
-function doInf(text) {
-  const split = text.split(/\s+/);
-  switch (split[0]) {
-    case "playcard":
-      const player = split[1];
-      const verb = split[2];
-      const card = split[3];
-      const effect = split.slice(4);
-      console.log(player, verb, card, effect);
-      break;
+function doEvent(event) {
+  switch (event.code) {
     default:
-      console.log("didnt know that one", text);
-      break;
-  }
-}
-
-function doEvent(eventText) {
-  const commandSplit = eventText.split(/([^ ]+)\s+(.+)/);
-  const type = commandSplit[1];
-  const rest = commandSplit[2];
-
-  switch (type) {
-    case "err":
-      console.error("eroeororroror", rest);
-      break;
-    case "inf":
-      doInf(rest);
-      break;
-    case "state":
-      console.log("Getting state", rest);
-      break;
+      console.log("unhandled event", event);
   }
 }
 
@@ -67,9 +40,12 @@ function wire_up_events(socket) {
   socket.on("hello", function (msg) {
     console.log("hello!", msg);
   });
-  socket.on("gameevent", function (event) {
+  socket.on("gameevent", function (msg) {
     // console.log("got game event:", event);
-    doEvent(event);
+    const events = JSON.parse(msg);
+    for (const event of events) {
+      doEvent(event);
+    }
   });
 }
 

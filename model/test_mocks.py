@@ -2,7 +2,6 @@ import random
 
 from coolname import generate_slug
 
-from .console_notifier import ConsoleNotifier
 from .doorcards import factory as doordeck_factory
 from .doorcards.boss import Boss
 from .doorcards.doordeck import DoorDeck
@@ -40,9 +39,9 @@ def door_deck(deck_contents):
 
 
 def gamestate(deck=None, boss=None, heroes=None):
-    '''Create a GameState with ConsoleNotifier and the given DoorDeck.'''
+    '''Create a GameState with the given DoorDeck.'''
     target = deck.current_enemy if deck is None else deck.current_enemy
-    return GameState(notifier=ConsoleNotifier(), door_deck=deck, target=target, boss=boss, heroes=heroes)
+    return GameState(door_deck=deck, target=target, boss=boss, heroes=heroes)
 
 
 def table(top_enemy):
@@ -56,7 +55,7 @@ def table(top_enemy):
     deck.put_on_top(top_enemy)
     boss = Boss([Symbol.jump], 10)
 
-    state = GameState(ConsoleNotifier(), heroes,
+    state = GameState(heroes,
                       deck, deck.current_enemy, boss)
 
     return my_hero, Table(state)

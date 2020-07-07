@@ -1,3 +1,5 @@
+from model.message import Message
+
 from .complaint import Complaint
 from .private.base_herocard import BaseHeroCard
 
@@ -13,9 +15,9 @@ class SingleSymbol(BaseHeroCard):
 
         if self.symbol in target.symbols:
             target.symbols.remove(self.symbol)
-            return f'target removesymbol {self.symbol}'
+            return Message('removesymbol', self.symbol)
         else:
-            raise Complaint(f'target nosymbol {self.symbol}')
+            raise Complaint(Message('nosymbol', self.symbol))
 
     def __lt__(self, other):
         if isinstance(other, SingleSymbol):

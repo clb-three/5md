@@ -2,7 +2,7 @@
 
 class Dictable:
     def __iter__(self):
-        blacklist = ['script', 'notifier', 'mutex', 'event_task']
+        blacklist = ['script', 'mutex', 'event_task']
 
         # first start by grabbing the Class items
         iters = dict((k, v) for k, v in self.__dict__.items()

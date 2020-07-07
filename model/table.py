@@ -1,5 +1,7 @@
 import json
 
+from model.message import Message
+
 from .heroes import factory as hero_factory
 from .heroes.complaint import Complaint
 from .serialization.complex_encoder import ComplexEncoder
@@ -26,66 +28,72 @@ class Table:
                 # Forces card into a lower case string to prevent capitalization issues with input
                 card_name = args[1].lower()
                 card = hero_factory.get_card(card_name)
-                self.gamestate.play_card(hero, card)
+                return self.gamestate.play_card(hero, card)
             elif args[0] == 'discard':
                 card_name = args[1].lower()
                 card = hero_factory.get_card(card_name)
                 hero.discard(card)
+
+                return Message('discard', [hero.name, card])
             elif args[0] == 'draw':
                 card_drawn = hero.draw_card()
 
-                self.gamestate.notifier.info(
-                    f'drawcard {hero.name} {card_drawn}')
-                self.gamestate.notifier.info(
-                    f'cardsleft {hero.name} {len(hero.deck)}')
+                return [Message('drawcard', [hero.name, card_drawn]), Message('cardsleft', len(hero.deck))]
         except Complaint as complaint:
-            self.gamestate.notifier.error(str(complaint))
-            return
+            return complaint.msg
+
+    def do_command(self, command):
+
+        # Get input
+        args = command.split(' ')
+
+        # save the last command we've done
+        if command != '':
+            self.last_command = command
+
+        # Do input
+        if args[0] in self.gamestate.heroes:
+            hero = self.gamestate.heroes[args[0]]
+            return self.process_hero_command(hero, args[1:])
+        elif args[0] == 'quit':
+            # Quit the game
+            self.game_over = True
+            return Message('quit')
+        elif args[0] == 'nuke':
+            # Kill the current enemy
+            self.gamestate.target.kill()
+            return self.gamestate.update_target()
+        elif args[0] == '':
+            # Repeat the last command
+            if not self.last_command:
+                return Message('log', 'no previous command')
+            else:
+                msg = self.process_command(self.last_command)
+                return [
+                    Message('log', f'redoing "{self.last_command}"'), msg]
+        elif args[0] == '<3':
+            # Love on u
+            return Message('<3')
+        elif args[0] == 'getstate':
+            return Message('state', self.gamestate)
+        else:
+            # Catch any command that we don't know
+            # and let the user know about it
+            return Message('error', 'invalidcommand')
 
     def process_command(self, command):
         '''
         Process a command from the user.
         '''
 
-        # Get input
-        args = command.split(' ')
-
-        # Do input
-        if args[0] in self.gamestate.heroes:
-            hero = self.gamestate.heroes[args[0]]
-            self.process_hero_command(hero, args[1:])
-        elif args[0] == 'quit':
-            # Quit the game
-            self.game_over = True
-        elif args[0] == 'nuke':
-            # Kill the current enemy
-            self.gamestate.target.kill()
-            self.gamestate.update_target()
-        elif args[0] == '':
-            # Repeat the last command
-            if not self.last_command:
-                self.gamestate.notifier.log('Error: no previous command.')
-            else:
-                self.gamestate.notifier.log(f'Redoing "{self.last_command}"')
-                self.process_command(self.last_command)
-                return
-        elif args[0] == '<3':
-            # Love on u
-            self.gamestate.notifier.send('3<')
-        elif args[0] == 'getstate':
-            stringified = json.dumps(
-                dict(self.gamestate), cls=ComplexEncoder, separators=(',', ':'))
-            self.gamestate.notifier.state(stringified)
-        else:
-            # Catch any command that we don't know
-            # and let the user know about it
-            self.gamestate.notifier.error('invalidcommand')
-
-        # save the last command we've done
-        if command != '':
-            self.last_command = command
+        message = self.do_command(command)
 
         # break out when all enemies isded
         if self.gamestate.is_defeated():
-            self.gamestate.notifier.info('won')
             self.game_over = True
+            return [message, Message('state', 'won')]
+
+        if not isinstance(message, list):
+            message = [message]
+
+        return message
