@@ -3,8 +3,7 @@ from copy import deepcopy
 from .private.base import BaseDoorCard
 from .types import DoorCardTypes
 
-# TODO: Make functionality for Event cards. It'll probably be a class that goes in the door deck.
-# When you flip over an Event, your team must immediately do whatever the card says.
+# When you flip over an Event, your team must immediately (after opportunity to cancel) do whatever the card says.
 # Only the Action Card CANCEL and HOLY HAND GRENADE can prevent your party from doing the Event.
 
 

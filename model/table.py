@@ -1,10 +1,8 @@
-import json
 
 from model.message import Message
 
 from .heroes import factory as hero_factory
 from .heroes.complaint import Complaint
-from .serialization.complex_encoder import ComplexEncoder
 
 
 class Table:

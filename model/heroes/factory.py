@@ -22,7 +22,7 @@ def hero(name, classname):
 
 
 def get_card(card_name):
-    for s in dict(Symbol.__members__).values():
-        if str(s) == card_name:
-            return SingleSymbol(s)
+    for symbol in dict(Symbol.__members__).values():
+        if str(symbol) == card_name:
+            return SingleSymbol(symbol)
     # TODO: Other card types
