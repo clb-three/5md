@@ -1,12 +1,9 @@
 # pylint: disable=W0201
-import time
 
-import pytest
 
 from . import test_mocks as mock
 from .doorcards.boss import Boss
 from .doorcards.event import Event
-from .event_timeout import EventTimeout
 from .symbol import Symbol
 
 
@@ -23,13 +20,12 @@ class TestGameState():
     def trigger(self, _):
         self.flag = True
 
-    @pytest.mark.skip
-    def test_event_timeout(self):
-        assert self.state.target is self.event
-        self.state.start_event(self.event)
-        assert self.flag is False
-        time.sleep(EventTimeout.DEFAULT_TIMEOUT_SEC + 1)
-        assert self.flag is True
+    # def test_event_timeout(self):
+    #     assert self.state.target is self.event
+    #     self.state.start_event(self.event)
+    #     assert self.flag is False
+    #     time.sleep(EventTimeout.DEFAULT_TIMEOUT_SEC + 1)
+    #     assert self.flag is True
 
     def test_event_timeout_canceled(self):
         def trigger(_):
