@@ -1,4 +1,6 @@
 # pylint: disable=W0201
+import json
+
 import pytest
 
 from . import test_mocks as mock
@@ -12,6 +14,14 @@ class TestSingleSymbol():
     def setup_method(self):
         self.enemy = mock.enemy(Symbol.sword, Symbol.arrow)
         assert self.enemy.is_dead() is False
+
+    def test_uuid(self):
+        assert SingleSymbol(Symbol.arrow).uuid is not None
+
+    def test_stringable(self):
+        necessary_keys = ['uuid', 'symbol']
+        dict_obj = json.loads(str(SingleSymbol(Symbol.arrow)))
+        assert all(k in dict_obj for k in necessary_keys)
 
     def test_kill_single(self):
         SingleSymbol(Symbol.arrow).play(self.enemy)

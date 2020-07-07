@@ -29,15 +29,13 @@ class Hero(Stringable):
         # Takes a random sample from actions and puts it into cards, parameterized by num_of_actions
         self.deck = deck
 
-    def has_card(self, card_in_bush):
+    def get_card_from_hand(self, card_in_bush):
         '''
         Return whether card matches one of my cards.
         '''
         for card_in_hand in self.hand:
-            if card_in_bush == card_in_hand:
-                return True
-
-        return False
+            if card_in_hand == card_in_bush:
+                return card_in_hand
 
     def draw_card(self):
         '''
@@ -61,7 +59,7 @@ class Hero(Stringable):
         '''
 
         # Checks if the card is held by the hero
-        if self.has_card(card):
+        if self.get_card_from_hand(card):
             # If it is a valid card to remove, remove it
             self.hand.remove(card)
         else:

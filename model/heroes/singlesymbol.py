@@ -6,6 +6,7 @@ from .private.base_herocard import BaseHeroCard
 
 class SingleSymbol(BaseHeroCard):
     def __init__(self, symbol):
+        super().__init__()
         self.symbol = symbol
 
     def play(self, target, ctx=None):
@@ -23,5 +24,8 @@ class SingleSymbol(BaseHeroCard):
         if isinstance(other, SingleSymbol):
             return self.symbol.name < other.symbol.name
 
-    def __str__(self):
-        return str(self.symbol)
+    def __eq__(self, other):
+        if isinstance(other, str):
+            return self.symbol.name == other
+        if isinstance(other, SingleSymbol):
+            return self.symbol.name == other.symbol.name

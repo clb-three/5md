@@ -28,7 +28,8 @@ class GameState(Stringable):
         '''
 
         # Check if the card is in the hero's hand
-        if not hero.has_card(card):
+        card = hero.get_card_from_hand(card)
+        if not card:
             return Message('notinhand', card)
 
         # Play the card
