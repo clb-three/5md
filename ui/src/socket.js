@@ -1,5 +1,6 @@
 import io from "socket.io-client";
 import log from "./log";
+import * as model from "./model";
 
 export function emit(name, message) {
   socket.emit(name, message);
@@ -15,6 +16,7 @@ export function initialize() {
 
   wire_up_events(socket);
   wire_up_errors(socket);
+  socket.emit("command", "getstate");
 }
 initialize();
 
@@ -23,9 +25,20 @@ function handleErrors(err) {
 }
 
 function doEvent(event) {
+  console.log("event", event);
   switch (event.code) {
+    case "state":
+      model.init(event.obj);
+      break;
+    case "cardsleft":
+      model.deck(event.obj);
+      break;
+    case "drawcard":
+      model.loadCard(event.obj[1]);
+      break;
     default:
-      console.log("unhandled event", event);
+      console.log("unhandled");
+      break;
   }
 }
 

@@ -17,32 +17,53 @@ export function initialize() {
 }
 initialize();
 
-function onDown(cardName) {
-  socket.emit("command", `benji play ${cardName}`);
+export function load_card(name, x, y) {
+  // load the texture we need
+  const texture = PIXI.Texture.from(`images/${name}.png`);
+  const card = new PIXI.Sprite(texture);
+  card.anchor.set(0.5);
+  card.position.set(x, y);
+  card.width = 100;
+  card.height = 160;
+  app.stage.addChild(card);
+  card.interactive = true;
+
+  function onDown(cardName) {
+    socket.emit("command", `benji play ${cardName}`);
+  }
+  card.on("mousedown", () => onDown(name));
+  card.on("touchstart", () => onDown(name));
+  return card;
 }
 
-export function load_cards() {
+export function load_deck(num_cards, x, y) {
   // load the texture we need
-  app.loader
-    .add("scroll", `images/scroll.png`)
-    .add("jump", `images/jump.png`)
-    .add("arrow", `images/arrow.png`)
-    .add("shield", `images/shield.png`)
-    .add("sword", `images/sword.png`)
-    .load((_, resources) => {
-      let x = 20;
-      for (const n of ["scroll", "jump", "arrow", "shield", "sword"]) {
-        const card = new PIXI.Sprite(resources[n].texture);
-        card.x = x;
-        x += 110;
-        card.y = 200;
-        card.width = 100;
-        card.height = 160;
-        app.stage.addChild(card);
+  const texture = PIXI.Texture.from(`images/back.png`);
+  const deck = new PIXI.Sprite(texture);
+  deck.anchor.set(0.5);
+  deck.position.set(x, y);
+  deck.width = 100;
+  deck.height = 160;
+  deck.interactive = true;
 
-        card.interactive = true;
-        card.on("mousedown", () => onDown(n));
-        card.on("touchstart", () => onDown(n));
-      }
-    });
+  function onDown() {
+    socket.emit("command", `benji draw`);
+  }
+  deck.on("mousedown", () => onDown(name));
+  deck.on("touchstart", () => onDown(name));
+  app.stage.addChild(deck);
+
+  const numCards = new PIXI.Text(num_cards, {
+    font: "35px Snippet",
+    fill: "white",
+    align: "left",
+  });
+  numCards.anchor.set(0.5);
+  numCards.position.set(x, y);
+  app.stage.addChild(numCards);
+
+  return {
+    deck,
+    numCards,
+  };
 }
