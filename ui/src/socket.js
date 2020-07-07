@@ -36,6 +36,9 @@ function doEvent(event) {
     case "drawcard":
       model.loadCard(event.obj[1]);
       break;
+    case "playcard":
+      model.discardCard(event.obj[1]);
+      break;
     default:
       console.log("unhandled");
       break;

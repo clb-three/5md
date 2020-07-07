@@ -1,14 +1,14 @@
 import * as display from "./display";
 
 let name = "benji";
-let cardDisplay;
+let cardDisplay = {};
 let deckDisplay;
 let x = 100;
 
 function wireUpDisplay(state) {
   const hero = state.heroes[name];
 
-  cardDisplay = [];
+  cardDisplay = {};
   for (const card of hero.hand) {
     loadCard(card);
   }
@@ -17,8 +17,13 @@ function wireUpDisplay(state) {
 }
 
 export function loadCard(card) {
-  cardDisplay.push(display.load_card(card.symbol, x, 100));
-  x += 40;
+  cardDisplay[card.uuid] = display.load_card(card.symbol, x, 100);
+  x += 60;
+}
+
+export function discardCard(card) {
+  display.deleteThisNephew(cardDisplay[card.uuid]);
+  delete cardDisplay[card.uuid];
 }
 
 export function deck(numCards) {

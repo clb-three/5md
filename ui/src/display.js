@@ -17,6 +17,10 @@ export function initialize() {
 }
 initialize();
 
+export function deleteThisNephew(child) {
+  app.stage.removeChild(child);
+}
+
 export function load_card(name, x, y) {
   // load the texture we need
   const texture = PIXI.Texture.from(`images/${name}.png`);
