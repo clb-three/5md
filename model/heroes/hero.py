@@ -28,8 +28,6 @@ class Hero(Stringable):
 
         # Takes a random sample from actions and puts it into cards, parameterized by num_of_actions
         self.deck = deck
-        # FIXME: Not necessary maybe??? You just like shuffling or
-        random.shuffle(self.deck)
 
     def has_card(self, card_in_bush):
         '''
