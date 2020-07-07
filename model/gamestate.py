@@ -27,10 +27,6 @@ class GameState(Stringable):
         Play the given card against the current enemy
         '''
 
-        # If card is not valid, don't let it be played
-        if not card:
-            return Message('invalidcard')
-
         # Check if the card is in the hero's hand
         if not hero.has_card(card):
             return Message('notinhand', card)

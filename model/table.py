@@ -26,10 +26,20 @@ class Table:
                 # Forces card into a lower case string to prevent capitalization issues with input
                 card_name = args[1].lower()
                 card = hero_factory.get_card(card_name)
+
+                # If card is not valid, don't let it be played
+                if not card:
+                    return Message('invalidcard', card_name)
+
                 return self.gamestate.play_card(hero, card)
             elif args[0] == 'discard':
                 card_name = args[1].lower()
                 card = hero_factory.get_card(card_name)
+
+                # If card is not valid, don't let it be played
+                if not card:
+                    return Message('invalidcard', card_name)
+
                 hero.discard(card)
 
                 return Message('discard', [hero.name, card])

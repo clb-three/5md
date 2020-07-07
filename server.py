@@ -49,7 +49,7 @@ def handle_command(cmd):
     GLOBAL_LOG.info('queue command: %s', cmd)
     socketio.send('queued command')
     message = table.process_command(cmd)
-    socketio.emit('gameevent', message)
+    socketio.emit('gameevent', str(message))
 
 
 @app.route('/')
