@@ -17,21 +17,37 @@ export function initialize() {
 }
 initialize();
 
+function sprite(resource, x, y, w, h) {
+  const texture = PIXI.Texture.from(resource);
+  const sprite = new PIXI.Sprite(texture);
+  sprite.anchor.set(0.5);
+  sprite.position.set(x, y);
+  sprite.width = w;
+  sprite.height = h;
+  app.stage.addChild(sprite);
+  return sprite;
+}
+
+export function load_target(type, symbols, x, y) {
+  const target = sprite(`images/badguy.png`, x, y, 100, 160);
+  const targetType = text(type, x, y);
+  const targetSymbols = text(symbols, x, y + 50);
+  return {
+    target,
+    targetType,
+    targetSymbols,
+  };
+}
+
 export function deleteThisNephew(child) {
   app.stage.removeChild(child);
 }
 
 export function load_card(name, x, y) {
   // load the texture we need
-  const texture = PIXI.Texture.from(`images/${name}.png`);
-  const card = new PIXI.Sprite(texture);
-  card.anchor.set(0.5);
-  card.position.set(x, y);
-  card.width = 100;
-  card.height = 160;
-  app.stage.addChild(card);
-  card.interactive = true;
+  const card = sprite(`images/${name}.png`, x, y, 100, 160);
 
+  card.interactive = true;
   function onDown(cardName) {
     socket.emit("command", `benji play ${cardName}`);
   }
@@ -40,24 +56,8 @@ export function load_card(name, x, y) {
   return card;
 }
 
-export function load_deck(num_cards, x, y) {
-  // load the texture we need
-  const texture = PIXI.Texture.from(`images/back.png`);
-  const deck = new PIXI.Sprite(texture);
-  deck.anchor.set(0.5);
-  deck.position.set(x, y);
-  deck.width = 100;
-  deck.height = 160;
-  deck.interactive = true;
-
-  function onDown() {
-    socket.emit("command", `benji draw`);
-  }
-  deck.on("mousedown", () => onDown(name));
-  deck.on("touchstart", () => onDown(name));
-  app.stage.addChild(deck);
-
-  const numCards = new PIXI.Text(num_cards, {
+function text(text, x, y) {
+  const numCards = new PIXI.Text(text, {
     font: "35px Snippet",
     fill: "white",
     align: "left",
@@ -65,6 +65,21 @@ export function load_deck(num_cards, x, y) {
   numCards.anchor.set(0.5);
   numCards.position.set(x, y);
   app.stage.addChild(numCards);
+  return numCards;
+}
+
+export function load_deck(num_cards, x, y) {
+  const deck = sprite(`images/back.png`, x, y, 100, 160);
+
+  deck.interactive = true;
+  function onDown() {
+    socket.emit("command", `benji draw`);
+  }
+  deck.on("mousedown", () => onDown(name));
+  deck.on("touchstart", () => onDown(name));
+  app.stage.addChild(deck);
+
+  const numCards = text(num_cards, x, y);
 
   return {
     deck,

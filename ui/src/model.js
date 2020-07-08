@@ -3,17 +3,37 @@ import * as display from "./display";
 let name = "benji";
 let cardDisplay = {};
 let deckDisplay;
+let targetDisplay;
 let x = 100;
 
 function wireUpDisplay(state) {
   const hero = state.heroes[name];
 
+  for (const card of hero.hand) {
+    discardCard(card);
+  }
   cardDisplay = {};
   for (const card of hero.hand) {
     loadCard(card);
   }
 
   deck(hero.deck.length);
+
+  target(state.target);
+}
+
+export function target(enemy) {
+  if (targetDisplay) {
+    display.deleteThisNephew(targetDisplay.target);
+    display.deleteThisNephew(targetDisplay.targetType);
+    display.deleteThisNephew(targetDisplay.targetSymbols);
+  }
+
+  targetDisplay = display.load_target(enemy.type, enemy.symbols, 300, 300);
+}
+
+export function targetSymbols(symbols) {
+  targetDisplay.targetSymbols.text = symbols;
 }
 
 export function loadCard(card) {

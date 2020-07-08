@@ -39,6 +39,12 @@ function doEvent(event) {
     case "playcard":
       model.discardCard(event.obj[1]);
       break;
+    case "enemy":
+      model.target(event.obj);
+      break;
+    case "hurt":
+      model.targetSymbols(event.obj);
+      break;
     default:
       console.log("unhandled");
       break;

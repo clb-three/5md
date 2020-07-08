@@ -16,7 +16,7 @@ class SingleSymbol(BaseHeroCard):
 
         if self.symbol in target.symbols:
             target.symbols.remove(self.symbol)
-            return Message('removesymbol', self.symbol)
+            return Message('hurt', target.symbols)
         else:
             raise Complaint(Message('nosymbol', self.symbol))
 

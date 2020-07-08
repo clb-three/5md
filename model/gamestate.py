@@ -42,8 +42,8 @@ class GameState(Stringable):
             self.mutex.release()
 
         return [m for m in
-                [target_msg, Message(
-                    'playcard', [hero, card]), effect]
+                [Message(
+                    'playcard', [hero, card]), effect, target_msg]
                 if m is not None]
 
     def update_target(self):
