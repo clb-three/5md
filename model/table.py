@@ -26,15 +26,24 @@ class Table:
                 # Forces card into a lower case string to prevent capitalization issues with input
                 card = args[1].lower()
                 return self.gamestate.play_card(hero, card)
+
+                # TODO: Play to the middle of the table
             elif args[0] == 'discard':
                 card = args[1].lower()
                 hero.discard(card)
 
                 return Message('discard', [hero.name, card])
+
+                # TODO: Play to the discard pile instead of the middle of the table
             elif args[0] == 'draw':
                 card_drawn = hero.draw_card()
 
                 return [Message('drawcard', [hero.name, card_drawn]), Message('cardsleft', len(hero.deck))]
+
+            # TODO: When we play or discard a card, draw cards until hand is full
+
+            # TODO: Add hero abilities
+
         except Complaint as complaint:
             return complaint.msg
 
