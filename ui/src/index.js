@@ -1,4 +1,9 @@
 // debug
+import {Model} from "./Model";
+import {initializeSocket, socket} from "./socket";
+
+// display
+
 function initializeDebugElements() {
     const input = document.createElement("input");
     input.placeholder = "Enter command here";
@@ -14,50 +19,6 @@ function initializeDebugElements() {
 }
 
 initializeDebugElements();
-
-
-// socket
-
-let socket;
-
-function initializeSocket(eventHandler) {
-    if (socket !== undefined) return;
-    socket = io.connect();
-
-    // Initial connection
-    socket.on("connect", function () {
-        console.log("connected");
-        socket.emit("hello", "I'm connected!");
-    });
-    // Initialization
-    socket.on("hello", function (msg) {
-        console.log("hello!", msg);
-    });
-    // Normal logging messages
-    socket.on("message", function (msg) {
-        console.log("got a message:", msg);
-    });
-    // Game event to apply to our model
-    socket.on("gameevent", function (msg) {
-        // console.log("got game event:", event);
-        const events = JSON.parse(msg);
-        for (const event of events) {
-            eventHandler(event);
-        }
-    });
-
-    // Handle various errors in the same way
-    socket.on("connect_error", handleErrors);
-    socket.on("connect_failed", handleErrors);
-    socket.on("disconnect", handleErrors);
-
-    // Request the current state from the server
-    socket.emit("command", "getstate");
-}
-
-function handleErrors(err) {
-    console.error("do something about this!", err);
-}
 
 // Apply gameevent to the model
 let model;
@@ -91,138 +52,3 @@ function doEvent(event) {
 
 initializeSocket(doEvent);
 
-// display
-import * as PIXI from "pixi.js";
-import io from "socket.io-client";
-
-class Display {
-    constructor() {
-        this.app = new PIXI.Application({
-            width: 800,
-            height: 600,
-        });
-
-        document.body.appendChild(this.app.view);
-    }
-
-    sprite(resource, x, y, w, h) {
-        const texture = PIXI.Texture.from(resource);
-        const sprite = new PIXI.Sprite(texture);
-        sprite.anchor.set(0.5);
-        sprite.position.set(x, y);
-        sprite.width = w;
-        sprite.height = h;
-        this.app.stage.addChild(sprite);
-        return sprite;
-    }
-
-    deleteThisNephew(child) {
-        this.app.stage.removeChild(child);
-    }
-
-    text(text, x, y) {
-        const numCards = new PIXI.Text(text, {
-            font: "35px Snippet",
-            fill: "white",
-            align: "left",
-        });
-        numCards.anchor.set(0.5);
-        numCards.position.set(x, y);
-        this.app.stage.addChild(numCards);
-        return numCards;
-    }
-}
-
-
-// model
-class Model {
-    constructor(state) {
-        const name = "benji"; // TODO: Auth story: get a real name
-        this.x = 100;
-
-        this.display = new Display();
-
-        const hero = state.heroes[name];
-        this.cardDisplay = {};
-        for (const card of hero.hand) {
-            this.discardCard(card);
-        }
-        for (const card of hero.hand) {
-            this.loadCard(card);
-        }
-
-        this.deck(hero.deck.length);
-        this.target(state.target);
-    }
-
-    target(enemy) {
-        if (this.targetDisplay) {
-            this.display.deleteThisNephew(this.targetDisplay.target);
-            this.display.deleteThisNephew(this.targetDisplay.targetType);
-            this.display.deleteThisNephew(this.targetDisplay.targetSymbols);
-        }
-
-        const x = 300;
-        const y = 300;
-        const target = this.display.sprite(`images/badguy.png`, x, y, 100, 160);
-        const targetType = this.display.text(enemy.type, x, y);
-        const targetSymbols = this.display.text(enemy.symbols, x, y + 50);
-        this.targetDisplay = {
-            target,
-            targetType,
-            targetSymbols,
-        };
-    }
-
-    targetSymbols(symbols) {
-        this.targetDisplay.targetSymbols.text = symbols;
-    }
-
-    loadCard(card) {
-        const name = card.symbol;
-        const x = this.x;
-        const y = 100;
-
-        // load the texture we need
-        const cardDisplay = this.display.sprite(`images/${name}.png`, x, y, 100, 160);
-
-        cardDisplay.interactive = true;
-
-        const onDown = () => socket.emit("command", `benji play ${name}`);
-        cardDisplay.on("mousedown", () => onDown(name));
-        cardDisplay.on("touchstart", () => onDown(name));
-        this.cardDisplay[card.uuid] = cardDisplay;
-        this.x += 60;
-    }
-
-    discardCard(card) {
-        this.display.deleteThisNephew(this.cardDisplay[card.uuid]);
-        delete this.cardDisplay[card.uuid];
-    }
-
-    deck(numCards) {
-        if (!this.deckDisplay) {
-            const x = 100;
-            const y = 300;
-
-            const deck = this.display.sprite(`images/back.png`, x, y, 100, 160);
-
-            deck.interactive = true;
-
-            const onDown = () => socket.emit("command", `benji draw`);
-            deck.on("mousedown", () => onDown());
-            deck.on("touchstart", () => onDown());
-
-            const numCardsDisplay = this.display.text(numCards, x, y);
-
-            this.deckDisplay = {
-                deck,
-                numCards: numCardsDisplay,
-            };
-        }
-
-        this.deckDisplay.numCards.text = numCards;
-    }
-}
-
-initializeSocket();
