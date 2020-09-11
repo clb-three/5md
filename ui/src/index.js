@@ -1,3 +1,5 @@
+// input
+
 function initializeInput() {
     const input = document.createElement("input");
     input.placeholder = "Enter command here";
@@ -12,12 +14,12 @@ function initializeInput() {
     document.body.appendChild(submit);
 }
 
+// display
 import * as PIXI from "pixi.js";
 import io from "socket.io-client";
 
-var app;
+let app;
 
-// Initialize the display
 function initializeDisplay() {
     if (app !== undefined) return;
     app = new PIXI.Application({
@@ -39,7 +41,7 @@ function sprite(resource, x, y, w, h) {
     return sprite;
 }
 
-export function load_target(type, symbols, x, y) {
+function load_target(type, symbols, x, y) {
     const target = sprite(`images/badguy.png`, x, y, 100, 160);
     const targetType = text(type, x, y);
     const targetSymbols = text(symbols, x, y + 50);
@@ -50,11 +52,11 @@ export function load_target(type, symbols, x, y) {
     };
 }
 
-export function deleteThisNephew(child) {
+function deleteThisNephew(child) {
     app.stage.removeChild(child);
 }
 
-export function load_card(name, x, y) {
+function load_card(name, x, y) {
     // load the texture we need
     const card = sprite(`images/${name}.png`, x, y, 100, 160);
 
@@ -81,13 +83,13 @@ function text(text, x, y) {
     return numCards;
 }
 
-export function load_deck(num_cards, x, y) {
+function load_deck(num_cards, x, y) {
     const deck = sprite(`images/back.png`, x, y, 100, 160);
 
     deck.interactive = true;
 
     function onDown() {
-        socket.emit("command", `benji draw`);
+        emit("command", `benji draw`);
     }
 
     deck.on("mousedown", () => onDown(name));
@@ -103,10 +105,11 @@ export function load_deck(num_cards, x, y) {
 }
 
 
-var socket;
+// socket
 
-// Initialize the socket
-export function initializeSocket() {
+let socket;
+
+function initializeSocket() {
     if (socket !== undefined) return;
     socket = io.connect();
 
@@ -115,9 +118,7 @@ export function initializeSocket() {
     socket.emit("command", "getstate");
 }
 
-initializeSocket();
-
-export function emit(name, message) {
+function emit(name, message) {
     socket.emit(name, message);
 }
 
@@ -129,22 +130,22 @@ function doEvent(event) {
     console.log("event", event);
     switch (event.code) {
         case "state":
-            model.init(event.obj);
+            initializeModel(event.obj);
             break;
         case "cardsleft":
-            model.deck(event.obj);
+            deck(event.obj);
             break;
         case "drawcard":
-            model.loadCard(event.obj[1]);
+            loadCard(event.obj[1]);
             break;
         case "playcard":
-            model.discardCard(event.obj[1]);
+            discardCard(event.obj[1]);
             break;
         case "enemy":
-            model.target(event.obj);
+            target(event.obj);
             break;
         case "hurt":
-            model.targetSymbols(event.obj);
+            targetSymbols(event.obj);
             break;
         default:
             console.log("unhandled");
@@ -178,7 +179,7 @@ function wire_up_errors(socket) {
     socket.on("disconnect", handleErrors);
 }
 
-
+// model
 let name = "benji";
 let cardDisplay = {};
 let deckDisplay;
@@ -201,38 +202,38 @@ function wireUpDisplay(state) {
     target(state.target);
 }
 
-export function target(enemy) {
+function target(enemy) {
     if (targetDisplay) {
         deleteThisNephew(targetDisplay.target);
         deleteThisNephew(targetDisplay.targetType);
         deleteThisNephew(targetDisplay.targetSymbols);
     }
 
-    targetDisplay = display.load_target(enemy.type, enemy.symbols, 300, 300);
+    targetDisplay = load_target(enemy.type, enemy.symbols, 300, 300);
 }
 
-export function targetSymbols(symbols) {
+function targetSymbols(symbols) {
     targetDisplay.targetSymbols.text = symbols;
 }
 
-export function loadCard(card) {
-    cardDisplay[card.uuid] = display.load_card(card.symbol, x, 100);
+function loadCard(card) {
+    cardDisplay[card.uuid] = load_card(card.symbol, x, 100);
     x += 60;
 }
 
-export function discardCard(card) {
+function discardCard(card) {
     deleteThisNephew(cardDisplay[card.uuid]);
     delete cardDisplay[card.uuid];
 }
 
-export function deck(numCards) {
+function deck(numCards) {
     if (!deckDisplay) {
         deckDisplay = load_deck(numCards, 100, 300);
     }
     deckDisplay.numCards.text = numCards;
 }
 
-export function initializeModel(state) {
+function initializeModel(state) {
     console.log("initialize state", state);
 
     wireUpDisplay(state);
