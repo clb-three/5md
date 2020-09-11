@@ -60,26 +60,28 @@ function handleErrors(err) {
 }
 
 // Apply gameevent to the model
+let model;
+
 function doEvent(event) {
     console.log("event", event);
     switch (event.code) {
         case "state":
-            initializeModel(event.obj);
+            model = new Model(event.obj);
             break;
         case "cardsleft":
-            deck(event.obj);
+            model.deck(event.obj);
             break;
         case "drawcard":
-            loadCard(event.obj[1]);
+            model.loadCard(event.obj[1]);
             break;
         case "playcard":
-            discardCard(event.obj[1]);
+            model.discardCard(event.obj[1]);
             break;
         case "enemy":
-            target(event.obj);
+            model.target(event.obj);
             break;
         case "hurt":
-            targetSymbols(event.obj);
+            model.targetSymbols(event.obj);
             break;
         default:
             console.log("unhandled");
@@ -158,7 +160,7 @@ function text(text, x, y) {
     return numCards;
 }
 
-function load_deck(num_cards, x, y) {
+function load_deck(numCards, x, y) {
     const deck = sprite(`images/back.png`, x, y, 100, 160);
 
     deck.interactive = true;
@@ -171,75 +173,67 @@ function load_deck(num_cards, x, y) {
     deck.on("touchstart", () => onDown(name));
     app.stage.addChild(deck);
 
-    const numCards = text(num_cards, x, y);
+    const numCardsDisplay = text(numCards, x, y);
+    numCardsDisplay.text = numCards;
 
     return {
         deck,
-        numCards,
+        numCards: numCardsDisplay,
     };
 }
 
 
 // model
-let name = "benji";
-let cardDisplay = {};
-let deckDisplay;
-let targetDisplay;
-let x = 100;
+class Model {
+    constructor(state) {
+        this.name = "benji"; // TODO: Auth story: get a real name
+        this.x = 100;
 
-function wireUpDisplay(state) {
-    const hero = state.heroes[name];
+        const hero = state.heroes[name];
 
-    for (const card of hero.hand) {
-        discardCard(card);
-    }
-    cardDisplay = {};
-    for (const card of hero.hand) {
-        loadCard(card);
-    }
+        for (const card of hero.hand) {
+            this.discardCard(card);
+        }
+        this.cardDisplay = {};
+        for (const card of hero.hand) {
+            this.loadCard(card);
+        }
 
-    deck(hero.deck.length);
+        this.deck(hero.deck.length);
 
-    target(state.target);
-}
-
-function target(enemy) {
-    if (targetDisplay) {
-        deleteThisNephew(targetDisplay.target);
-        deleteThisNephew(targetDisplay.targetType);
-        deleteThisNephew(targetDisplay.targetSymbols);
+        this.target(state.target);
     }
 
-    targetDisplay = load_target(enemy.type, enemy.symbols, 300, 300);
-}
+    target(enemy) {
+        if (this.targetDisplay) {
+            deleteThisNephew(this.targetDisplay.target);
+            deleteThisNephew(this.targetDisplay.targetType);
+            deleteThisNephew(this.targetDisplay.targetSymbols);
+        }
 
-function targetSymbols(symbols) {
-    targetDisplay.targetSymbols.text = symbols;
-}
-
-function loadCard(card) {
-    cardDisplay[card.uuid] = load_card(card.symbol, x, 100);
-    x += 60;
-}
-
-function discardCard(card) {
-    deleteThisNephew(cardDisplay[card.uuid]);
-    delete cardDisplay[card.uuid];
-}
-
-function deck(numCards) {
-    if (!deckDisplay) {
-        deckDisplay = load_deck(numCards, 100, 300);
+        this.targetDisplay = load_target(enemy.type, enemy.symbols, 300, 300);
     }
-    deckDisplay.numCards.text = numCards;
-}
 
-function initializeModel(state) {
-    console.log("initialize state", state);
+    targetSymbols(symbols) {
+        this.targetDisplay.targetSymbols.text = symbols;
+    }
 
-    wireUpDisplay(state);
+    loadCard(card) {
+        this.cardDisplay[card.uuid] = load_card(card.symbol, this.x, 100);
+        this.x += 60;
+    }
+
+    discardCard(card) {
+        deleteThisNephew(this.cardDisplay[card.uuid]);
+        delete this.cardDisplay[card.uuid];
+    }
+
+    deck(numCards) {
+        if (!this.deckDisplay) {
+            this.deckDisplay = load_deck(numCards, 100, 300);
+        }
+    }
 }
 
 initializeDisplay();
 initializeSocket();
-initializeModel();
