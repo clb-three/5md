@@ -10,8 +10,12 @@ export class Display {
         document.body.appendChild(this.app.view);
     }
 
-    sprite(resource, x, y, w, h) {
-        const texture = PIXI.Texture.from(resource);
+    texture(name) {
+        return PIXI.Texture.from(name);
+    }
+
+    sprite(name, x, y, w, h) {
+        const texture = this.texture(name);
         const sprite = new PIXI.Sprite(texture);
         sprite.anchor.set(0.5);
         sprite.position.set(x, y);

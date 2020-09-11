@@ -1,4 +1,3 @@
-// debug
 import {Model} from "./Model";
 import {initializeSocket} from "./socket";
 import {initializeDebugElements} from "./debug";
@@ -6,8 +5,7 @@ import {Display} from "./Display";
 
 initializeDebugElements();
 
-// Apply gameevent to the model
-let model = new Model();
-
-initializeSocket(event => model.doEvent(event));
+const display = new Display();
+let model = new Model(display);
+initializeSocket(e => model.doEvent(e));
 
