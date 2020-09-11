@@ -118,34 +118,8 @@ function sprite(resource, x, y, w, h) {
     return sprite;
 }
 
-function load_target(type, symbols, x, y) {
-    const target = sprite(`images/badguy.png`, x, y, 100, 160);
-    const targetType = text(type, x, y);
-    const targetSymbols = text(symbols, x, y + 50);
-    return {
-        target,
-        targetType,
-        targetSymbols,
-    };
-}
-
 function deleteThisNephew(child) {
     app.stage.removeChild(child);
-}
-
-function load_card(name, x, y) {
-    // load the texture we need
-    const card = sprite(`images/${name}.png`, x, y, 100, 160);
-
-    card.interactive = true;
-
-    function onDown(cardName) {
-        socket.emit("command", `benji play ${cardName}`);
-    }
-
-    card.on("mousedown", () => onDown(name));
-    card.on("touchstart", () => onDown(name));
-    return card;
 }
 
 function text(text, x, y) {
@@ -158,28 +132,6 @@ function text(text, x, y) {
     numCards.position.set(x, y);
     app.stage.addChild(numCards);
     return numCards;
-}
-
-function load_deck(numCards, x, y) {
-    const deck = sprite(`images/back.png`, x, y, 100, 160);
-
-    deck.interactive = true;
-
-    function onDown() {
-        emit("command", `benji draw`);
-    }
-
-    deck.on("mousedown", () => onDown(name));
-    deck.on("touchstart", () => onDown(name));
-    app.stage.addChild(deck);
-
-    const numCardsDisplay = text(numCards, x, y);
-    numCardsDisplay.text = numCards;
-
-    return {
-        deck,
-        numCards: numCardsDisplay,
-    };
 }
 
 
@@ -211,7 +163,16 @@ class Model {
             deleteThisNephew(this.targetDisplay.targetSymbols);
         }
 
-        this.targetDisplay = load_target(enemy.type, enemy.symbols, 300, 300);
+        const x = 300;
+        const y = 300;
+        const target = sprite(`images/badguy.png`, x, y, 100, 160);
+        const targetType = text(enemy.type, x, y);
+        const targetSymbols = text(enemy.symbols, x, y + 50);
+        this.targetDisplay = {
+            target,
+            targetType,
+            targetSymbols,
+        };
     }
 
     targetSymbols(symbols) {
@@ -219,7 +180,22 @@ class Model {
     }
 
     loadCard(card) {
-        this.cardDisplay[card.uuid] = load_card(card.symbol, this.x, 100);
+        const name = card.symbol;
+        const x = this.x;
+        const y = 100;
+
+        // load the texture we need
+        const cardDisplay = sprite(`images/${name}.png`, x, y, 100, 160);
+
+        cardDisplay.interactive = true;
+
+        function onDown(cardName) {
+            socket.emit("command", `benji play ${cardName}`);
+        }
+
+        cardDisplay.on("mousedown", () => onDown(name));
+        cardDisplay.on("touchstart", () => onDown(name));
+        this.cardDisplay[card.uuid] = cardDisplay;
         this.x += 60;
     }
 
@@ -230,7 +206,28 @@ class Model {
 
     deck(numCards) {
         if (!this.deckDisplay) {
-            this.deckDisplay = load_deck(numCards, 100, 300);
+            const x = 100;
+            const y = 300;
+
+            const deck = sprite(`images/back.png`, x, y, 100, 160);
+
+            deck.interactive = true;
+
+            function onDown() {
+                emit("command", `benji draw`);
+            }
+
+            deck.on("mousedown", () => onDown(name));
+            deck.on("touchstart", () => onDown(name));
+            app.stage.addChild(deck);
+
+            const numCardsDisplay = text(numCards, x, y);
+            numCardsDisplay.text = numCards;
+
+            this.deckDisplay = {
+                deck,
+                numCards: numCardsDisplay,
+            };
         }
     }
 }
