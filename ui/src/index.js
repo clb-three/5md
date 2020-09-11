@@ -1,6 +1,5 @@
-// input
-
-function initializeInput() {
+// debug
+function initializeDebugElements() {
     const input = document.createElement("input");
     input.placeholder = "Enter command here";
     document.body.appendChild(input);
@@ -13,6 +12,8 @@ function initializeInput() {
     });
     document.body.appendChild(submit);
 }
+
+initializeDebugElements();
 
 // display
 import * as PIXI from "pixi.js";
@@ -240,6 +241,5 @@ function initializeModel(state) {
 }
 
 initializeDisplay();
-initializeInput();
 initializeSocket();
 initializeModel();
