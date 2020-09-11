@@ -49,13 +49,18 @@ export class Model {
 
         const x = 300;
         const y = 300;
-        this.target = this.display.sprite(`images/badguy.png`, x, y, 100, 160);
-        this.targetType = this.display.text(enemy.type, x, y);
-        this.targetSymbols = this.display.text(enemy.symbols, x, y + 50);
+        const target = this.display.sprite(`images/badguy.png`, x, y, 100, 160);
+        const targetType = this.display.text(enemy.type, x, y);
+        const targetSymbols = this.display.text(enemy.symbols, x, y + 50);
+        this.targetDisplay = {
+            target,
+            targetType,
+            targetSymbols
+        };
     }
 
     setSymbols(symbols) {
-        this.targetSymbols.text = symbols;
+        this.targetDisplay.targetSymbols.text = symbols;
     }
 
     setDeck(hero) {
