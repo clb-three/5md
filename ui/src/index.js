@@ -15,6 +15,80 @@ function initializeDebugElements() {
 
 initializeDebugElements();
 
+
+// socket
+
+let socket;
+
+function initializeSocket(eventHandler) {
+    if (socket !== undefined) return;
+    socket = io.connect();
+
+    // Initial connection
+    socket.on("connect", function () {
+        console.log("connected");
+        socket.emit("hello", "I'm connected!");
+    });
+    // Initialization
+    socket.on("hello", function (msg) {
+        console.log("hello!", msg);
+    });
+    // Normal logging messages
+    socket.on("message", function (msg) {
+        console.log("got a message:", msg);
+    });
+    // Game event to apply to our model
+    socket.on("gameevent", function (msg) {
+        // console.log("got game event:", event);
+        const events = JSON.parse(msg);
+        for (const event of events) {
+            eventHandler(event);
+        }
+    });
+
+    // Handle various errors in the same way
+    socket.on("connect_error", handleErrors);
+    socket.on("connect_failed", handleErrors);
+    socket.on("disconnect", handleErrors);
+
+    // Request the current state from the server
+    socket.emit("command", "getstate");
+}
+
+function handleErrors(err) {
+    console.error("do something about this!", err);
+}
+
+// Apply gameevent to the model
+function doEvent(event) {
+    console.log("event", event);
+    switch (event.code) {
+        case "state":
+            initializeModel(event.obj);
+            break;
+        case "cardsleft":
+            deck(event.obj);
+            break;
+        case "drawcard":
+            loadCard(event.obj[1]);
+            break;
+        case "playcard":
+            discardCard(event.obj[1]);
+            break;
+        case "enemy":
+            target(event.obj);
+            break;
+        case "hurt":
+            targetSymbols(event.obj);
+            break;
+        default:
+            console.log("unhandled");
+            break;
+    }
+}
+
+initializeSocket(doEvent);
+
 // display
 import * as PIXI from "pixi.js";
 import io from "socket.io-client";
@@ -105,80 +179,6 @@ function load_deck(num_cards, x, y) {
     };
 }
 
-
-// socket
-
-let socket;
-
-function initializeSocket() {
-    if (socket !== undefined) return;
-    socket = io.connect();
-
-    wire_up_events(socket);
-    wire_up_errors(socket);
-    socket.emit("command", "getstate");
-}
-
-function emit(name, message) {
-    socket.emit(name, message);
-}
-
-function handleErrors(err) {
-    console.error("do something about this!", err);
-}
-
-function doEvent(event) {
-    console.log("event", event);
-    switch (event.code) {
-        case "state":
-            initializeModel(event.obj);
-            break;
-        case "cardsleft":
-            deck(event.obj);
-            break;
-        case "drawcard":
-            loadCard(event.obj[1]);
-            break;
-        case "playcard":
-            discardCard(event.obj[1]);
-            break;
-        case "enemy":
-            target(event.obj);
-            break;
-        case "hurt":
-            targetSymbols(event.obj);
-            break;
-        default:
-            console.log("unhandled");
-            break;
-    }
-}
-
-function wire_up_events(socket) {
-    socket.on("connect", function () {
-        console.log("connected");
-        socket.emit("hello", "I'm connected!");
-    });
-    socket.on("message", function (msg) {
-        console.log("got a message:", msg);
-    });
-    socket.on("hello", function (msg) {
-        console.log("hello!", msg);
-    });
-    socket.on("gameevent", function (msg) {
-        // console.log("got game event:", event);
-        const events = JSON.parse(msg);
-        for (const event of events) {
-            doEvent(event);
-        }
-    });
-}
-
-function wire_up_errors(socket) {
-    socket.on("connect_error", handleErrors);
-    socket.on("connect_failed", handleErrors);
-    socket.on("disconnect", handleErrors);
-}
 
 // model
 let name = "benji";
