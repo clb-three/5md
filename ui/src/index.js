@@ -21,34 +21,7 @@ function initializeDebugElements() {
 initializeDebugElements();
 
 // Apply gameevent to the model
-let model;
+let model = new Model();
 
-function doEvent(event) {
-    console.log("event", event);
-    switch (event.code) {
-        case "state":
-            model = new Model(event.obj);
-            break;
-        case "cardsleft":
-            model.deck(event.obj);
-            break;
-        case "drawcard":
-            model.loadCard(event.obj[1]);
-            break;
-        case "playcard":
-            model.discardCard(event.obj[1]);
-            break;
-        case "enemy":
-            model.target(event.obj);
-            break;
-        case "hurt":
-            model.targetSymbols(event.obj);
-            break;
-        default:
-            console.log("unhandled");
-            break;
-    }
-}
-
-initializeSocket(doEvent);
+initializeSocket(event => model.doEvent(event));
 
