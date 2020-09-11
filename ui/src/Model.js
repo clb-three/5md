@@ -18,21 +18,21 @@ export class Model {
                 const hero = state.heroes[name];
                 this.deck.setNumCards(hero.deck.length);
                 for (const card of hero.hand) {
-                    this.hand.loadCard(card);
+                    this.hand.drawCard(card);
                 }
-                this.target.setTarget(state.target);
+                this.target.drawEnemy(state.target);
                 break;
             case "cardsleft":
                 this.deck.setNumCards(event.obj);
                 break;
             case "drawcard":
-                this.hand.loadCard(event.obj[1]);
+                this.hand.drawCard(event.obj[1]);
                 break;
             case "playcard":
-                this.hand.deleteCard(event.obj[1]);
+                this.hand.discardCard(event.obj[1]);
                 break;
             case "enemy":
-                this.target.setTarget(event.obj);
+                this.target.drawEnemy(event.obj);
                 break;
             case "hurt":
                 this.target.setSymbols(event.obj);

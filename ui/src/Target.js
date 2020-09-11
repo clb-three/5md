@@ -15,7 +15,7 @@ export class Target {
         };
     }
 
-    setTarget(enemy) {
+    drawEnemy(enemy) {
         this.targetDisplay.target.texture = this.display.texture(`images/badguy.png`);
         this.targetDisplay.targetType.text = enemy.type;
         this.setSymbols(enemy.symbols);

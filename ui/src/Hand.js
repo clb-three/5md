@@ -7,7 +7,7 @@ export class Hand {
         this.display = display;
     }
 
-    loadCard(card) {
+    drawCard(card) {
         const name = card.symbol;
         const y = 100;
 
@@ -23,7 +23,7 @@ export class Hand {
         this.handX += 60;
     }
 
-    deleteCard(card) {
+    discardCard(card) {
         if (card) {
             this.display.deleteThisNephew(this.cardDisplay[card.uuid]);
             delete this.cardDisplay[card.uuid];
