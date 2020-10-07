@@ -3,10 +3,10 @@ from model.message import Message
 
 
 class Table:
-    '''
+    """
     A Table takes care of the logic for high-level interaction
     between parts of the game.
-    '''
+    """
 
     def __init__(self, game, emitter):
         self.gamestate = game

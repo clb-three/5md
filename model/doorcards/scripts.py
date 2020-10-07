@@ -2,8 +2,8 @@ import random
 
 
 def all_heroes_discard_one(ctx):
-    '''Make all heroes discard one card'''
-    for _, hero in ctx.heroes.items():
+    """Make all heroes discard one card"""
+    for hero in ctx.heroes:
         if len(hero.hand) > 0:
             choice = random.choice(hero.hand)
             hero.discard(choice)

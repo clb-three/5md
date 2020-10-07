@@ -1,4 +1,3 @@
-
 from .doorcards import factory as doorcard_factory
 from .gamestate import GameState
 from .heroes import factory as hero_factory
@@ -24,4 +23,3 @@ if __name__ == '__main__':
     print(table.gamestate)
     while (command := input('Enter a command $>')) != 'quit':
         message = table.process_command(command)
-        print(str(message))

@@ -1,4 +1,3 @@
-
 from . import test_mocks as mock
 from .doorcards.event import Event
 from .doorcards.scripts import all_heroes_discard_one

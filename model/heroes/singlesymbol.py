@@ -1,6 +1,6 @@
 from model.message import Message
-
 from .complaint import Complaint
+
 from .private.base_herocard import BaseHeroCard
 
 
@@ -10,9 +10,9 @@ class SingleSymbol(BaseHeroCard):
         self.symbol = symbol
 
     def play(self, target, ctx=None):
-        '''
+        """
         Play this symbol against the target
-        '''
+        """
 
         if self.symbol in target.symbols:
             target.symbols.remove(self.symbol)
