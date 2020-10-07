@@ -18,8 +18,9 @@ class DoorDeck(Stringable):
         self.deck = cards
 
     @property
-    def current_enemy(self):
-        return self.deck[0]
+    def top(self):
+        if len(self.deck):
+            return self.deck[0]
 
     def try_draw(self):
         '''

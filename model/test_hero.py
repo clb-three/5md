@@ -14,7 +14,7 @@ class TestHero():
         assert len(self.hero.hand) is 0
 
     def test_draw_a_lot(self):
-        for _ in range(self.hero.deck_size()):
+        for _ in range(len(self.hero.deck)):
             assert self.hero.draw_card() is not None
 
         with pytest.raises(Complaint):

@@ -5,26 +5,23 @@ from .heroes import factory as hero_factory
 from .table import Table
 
 if __name__ == '__main__':
-
-    heroes = {
-        'benji': hero_factory.hero('benji', 'barbarian'),
-        'austin': hero_factory.hero('austin', 'healer'),
-    }
+    heroes = [
+        hero_factory.hero('benji', 'barbarian'),
+        hero_factory.hero('austin', 'healer'),
+    ]
     # Draws the hero's initial hand
     for _ in range(0, 5):
-        for hero in heroes.values():
+        for hero in heroes:
             hero.draw_card()
 
     # Deal boss mat and door deck
     boss = doorcard_factory.create_boss()
-    doordeck = doorcard_factory.deal_deck(
-        boss.num_door_cards, len(heroes))
+    doordeck = doorcard_factory.deal_deck(boss.num_door_cards, len(heroes))
 
-    game = GameState(heroes, doordeck,
-                     doordeck.current_enemy, boss)
-    table = Table(game)
+    game = GameState(heroes, doordeck, boss)
+    table = Table(game, print)
 
-    while not table.game_over:
-        command = input('Enter a command $>')
+    print(table.gamestate)
+    while (command := input('Enter a command $>')) != 'quit':
         message = table.process_command(command)
         print(str(message))

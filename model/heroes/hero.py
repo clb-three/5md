@@ -58,9 +58,3 @@ class Hero(Stringable):
             self.hand.remove(card)
         else:
             raise Complaint(Message('error', 'nocard'))
-
-    def deck_size(self):
-        return len(self.deck)
-
-    def hand_size(self):
-        return len(self.hand)
