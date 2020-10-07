@@ -17,8 +17,8 @@
     "webpack-cli": "^3.3.12"
   },
   "scripts": {
-    "build": "node_modules/.bin/webpack",
-    "watch": "node_modules/.bin/webpack --watch",
+    "build": "wsl mkdir -p dist && wsl cp -r favicon.ico index.html resources/* dist && esbuild src/index.js --bundle --define:process.env.NODE_ENV=\"development\" --outdir=dist",
+    "watch": "watchexec -w src npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
