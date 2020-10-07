@@ -27,8 +27,7 @@ def get_gameloop():
     doordeck = doorcard_factory.deal_deck(
         boss.num_door_cards, len(heroes))
 
-    game = GameState(heroes, doordeck,
-                     doordeck.current_enemy, boss)
+    game = GameState(heroes, doordeck, boss)
     return Table(game)
 
 
