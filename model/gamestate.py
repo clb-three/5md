@@ -1,10 +1,5 @@
+from collections import defaultdict
 
-from threading import Lock
-
-from model.message import Message
-
-from .doorcards.types import DoorCardTypes
-from .event_timeout import EventTimeout
 from .serialization.stringable import Stringable
 
 
@@ -17,46 +12,35 @@ class GameState(Stringable):
         self.heroes = heroes
         self.door_deck = door_deck
         self.boss = boss
-        self.target = target
-        self.event_task = None
-        self.mutex = Lock()
-        self.update_target()
 
-    def play_card(self, hero, card):
-        '''
-        Play the given card against the current enemy
-        '''
+        self.time = 0
+        self.events = defaultdict(list)
 
-        # Check if the card is in the hero's hand
-        card = hero.get_card_from_hand(card)
-        if not card:
-            return Message('notinhand', card)
+    def step(self):
+        """
+        Step time forward and do the action that's scheduled.
+        """
 
-        # Play the card
-        try:
-            self.mutex.acquire()
-            effect = card.play(self.target, self)
-            hero.discard(card)
-            target_msg = self.update_target()
-        finally:
-            self.mutex.release()
+        self.time += 1
+        for event in self.events[self.time]:
+            event(self)
+        del self.events[self.time]
 
-        return [m for m in
-                [Message(
-                    'playcard', [hero, card]), effect, target_msg]
-                if m is not None]
+    def schedule(self, event, how_far):
+        """
+        Schedule an event how_far into the future.
+        """
 
-    def update_target(self):
-        '''
-        Switch to next enemy or boss when all enemies are dead
-        '''
+        scheduled_time = self.time + how_far
+        assert (scheduled_time > self.time)
+        self.events[scheduled_time].append(event)
 
     @property
     def target(self):
         if self.door_deck.top:
             return self.door_deck.top
         else:
-            self.target = self.boss
+            return self.boss
 
     @property
     def is_defeated(self):
