@@ -8,14 +8,16 @@ class Table:
     between parts of the game.
     """
 
-    def __init__(self, game, emitter):
+    def __init__(self, game, emitter, logging):
         self.gamestate = game
         self.emit = emitter
+        self.log = logging.getLogger(__name__)
 
-    def play_card(self, hero, card):
+    async def play_card(self, hero, card):
         """
         Play the given card against the current enemy
         """
+        self.log.info(f'play_card({hero=}, {card=})')
 
         # Check if the card is in the hero's hand
         card = hero.get_card_from_hand(card)
@@ -23,27 +25,33 @@ class Table:
             raise Complaint(Message('notinhand', card))
 
         # Play the card and discard it
-        self.emit(card.play(self.gamestate.target, self))
+        await self.emit(card.play(self.gamestate.target, self))
         self.discard_card(hero, card)
 
-    def discard_card(self, hero, card):
+    async def discard_card(self, hero, card):
         """
         Move the given card to the discard pile.
         """
-        hero.discard(card)
-        self.emit(Message('discard', [hero, card]))
+        self.log.info(f'discard_card({hero=}, {card=})')
 
-    def draw_card(self, hero):
+        hero.discard(card)
+        await self.emit(Message('discard', [hero, card]))
+
+    async def draw_card(self, hero):
         """
         Make the given hero draw a card.
         """
-        card = hero.draw_card()
-        self.emit(Message('draw', [hero, card]))
+        self.log.info(f'draw_card({hero=})')
 
-    def process_command(self, command):
+        card = hero.draw_card()
+        await self.emit(Message('draw', [hero, card]))
+
+    async def process_command(self, command):
         """
         Process a command from the user.
         """
+
+        self.log.info(f"process_command({command=})")
 
         try:
             # Get input
@@ -53,6 +61,8 @@ class Table:
             if args[0] == 'hero':
                 hero_name = args[1]
                 args = args[2:]
+
+                self.log.info(f"hero command {hero_name=}, {args=}")
 
                 hero = next(filter(lambda h: h.name == hero_name, self.gamestate.heroes), None)
                 if not hero:
@@ -76,6 +86,6 @@ class Table:
 
             # break out when all enemies isded
             if self.gamestate.is_defeated:
-                self.emit(Message('state', 'won'))
+                await self.emit(Message('state', 'won'))
         except Complaint as c:
-            self.emit(c.msg)
+            await self.emit(c.msg)

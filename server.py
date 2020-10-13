@@ -1,15 +1,26 @@
-from flask import Flask, request
-from flask_socketio import SocketIO
+# noinspection PyPackageRequirements
+import socketio
+import uvicorn as uvicorn
 
-from logs import GLOBAL_LOG
+import mylog
 from model.doorcards import factory as doorcard_factory
 from model.gamestate import GameState
 from model.heroes import factory as hero_factory
 from model.table import Table
 
-app = Flask(__name__, static_url_path='', static_folder='ui/dist')
-socketio = SocketIO(app)
-clients = []
+log = mylog.getLogger(__name__)
+
+sio = socketio.AsyncServer(async_mode='asgi')
+app = socketio.ASGIApp(sio, static_files={
+    '/': './ui/dist/index.html',
+    '/static': './ui/dist',
+})
+
+
+async def emit_message(m):
+    if m:
+        log.info(f'emit_message{m=}')
+        await sio.emit('gameevent', str(m))
 
 
 def get_gameloop():
@@ -28,34 +39,40 @@ def get_gameloop():
         boss.num_door_cards, len(heroes))
 
     game = GameState(heroes, doordeck, boss)
-    return Table(game)
+    return Table(game, emit_message, mylog)
 
 
 table = get_gameloop()
 
 
-@socketio.on('hello')
-def handle_hello(message):
-    GLOBAL_LOG.info('received message: %s', message)
-    sid = request.sid
-    clients.append(sid)
-    GLOBAL_LOG.info('said hello to client: %s', message)
-    socketio.send(f'echo: {message}')
+@sio.event
+def connect(sid, _):
+    log.info('client %s connected', sid)
 
 
-@socketio.on('command')
-def handle_command(cmd):
-    GLOBAL_LOG.info('queue command: %s', cmd)
-    socketio.send('queued command')
-    message = table.process_command(cmd)
-    socketio.emit('gameevent', str(message))
+@sio.event
+def connect_error(sid):
+    log.error('client %s could not connect', sid)
 
 
-@app.route('/')
-def root():
-    GLOBAL_LOG.info('Returning index.html')
-    return app.send_static_file('index.html')
+@sio.event
+def disconnect(sid):
+    log.info('client %s disconnected', sid)
+
+
+@sio.on('hello')
+async def hello(sid, message):
+    log.info('received message: %s', message)
+    await sio.emit('state', str(table.gamestate), to=sid)
+
+
+@sio.on('command')
+async def command(sid, cmd):
+    log.info('queue command: %s', cmd)
+    await sio.send('queued command', to=sid)
+    await table.process_command(cmd)
 
 
 if __name__ == '__main__':
-    socketio.run(app)
+    log.info('Starting up the server at http://%s:%d', "127.0.0.1", 8080)
+    uvicorn.run(app, host="127.0.0.1", port=8080)
