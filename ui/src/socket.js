@@ -1,10 +1,10 @@
-import io from "socket.io-client";
+import * as io from "socket.io-client";
 
 export let socket;
 
 export function initializeSocket(eventHandler) {
     if (socket !== undefined) return;
-    socket = io.connect();
+    socket = io.connect('localhost:8080');
 
     // Initial connection
     socket.on("connect", function () {
@@ -22,10 +22,8 @@ export function initializeSocket(eventHandler) {
     // Game event to apply to our model
     socket.on("gameevent", function (msg) {
         // console.log("got game event:", event);
-        const events = JSON.parse(msg);
-        for (const event of events) {
-            eventHandler(event);
-        }
+        const event = JSON.parse(msg);
+        eventHandler(event);
     });
 
     // Handle various errors in the same way
@@ -34,7 +32,7 @@ export function initializeSocket(eventHandler) {
     socket.on("disconnect", handleErrors);
 
     // Request the current state from the server
-    socket.emit("command", "getstate");
+    socket.emit("getstate");
 }
 
 function handleErrors(err) {

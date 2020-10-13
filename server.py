@@ -10,11 +10,8 @@ from model.table import Table
 
 log = mylog.getLogger(__name__)
 
-sio = socketio.AsyncServer(async_mode='asgi')
-app = socketio.ASGIApp(sio, static_files={
-    '/': './ui/dist/index.html',
-    '/static': './ui/dist',
-})
+sio = socketio.AsyncServer(async_mode='asgi', cors_allowed_origins='*')
+app = socketio.ASGIApp(sio)
 
 
 async def emit_message(m):
