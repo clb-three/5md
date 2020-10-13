@@ -16,7 +16,7 @@ export class Hand {
 
         cardDisplay.interactive = true;
 
-        const onDown = () => socket.emit("command", `benji play ${name}`);
+        const onDown = () => socket.emit("command", `hero benji play ${name}`);
         cardDisplay.on("mousedown", () => onDown(name));
         cardDisplay.on("touchstart", () => onDown(name));
         this.cardDisplay[card.uuid] = cardDisplay;

@@ -71,12 +71,12 @@ class Table:
                 if args[0] == 'play':
                     # Forces card into a lower case string to prevent capitalization issues with input
                     card = args[1].lower()
-                    self.play_card(hero, card)
+                    await self.play_card(hero, card)
                 elif args[0] == 'discard':
                     card = args[1].lower()
-                    self.discard_card(hero, card)
+                    await self.discard_card(hero, card)
                 elif args[0] == 'draw':
-                    self.draw_card(hero)
+                    await self.draw_card(hero)
                 else:
                     raise Complaint(Message('error', 'invalidcommand'))
 
@@ -87,5 +87,8 @@ class Table:
             # break out when all enemies isded
             if self.gamestate.is_defeated:
                 await self.emit(Message('state', 'won'))
-        except Complaint as c:
-            await self.emit(c.msg)
+        except (Complaint, Exception) as e:
+            if isinstance(e, Complaint):
+                await self.emit(e.msg)
+            else:
+                await self.emit(Message('error', str(e)))

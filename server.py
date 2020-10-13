@@ -21,13 +21,13 @@ async def emit_message(m):
 
 
 def get_gameloop():
-    heroes = {
-        'benji': hero_factory.hero('benji', 'barbarian'),
-        'austin': hero_factory.hero('austin', 'healer'),
-    }
+    heroes = [
+        hero_factory.hero('benji', 'barbarian'),
+        hero_factory.hero('austin', 'healer'),
+    ]
     # Draws the hero's initial hand
     for _ in range(0, 5):
-        for hero in heroes.values():
+        for hero in heroes:
             hero.draw_card()
 
     # Deal boss mat and door deck

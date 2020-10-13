@@ -10,7 +10,7 @@ export class Deck {
 
         deck.interactive = true;
 
-        const onDown = () => socket.emit("command", `benji draw`);
+        const onDown = () => socket.emit("command", `hero benji draw`);
         deck.on("mousedown", () => onDown());
         deck.on("touchstart", () => onDown());
 
