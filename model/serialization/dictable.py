@@ -1,17 +1,24 @@
+import inspect
+import re
+
+builtin_regex = re.compile(r'^__.*__$')
 
 
 class Dictable:
     def __iter__(self):
-        blacklist = ['script', 'mutex', 'event_task']
-
         # first start by grabbing the Class items
-        iters = dict((k, v) for k, v in self.__dict__.items()
-                     if k not in blacklist and not k.startswith('__'))
+        iters = inspect.getmembers(self)
+        iters = [
+            (k, v) for k, v in iters if
+            v is not None
+            and k != '_abc_impl'
+            and not builtin_regex.fullmatch(k)
+            and not inspect.ismethod(v)
+            and not inspect.isfunction(v)
+        ]
 
         # then update the class items with the instance items
-        iters.update(self.__dict__)
 
         # now 'yield' through the items
-        for key, val in iters.items():
-            if key not in blacklist:
-                yield key, val
+        for key, val in iters:
+            yield key, val
