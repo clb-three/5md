@@ -2,7 +2,6 @@ import random
 
 from coolname import generate_slug
 
-from .console_notifier import ConsoleNotifier
 from .doorcards import factory as doordeck_factory
 from .doorcards.boss import Boss
 from .doorcards.doordeck import DoorDeck
@@ -23,8 +22,7 @@ def hero(classname):
 def gen_mock_heroes(howmany):
     '''Create many heroes with random names and classes.'''
     classes = ['ranger', 'barbarian', 'mage']
-    heroes = [hero(random.choice(classes)) for _ in range(howmany)]
-    return {h.name: h for h in heroes}
+    return [hero(random.choice(classes)) for _ in range(howmany)]
 
 
 def enemy(*symbols):
@@ -34,29 +32,19 @@ def enemy(*symbols):
 
 def door_deck(deck_contents):
     '''Create a DoorDeck with the given cards.'''
-    if deck_contents is not list:
+    if not isinstance(deck_contents, list):
         deck_contents = [deck_contents]
     return DoorDeck(deck_contents)
-
-
-def gamestate(deck=None, boss=None, heroes=None):
-    '''Create a GameState with ConsoleNotifier and the given DoorDeck.'''
-    target = deck.current_enemy if None is None else deck
-    return GameState(notifier=ConsoleNotifier, door_deck=deck, target=target, boss=boss, heroes=heroes)
 
 
 def table(top_enemy):
     heroname = generate_slug()
     my_hero = Hero(heroname, 'ranger', [SingleSymbol(Symbol.sword)])
-    heroes = {
-        heroname: my_hero
-    }
 
     deck = doordeck_factory.deal_deck(9, 1)
     deck.put_on_top(top_enemy)
     boss = Boss([Symbol.jump], 10)
 
-    state = GameState(ConsoleNotifier(), heroes,
-                      deck, deck.current_enemy, boss)
+    state = GameState([my_hero], deck, boss)
 
-    return my_hero, Table(state)
+    return my_hero, Table(state, print)

@@ -1,39 +1,81 @@
-from flask import Flask, request
-from flask_socketio import SocketIO
+# noinspection PyPackageRequirements
+import socketio
+import uvicorn as uvicorn
 
-from gameadapter import GameAdapter
-from logs import GLOBAL_LOG
-from socketio_notifier import SocketIoNotifier
+import mylog
+from model.doorcards import factory as doorcard_factory
+from model.gamestate import GameState
+from model.heroes import factory as hero_factory
+from model.message import Message
+from model.table import Table
 
-app = Flask(__name__, static_url_path='')
-socketio = SocketIO(app)
-clients = []
-commands = []
+log = mylog.getLogger(__name__)
 
-
-@socketio.on('hello')
-def handle_hello(message):
-    GLOBAL_LOG.info('received message: %s', message)
-    sid = request.sid
-    clients.append(sid)
-    GLOBAL_LOG.info('said hello to client: %s', message)
-    socketio.send(f'echo: {message}')
+sio = socketio.AsyncServer(async_mode='asgi', cors_allowed_origins='*')
+app = socketio.ASGIApp(sio)
 
 
-@socketio.on('command')
-def handle_command(cmd):
-    GLOBAL_LOG.info('queue command: %s', cmd)
-    commands.append(cmd)
-    socketio.send('queued command')
+async def emit_message(m):
+    if m:
+        log.info('emit_message %s', m)
+        await sio.emit('gameevent', str(m))
 
 
-@app.route('/')
-def root():
-    GLOBAL_LOG.info('Returning index.html')
-    return app.send_static_file('index.html')
+def get_gameloop():
+    heroes = [
+        hero_factory.hero('benji', 'barbarian'),
+        hero_factory.hero('austin', 'healer'),
+    ]
+    # Draws the hero's initial hand
+    for _ in range(0, 5):
+        for hero in heroes:
+            hero.draw_card()
+
+    # Deal boss mat and door deck
+    boss = doorcard_factory.create_boss()
+    doordeck = doorcard_factory.deal_deck(
+        boss.num_door_cards, len(heroes))
+
+    game = GameState(heroes, doordeck, boss)
+    return Table(game, emit_message, mylog)
+
+
+table = get_gameloop()
+
+
+@sio.event
+def connect(sid, _):
+    log.info('client %s connected', sid)
+
+
+@sio.event
+def connect_error(sid):
+    log.error('client %s could not connect', sid)
+
+
+@sio.event
+def disconnect(sid):
+    log.info('client %s disconnected', sid)
+
+
+@sio.event
+def message(sid, msg):
+    log.info('client %s sent a message: %s', sid, msg)
+
+
+@sio.on('hello')
+async def hello(sid):
+    log.info('initialize %s', sid)
+    await emit_message(Message('state', table.gamestate))
+
+
+@sio.on('command')
+async def command(sid, cmd):
+    log.info('queue command: %s', cmd)
+    await sio.send('queued command', to=sid)
+    await table.process_command(cmd)
 
 
 if __name__ == '__main__':
-    notifier = SocketIoNotifier(app, socketio)
-    with GameAdapter(notifier, commands):
-        socketio.run(app)
+    log.info('Starting up the server at http://%s:%d', "127.0.0.1", 8080)
+    uvicorn.run(app, host="127.0.0.1", port=8080)

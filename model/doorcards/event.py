@@ -1,11 +1,9 @@
 from copy import deepcopy
 
 from .private.base import BaseDoorCard
-from .scripts import scripts
 from .types import DoorCardTypes
 
-# TODO: Make functionality for Event cards. It'll probably be a class that goes in the door deck.
-# When you flip over an Event, your team must immediately do whatever the card says.
+# When you flip over an Event, your team must immediately (after opportunity to cancel) do whatever the card says.
 # Only the Action Card CANCEL and HOLY HAND GRENADE can prevent your party from doing the Event.
 
 
@@ -14,13 +12,19 @@ class Event(BaseDoorCard):
     Event will do something bad to the players!
     '''
 
-    def __init__(self, name, script_name=None):
-        self.name = name
+    def __init__(self, name, script):
         super().__init__([], DoorCardTypes.event)
-        if script_name is not None:
-            if script_name not in scripts:
-                raise Exception(f'Script "{script_name}" not found.')
-            self.do_script = scripts[script_name]
+        self.name = name
+        self.script = script
+        self.done = False
+
+    def kill(self):
+        self.done = True
+
+    def do_script(self, ctx):
+        if not self.done:
+            self.script(ctx)
+            self.kill()
 
     def is_dead(self):
         '''
@@ -28,13 +32,7 @@ class Event(BaseDoorCard):
         burned up and cycled.
         '''
 
-        return True
-
-    def __dict__(self):
-        selfobj = super().__dict__()
-        selfobj['name'] = self.name
-
-        return selfobj
+        return self.done
 
     def deepcopy(self):
-        return Event(deepcopy(self.name), self.do_script.__name__)
+        return Event(deepcopy(self.name), self.do_script)

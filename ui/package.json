@@ -1,0 +1,29 @@
+{
+  "name": "5md",
+  "version": "1.0.0",
+  "description": "Five Minute Dungeon UI",
+  "source": "src/index.js",
+  "main": "dist/index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "fuse-box": "^3.7.1",
+    "pixi.js": "^5.3.3",
+    "socket.io-client": "^2.3.0",
+    "typescript": "^4.0.3"
+  },
+  "scripts": {
+    "build": "node fuse.js",
+    "watch": "node fuse.js watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clb-three/5md.git"
+  },
+  "author": "Ben Steenhoek",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/clb-three/5md/issues"
+  },
+  "homepage": "https://github.com/clb-three/5md#readme"
+}

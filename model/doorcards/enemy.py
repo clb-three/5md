@@ -30,15 +30,5 @@ class Enemy(BaseDoorCard):
 
         self.name = name
 
-    def __dict__(self):
-        '''
-        Return a list of the enemy's symbols
-        '''
-
-        selfobj = super().__dict__()
-        selfobj['name'] = self.name
-
-        return selfobj
-
     def deepcopy(self):
         return Enemy(deepcopy(self.name), deepcopy(self.symbols), deepcopy(self.type))

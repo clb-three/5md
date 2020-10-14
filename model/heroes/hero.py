@@ -1,22 +1,18 @@
-import json
-import random
+from model.message import Message
+from model.serialization.stringable import Stringable
 
 from .complaint import Complaint
 
 
-class Hero:
-    '''
-    A hero is a player character, eventually will need to have different heros with set decks.
-    The hero is initialized with a deck that is chosen randomly from a set of 5 basic actions
-    From this deck the hero draws five cards at the start of the game
-    The hero can then discard any card they like (used when playing the game) or draw a card from the deck
-    The deck can be shuffled
-    '''
+class Hero(Stringable):
+    """
+    A hero is a player character
+    """
 
     def __init__(self, name, classname, deck):
-        '''
+        """
         Constructor. This is called whenever we create a Hero.
-        '''
+        """
 
         self.name = name
         self.classname = classname
@@ -26,39 +22,20 @@ class Hero:
 
         # Takes a random sample from actions and puts it into cards, parameterized by num_of_actions
         self.deck = deck
-        # FIXME: Not necessary maybe??? You just like shuffling or
-        random.shuffle(self.deck)
 
-    def has_card(self, card):
-        '''
+    def get_card_from_hand(self, card_in_bush):
+        """
         Return whether card matches one of my cards.
-        '''
-        for c in self.hand:
-            if card == c:
-                return True
-
-        return False
-
-    def __dict__(self):
-        return {
-            'name': self.name,
-            'class': self.classname,
-            'hand': sorted([str(c) for c in self.hand])
-        }
-
-    def __str__(self):
-        '''
-        Return a list of the hero's cards
-        '''
-        # TODO: Make hand just list out how many of each card we have.
-        # sword: 2: shield: 3, etc.
-        return json.dumps(self.__dict__)
+        """
+        for card_in_hand in self.hand:
+            if card_in_hand == card_in_bush:
+                return card_in_hand
 
     def draw_card(self):
-        '''
+        """
         Draw a card into your hand and return it.
         Return default None if your deck is empty.
-        '''
+        """
 
         # If there are cards in the deck to draw from add them to the hero's hand
         if len(self.deck) > 0:
@@ -68,22 +45,16 @@ class Hero:
             card = self.deck.pop(0)
             return card
         else:
-            raise Complaint("You have no more cards in your deck!\n")
+            raise Complaint(Message('error', 'deckempty'))
 
     def discard(self, card):
-        '''
+        """
         Method to remove a card from the hero's hand
-        '''
+        """
 
         # Checks if the card is held by the hero
-        if self.has_card(card):
+        if self.get_card_from_hand(card):
             # If it is a valid card to remove, remove it
-            return self.hand.remove(card)
+            self.hand.remove(card)
         else:
-            raise Complaint("You can't discard a card you don't have!\n")
-
-    def deck_size(self):
-        return len(self.deck)
-
-    def hand_size(self):
-        return len(self.hand)
+            raise Complaint(Message('error', 'nocard'))
