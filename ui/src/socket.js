@@ -8,12 +8,8 @@ export function initializeSocket(eventHandler) {
 
     // Initial connection
     socket.on("connect", function () {
-        console.log("connected");
-        socket.emit("hello", "I'm connected!");
-    });
-    // Initialization
-    socket.on("hello", function (msg) {
-        console.log("hello!", msg);
+        console.log("connected to server");
+        socket.emit("hello");
     });
     // Normal logging messages
     socket.on("message", function (msg) {
@@ -30,9 +26,6 @@ export function initializeSocket(eventHandler) {
     socket.on("connect_error", handleErrors);
     socket.on("connect_failed", handleErrors);
     socket.on("disconnect", handleErrors);
-
-    // Request the current state from the server
-    socket.emit("getstate");
 }
 
 function handleErrors(err) {

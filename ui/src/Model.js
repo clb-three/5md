@@ -15,7 +15,7 @@ export class Model {
             case "state":
                 const state = event.obj;
                 const name = "benji"; // TODO: Auth story: get a real name
-                const hero = state.heroes[name];
+                const hero = state.heroes.find(h => h.name == name);
                 this.deck.setNumCards(hero.deck.length);
                 for (const card of hero.hand) {
                     this.hand.drawCard(card);
@@ -25,7 +25,7 @@ export class Model {
             case "cardsleft":
                 this.deck.setNumCards(event.obj);
                 break;
-            case "drawcard":
+            case "draw":
                 this.hand.drawCard(event.obj[1]);
                 break;
             case "playcard":

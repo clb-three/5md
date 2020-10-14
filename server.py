@@ -6,6 +6,7 @@ import mylog
 from model.doorcards import factory as doorcard_factory
 from model.gamestate import GameState
 from model.heroes import factory as hero_factory
+from model.message import Message
 from model.table import Table
 
 log = mylog.getLogger(__name__)
@@ -16,7 +17,7 @@ app = socketio.ASGIApp(sio)
 
 async def emit_message(m):
     if m:
-        log.info(f'emit_message{m=}')
+        log.info('emit_message %s', m)
         await sio.emit('gameevent', str(m))
 
 
@@ -57,10 +58,15 @@ def disconnect(sid):
     log.info('client %s disconnected', sid)
 
 
+@sio.event
+def message(sid, msg):
+    log.info('client %s sent a message: %s', sid, msg)
+
+
 @sio.on('hello')
-async def hello(sid, message):
-    log.info('received message: %s', message)
-    await sio.emit('state', str(table.gamestate), to=sid)
+async def hello(sid):
+    log.info('initialize %s', sid)
+    await emit_message(Message('state', table.gamestate))
 
 
 @sio.on('command')
