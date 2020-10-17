@@ -27,8 +27,7 @@ class Table:
         # Play the card and discard it
         await self.emit(card.play(self.gamestate.door_deck.top, self))
         await self.discard_card(hero, card)
-        if self.gamestate.door_deck.flip():
-            await self.emit(Message('enemy', self.gamestate.door_deck.top))
+        await self.emit(self.gamestate.flip())
 
     async def discard_card(self, hero, card):
         """
