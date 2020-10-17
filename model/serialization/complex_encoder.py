@@ -8,4 +8,7 @@ class ComplexEncoder(json.JSONEncoder):
         if isinstance(o, Dictable):
             return dict(o)
         else:
-            return self.default(o)
+            try:
+                return json.JSONEncoder().default(o)
+            except TypeError:
+                return str(o)
