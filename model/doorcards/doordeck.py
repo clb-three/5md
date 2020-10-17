@@ -20,15 +20,21 @@ class DoorDeck(Stringable):
 
     @property
     def top(self):
-        if len(self.deck):
+        if any(self.deck):
             return self.deck[0]
+        else:
+            return self.boss
 
-    def try_draw(self):
+    @property
+    def is_defeated(self):
+        return self.top == self.boss and self.boss.is_dead()
+
+    def flip(self):
         """
-        Discard the current top card and draw the next one.
+        If the top is dead, discard the current top card and draw the next one.
         """
 
-        if len(self.deck) > 0:
+        if self.top.is_dead() and len(self.deck) > 0:
             self.deck.pop(0)
             return True
         else:
