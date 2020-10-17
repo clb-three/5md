@@ -20,7 +20,7 @@ export class Model {
                 for (const card of hero.hand) {
                     this.hand.drawCard(card);
                 }
-                this.target.drawEnemy(state.target);
+                this.target.drawEnemy(state.door_deck.top);
                 break;
             case "cardsleft":
                 this.deck.setNumCards(event.obj);
@@ -28,7 +28,7 @@ export class Model {
             case "draw":
                 this.hand.drawCard(event.obj[1]);
                 break;
-            case "playcard":
+            case "discard":
                 this.hand.discardCard(event.obj[1]);
                 break;
             case "enemy":
