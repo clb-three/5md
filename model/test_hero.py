@@ -6,7 +6,7 @@ from .heroes.complaint import Complaint
 from .symbol import Symbol
 
 
-class TestHero():
+class TestHero:
     def setup_method(self):
         self.hero = mock.hero('barbarian')
 
