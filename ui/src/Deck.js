@@ -1,4 +1,7 @@
 import {socket} from "./socket";
+import * as loglevel from "loglevel";
+
+const log = loglevel.getLogger("display::Deck");
 
 export class Deck {
     constructor(display) {
@@ -20,9 +23,12 @@ export class Deck {
             deck,
             numCards: numCardsDisplay,
         };
+
+        log.debug("deck display", this.deckDisplay);
     }
 
     setNumCards(numCards) {
+        log.debug("set number of cards", numCards);
         this.deckDisplay.numCards.text = numCards;
     }
 }

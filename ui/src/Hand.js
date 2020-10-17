@@ -1,13 +1,20 @@
 import {socket} from "./socket";
+import * as loglevel from "loglevel";
+
+const log = loglevel.getLogger("display::Hand");
 
 export class Hand {
     constructor(display) {
         this.handX = 100;
         this.cardDisplay = {};
         this.display = display;
+
+        log.debug("hand x", this.handX);
     }
 
     drawCard(card) {
+        log.debug("draw", card);
+
         const name = card.symbol;
         const y = 100;
 
@@ -24,6 +31,8 @@ export class Hand {
     }
 
     discardCard(card) {
+        log.debug("discard", card);
+
         if (card) {
             this.display.deleteThisNephew(this.cardDisplay[card.uuid]);
             delete this.cardDisplay[card.uuid];

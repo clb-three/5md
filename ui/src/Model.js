@@ -1,6 +1,9 @@
 import {Target} from "./Target";
 import {Hand} from "./Hand";
 import {Deck} from "./Deck";
+import * as loglevel from "loglevel";
+
+const log = loglevel.getLogger("root::Model");
 
 export class Model {
     constructor(display) {
@@ -10,7 +13,6 @@ export class Model {
     }
 
     doEvent(event) {
-        console.log("event", event);
         switch (event.code) {
             case "state":
                 const state = event.obj;
@@ -38,7 +40,7 @@ export class Model {
                 this.target.setSymbols(event.obj);
                 break;
             default:
-                console.log("unhandled");
+                log.warn(`unhandled event ${event}`);
                 break;
         }
     }

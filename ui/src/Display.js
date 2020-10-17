@@ -1,20 +1,28 @@
 import * as PIXI from "pixi.js";
+import * as loglevel from "loglevel";
+
+const log = loglevel.getLogger("display::Display");
 
 export class Display {
     constructor() {
+        const w = 800, h = 600;
         this.app = new PIXI.Application({
-            width: 800,
-            height: 600,
+            width: w,
+            height: h,
         });
 
         document.body.appendChild(this.app.view);
+        log.debug("w", w, "h", h);
     }
 
     texture(name) {
+        log.debug("get texture", name);
         return PIXI.Texture.from(name);
     }
 
     sprite(name, x, y, w, h) {
+        log.debug("get sprite", name, x, y, w, h);
+
         const texture = this.texture(name);
         const sprite = new PIXI.Sprite(texture);
         sprite.anchor.set(0.5);
@@ -25,11 +33,13 @@ export class Display {
         return sprite;
     }
 
-    deleteThisNephew(child) {
-        this.app.stage.removeChild(child);
+    deleteThisNephew(chile) {
+        log.debug("delete", chile);
+        this.app.stage.removeChild(chile);
     }
 
     text(text, x, y) {
+        log.debug("create text", text, x, y);
         const numCards = new PIXI.Text(text, {
             font: "35px Snippet",
             fill: "white",

@@ -1,24 +1,30 @@
 import * as io from "socket.io-client";
+import * as loglevel from "loglevel";
+
+const log = loglevel.getLogger("root::socket");
 
 export let socket;
+const SERVER_URI = 'localhost:8080';
 
 export function initializeSocket(eventHandler) {
+    log.debug(`connecting to the server ${SERVER_URI}`);
+
     if (socket !== undefined) return;
-    socket = io.connect('localhost:8080');
+    socket = io.connect(SERVER_URI);
 
     // Initial connection
     socket.on("connect", function () {
-        console.log("connected to server");
+        log.info("connected to the server, sending handshake...");
         socket.emit("hello");
     });
     // Normal logging messages
     socket.on("message", function (msg) {
-        console.log("got a message:", msg);
+        log.info(`[MSG] ${msg}`);
     });
     // Game event to apply to our model
     socket.on("gameevent", function (msg) {
-        // console.log("got game event:", event);
         const event = JSON.parse(msg);
+        log.info("[EVT]", event);
         eventHandler(event);
     });
 
@@ -26,6 +32,8 @@ export function initializeSocket(eventHandler) {
     socket.on("connect_error", handleErrors);
     socket.on("connect_failed", handleErrors);
     socket.on("disconnect", handleErrors);
+
+    log.debug("done wiring up events");
 }
 
 function handleErrors(err) {
