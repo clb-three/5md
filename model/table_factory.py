@@ -20,5 +20,5 @@ def get_table(emitter=print):
     boss = doorcard_factory.create_boss()
     doordeck = doorcard_factory.deal_deck(boss.num_door_cards, len(heroes), boss)
 
-    game = GameState(doordeck, heroes)
+    game = GameState(doordeck, heroes, logging=mylog)
     return Table(game, emitter, mylog)

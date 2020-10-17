@@ -12,6 +12,7 @@ class Dictable:
             (k, v) for k, v in iters if
             v is not None
             and k != '_abc_impl'
+            and k != 'log'
             and not builtin_regex.fullmatch(k)
             and not inspect.ismethod(v)
             and not inspect.isfunction(v)

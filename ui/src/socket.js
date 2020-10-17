@@ -23,6 +23,7 @@ export function initializeSocket(eventHandler) {
     });
     // Game event to apply to our model
     socket.on("gameevent", function (msg) {
+        log.debug(`event message "${msg}"`);
         const event = JSON.parse(msg);
         log.info("[EVT]", event);
         eventHandler(event);

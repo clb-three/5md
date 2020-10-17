@@ -1,4 +1,6 @@
 # noinspection PyPackageRequirements
+import asyncio
+
 import socketio
 import uvicorn as uvicorn
 
@@ -9,16 +11,38 @@ from model.message import Message
 log = mylog.getLogger(__name__)
 
 sio = socketio.AsyncServer(async_mode='asgi', cors_allowed_origins='*')
-app = socketio.ASGIApp(sio)
+
+import types
 
 
 async def emit_message(m):
+    async def do_emit(msg):
+        log.info('emit_message %s', msg)
+        await sio.emit('gameevent', str(msg))
+
     if m:
-        log.info('emit_message %s', m)
-        await sio.emit('gameevent', str(m))
+        if isinstance(m, types.GeneratorType) or isinstance(m, list):
+            for subm in m:
+                await do_emit(subm)
+        else:
+            await do_emit(m)
 
 
 table = table_factory.get_table(emit_message)
+
+
+async def once_per_second():
+    while True:
+        # log.debug('stepping environment...')
+        table.gamestate.step()
+        await asyncio.sleep(1)
+
+
+async def startup():
+    asyncio.get_event_loop().create_task(once_per_second())
+
+
+app = socketio.ASGIApp(sio, on_startup=startup)
 
 
 @sio.event

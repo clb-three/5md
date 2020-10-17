@@ -1,5 +1,7 @@
 from collections import defaultdict
 
+from .doorcards.types import DoorCardTypes
+from .message import Message
 from .serialization.stringable import Stringable
 
 
@@ -8,17 +10,22 @@ class GameState(Stringable):
     A set of boss mat, door deck, target, and a set of heroes.
     """
 
-    def __init__(self, door_deck=None, heroes=[]):
+    def __init__(self, door_deck=None, heroes=[], logging=None):
         self.heroes = heroes
         self.door_deck = door_deck
 
         self.time = 0
         self.events = defaultdict(list)
+        if logging:
+            self.log = logging.getLogger(__name__)
 
     def step(self):
         """
         Step time forward and do the action that's scheduled.
         """
+
+        if self.time % 15 == 0:
+            self.log.debug('time has passed...current time: %d', self.time)
 
         self.time += 1
         for event in self.events[self.time]:
