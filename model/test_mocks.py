@@ -4,7 +4,6 @@ from coolname import generate_slug
 
 from .doorcards import factory as doordeck_factory
 from .doorcards.boss import Boss
-from .doorcards.doordeck import DoorDeck
 from .doorcards.enemy import Enemy
 from .gamestate import GameState
 from .heroes import factory as hero_factory
@@ -30,21 +29,14 @@ def enemy(*symbols):
     return Enemy(generate_slug(), list(symbols))
 
 
-def door_deck(deck_contents):
-    '''Create a DoorDeck with the given cards.'''
-    if not isinstance(deck_contents, list):
-        deck_contents = [deck_contents]
-    return DoorDeck(deck_contents)
-
-
 def table(top_enemy):
     heroname = generate_slug()
     my_hero = Hero(heroname, 'ranger', [SingleSymbol(Symbol.sword)])
 
-    deck = doordeck_factory.deal_deck(9, 1)
-    deck.put_on_top(top_enemy)
     boss = Boss([Symbol.jump], 10)
+    deck = doordeck_factory.deal_deck(9, 1, boss)
+    deck.put_on_top(top_enemy)
 
-    state = GameState([my_hero], deck, boss)
+    state = GameState(deck, [my_hero])
 
     return my_hero, Table(state, print)

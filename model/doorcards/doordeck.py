@@ -8,7 +8,7 @@ class DoorDeck(Stringable):
     Reveals the top door card to fight the players until we're out of cards.
     """
 
-    def __init__(self, cards):
+    def __init__(self, cards, boss):
         """
         Create a new DoorDeck with the given cards.
         """
@@ -16,6 +16,7 @@ class DoorDeck(Stringable):
         super().__init__()
         # Place an initial deck of 5 enemies
         self.deck = cards
+        self.boss = boss
 
     @property
     def top(self):

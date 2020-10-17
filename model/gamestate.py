@@ -8,10 +8,9 @@ class GameState(Stringable):
     A set of boss mat, door deck, target, and a set of heroes.
     """
 
-    def __init__(self, heroes=None, door_deck=None, boss=None):
+    def __init__(self, door_deck=None, heroes=[]):
         self.heroes = heroes
         self.door_deck = door_deck
-        self.boss = boss
 
         self.time = 0
         self.events = defaultdict(list)
@@ -36,12 +35,5 @@ class GameState(Stringable):
         self.events[scheduled_time].append(event)
 
     @property
-    def target(self):
-        if self.door_deck.top:
-            return self.door_deck.top
-        else:
-            return self.boss
-
-    @property
     def is_defeated(self):
-        return self.target == self.boss and self.boss.is_dead()
+        return self.door_deck.top == self.door_deck.boss and self.door_deck.boss.is_dead()

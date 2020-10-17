@@ -3,11 +3,8 @@ import socketio
 import uvicorn as uvicorn
 
 import mylog
-from model.doorcards import factory as doorcard_factory
-from model.gamestate import GameState
-from model.heroes import factory as hero_factory
+from model import table_factory
 from model.message import Message
-from model.table import Table
 
 log = mylog.getLogger(__name__)
 
@@ -21,26 +18,7 @@ async def emit_message(m):
         await sio.emit('gameevent', str(m))
 
 
-def get_gameloop():
-    heroes = [
-        hero_factory.hero('benji', 'barbarian'),
-        hero_factory.hero('austin', 'healer'),
-    ]
-    # Draws the hero's initial hand
-    for _ in range(0, 5):
-        for hero in heroes:
-            hero.draw_card()
-
-    # Deal boss mat and door deck
-    boss = doorcard_factory.create_boss()
-    doordeck = doorcard_factory.deal_deck(
-        boss.num_door_cards, len(heroes))
-
-    game = GameState(heroes, doordeck, boss)
-    return Table(game, emit_message, mylog)
-
-
-table = get_gameloop()
+table = table_factory.get_table(emit_message)
 
 
 @sio.event

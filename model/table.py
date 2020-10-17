@@ -17,7 +17,7 @@ class Table:
         """
         Play the given card against the current enemy
         """
-        self.log.info(f'play_card({hero=}, {card=})')
+        self.log.info(f'play_card(hero={hero.name}, {card=})')
 
         # Check if the card is in the hero's hand
         card = hero.get_card_from_hand(card)
@@ -25,8 +25,10 @@ class Table:
             raise Complaint(Message('notinhand', card))
 
         # Play the card and discard it
-        await self.emit(card.play(self.gamestate.target, self))
-        self.discard_card(hero, card)
+        await self.emit(card.play(self.gamestate.door_deck.top, self))
+        await self.discard_card(hero, card)
+        if self.gamestate.door_deck.flip():
+            await self.emit(Message('enemy', self.gamestate.door_deck.top))
 
     async def discard_card(self, hero, card):
         """
@@ -85,7 +87,7 @@ class Table:
                 raise Complaint(Message('error', 'invalidcommand'))
 
             # break out when all enemies isded
-            if self.gamestate.is_defeated:
+            if self.gamestate.door_deck.is_defeated:
                 await self.emit(Message('state', 'won'))
         except (Complaint, Exception) as e:
             if isinstance(e, Complaint):

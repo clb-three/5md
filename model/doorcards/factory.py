@@ -1,10 +1,8 @@
-
 import json
 import random
 from pathlib import Path
 
 from model.symbol import Symbol
-
 from .boss import Boss
 from .doordeck import DoorDeck
 from .enemy import Enemy
@@ -33,19 +31,20 @@ def draw_deck():
             open(resources_dir / 'events.json', 'r') as events:
         challenge_cards = \
             [Miniboss(c['name'], init_symbols(c['symbols']))
-                for c in json.load(minibosses)] + \
+             for c in json.load(minibosses)] + \
             [Event(c['name'], get_script(c['script_name']))
-                for c in json.load(events)]
+             for c in json.load(events)]
 
     return door_cards, challenge_cards
 
 
-def deal_deck(num_door_cards, num_players):
+def deal_deck(num_door_cards, num_players, boss):
     '''
     Deal out and return a DoorDeck with the given num_cards.
     '''
 
     def draw_random(deck): return random.choice(deck).deepcopy()
+
     door_cards, challenge_cards = draw_deck()
 
     cards = []
@@ -60,7 +59,7 @@ def deal_deck(num_door_cards, num_players):
     # Shuffle challenge cards in
     random.shuffle(cards)
 
-    return DoorDeck(cards)
+    return DoorDeck(cards, boss)
 
 
 def create_boss():
