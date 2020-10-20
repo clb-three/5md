@@ -74,7 +74,7 @@ async def hello(sid):
 @sio.on('command')
 async def command(sid, cmd):
     log.info('queue command: %s', cmd)
-    await sio.send('queued command', to=sid)
+    await sio.send(f'queued command {cmd}', to=sid)
     await table.process_command(cmd)
 
 

@@ -8,8 +8,8 @@ const log = loglevel.getLogger("root::Model");
 export class Model {
     constructor(display) {
         this.deck = new Deck(display);
-        this.hand = new Hand(display);
         this.target = new Target(display);
+        this.hand = new Hand(display, this.target);
     }
 
     doEvent(event) {
@@ -40,7 +40,7 @@ export class Model {
                 this.target.setSymbols(event.obj);
                 break;
             default:
-                log.warn(`unhandled event ${event}`);
+                log.warn("unhandled event", event);
                 break;
         }
     }
