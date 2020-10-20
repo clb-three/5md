@@ -20,6 +20,13 @@ export class Target {
         log.debug('target display created', this.targetDisplay);
     }
 
+    containsPoint(point) {
+        log.info("testing if point", point, "is in the target display");
+        const result = this.targetDisplay.target.containsPoint(point);
+        log.info("point", point, "in the target display:", result);
+        return result;
+    }
+
     drawEnemy(enemy) {
         log.debug('draw enemy', enemy);
 

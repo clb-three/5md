@@ -12,6 +12,7 @@ export class Deck {
         const deck = this.display.sprite(`images/back.png`, x, y, 100, 160);
 
         deck.interactive = true;
+        deck.buttonMode = true;
 
         const onDown = () => socket.emit("command", `hero benji draw`);
         deck.on("mousedown", () => onDown());
