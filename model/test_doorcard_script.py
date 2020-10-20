@@ -1,3 +1,5 @@
+import logging
+
 from . import test_mocks as mock
 from .doorcards.event import Event
 from .doorcards.scripts import all_heroes_discard_one
@@ -9,7 +11,7 @@ def test_all_heroes_discard_one():
     for hero in heroes:
         hero.draw_card()
     deck_sizes = [len(hero.hand) for hero in heroes]
-    game = GameState(heroes=heroes)
+    game = GameState(heroes=heroes, logging=logging)
 
     all_heroes_discard_one(game)
 
@@ -25,7 +27,7 @@ def test_event_all_heroes_discard_one():
 
     ouch = Event('ouchie', all_heroes_discard_one)
 
-    ctx = GameState(heroes=heroes)
+    ctx = GameState(heroes=heroes, logging=logging)
 
     ouch.do_script(ctx)
 

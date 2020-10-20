@@ -1,3 +1,4 @@
+import logging
 from collections import defaultdict
 
 from .doorcards.types import DoorCardTypes
@@ -10,7 +11,7 @@ class GameState(Stringable):
     A set of boss mat, door deck, target, and a set of heroes.
     """
 
-    def __init__(self, door_deck=None, heroes=[], logging=None):
+    def __init__(self, door_deck=None, heroes=[], logging=logging):
         self.heroes = heroes
         self.door_deck = door_deck
 
@@ -45,7 +46,13 @@ class GameState(Stringable):
         if self.door_deck.flip():
             yield Message('enemy', self.door_deck.top)
             if self.door_deck.top.type == DoorCardTypes.event:
-                self.schedule(self.door_deck.top.do_script)
+                event = self.door_deck.top
+
+                def do_and_flip(ctx):
+                    event.do_script(ctx)
+                    self.flip()
+
+                self.schedule(do_and_flip)
 
     @property
     def is_defeated(self):

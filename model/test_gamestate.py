@@ -1,3 +1,5 @@
+import logging
+
 from .gamestate import GameState
 
 
@@ -13,7 +15,7 @@ class Touchable:
 
 class TestGameStateEvents:
     def setup_method(self):
-        self.g = GameState()
+        self.g = GameState(logging=logging)
         self.t = Touchable()
         self.touched = False
         self.g.schedule(lambda _: self.t.touch(), 30)
