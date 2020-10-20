@@ -20,6 +20,10 @@ class SingleSymbol(BaseHeroCard):
         else:
             raise Complaint(Message('nosymbol', self.symbol))
 
+    @property
+    def name(self):
+        return str(self.symbol)
+
     def __lt__(self, other):
         if isinstance(other, SingleSymbol):
             return self.symbol.name < other.symbol.name

@@ -10,7 +10,12 @@ class BaseHeroCard(ABC, Stringable):
 
     @abstractmethod
     def play(self, target, ctx=None):
-        '''Play this card on the given game state, with the given target'''
+        """Play this card on the given game state, with the given target"""
 
     def __eq__(self, other):
         return str(self) == str(other)
+
+    @property
+    @abstractmethod
+    def name(self):
+        """Name of this card, identifies each card but not unique in the whole deck"""

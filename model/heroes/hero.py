@@ -23,13 +23,13 @@ class Hero(Stringable):
         # Takes a random sample from actions and puts it into cards, parameterized by num_of_actions
         self.deck = deck
 
-    def get_card_from_hand(self, card_in_bush):
+    def get_card_from_hand(self, id):
         """
         Return whether card matches one of my cards.
         """
-        for card_in_hand in self.hand:
-            if card_in_hand == card_in_bush:
-                return card_in_hand
+        for card in self.hand:
+            if card.name == id or card.uuid == id:
+                return card
 
     def draw_card(self):
         """

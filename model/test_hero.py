@@ -1,4 +1,6 @@
 # pylint: disable=W0201
+import random
+
 import pytest
 
 from . import test_mocks as mock
@@ -19,6 +21,20 @@ class TestHero:
 
         with pytest.raises(Complaint):
             self.hero.draw_card()
+
+    def test_get_by_name(self):
+        for _ in range(3):
+            self.hero.draw_card()
+
+        first_card = random.choice(self.hero.hand)
+        self.hero.get_card_from_hand(first_card.name)
+
+    def test_get_by_uuid(self):
+        for _ in range(3):
+            self.hero.draw_card()
+
+        first_card = random.choice(self.hero.hand)
+        self.hero.get_card_from_hand(first_card.uuid)
 
     def test_discard(self):
         card = self.hero.draw_card()
