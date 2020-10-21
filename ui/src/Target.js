@@ -1,28 +1,24 @@
 import * as loglevel from "loglevel";
+import {BaseViewModelObject} from "./BaseViewModelObject";
 
 const log = loglevel.getLogger("display::Target");
 
-export class Target {
-    constructor(display) {
-        this.display = display;
+export class Target extends BaseViewModelObject {
+    constructor(vm) {
+        super(vm);
+
         const x = 300;
         const y = 300;
+        log.debug("(x, y)", x, y);
 
-        const target = this.display.sprite(`images/badguy.png`, x, y, 100, 160);
-        const targetType = this.display.text("", x, y);
-        const targetSymbols = this.display.text("", x, y + 50);
-
-        this.targetDisplay = {
-            target,
-            targetType,
-            targetSymbols
-        };
-        log.debug('target display created', this.targetDisplay);
+        this.sprite = this.vm.view.sprite(`images/badguy.png`, x, y, 100, 160);
+        this.type = this.vm.view.text("", x, y);
+        this.symbols = this.vm.view.text("", x, y + 50);
     }
 
     containsPoint(point) {
         log.info("testing if point", point, "is in the target display");
-        const result = this.targetDisplay.target.containsPoint(point);
+        const result = this.sprite.containsPoint(point);
         log.info("point", point, "in the target display:", result);
         return result;
     }
@@ -30,14 +26,14 @@ export class Target {
     drawEnemy(enemy) {
         log.debug('draw enemy', enemy);
 
-        this.targetDisplay.target.texture = this.display.texture(`images/badguy.png`);
-        this.targetDisplay.targetType.text = enemy.type;
+        this.sprite.texture = this.view.texture(`images/badguy.png`);
+        this.type.text = enemy.type;
         this.setSymbols(enemy.symbols);
     }
 
     setSymbols(symbols) {
         log.debug('set enemy symbols', symbols);
 
-        this.targetDisplay.targetSymbols.text = symbols;
+        this.symbols.text = symbols;
     }
 }

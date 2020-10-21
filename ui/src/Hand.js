@@ -1,15 +1,15 @@
 import {socket} from "./socket";
 import * as loglevel from "loglevel";
+import {BaseViewModelObject} from "./BaseViewModelObject";
 
 const log = loglevel.getLogger("display::Hand");
 
-class Card {
-    constructor(display, sprite, uuid, target) {
+class Card extends BaseViewModelObject {
+    constructor(vm, uuid, sprite) {
+        super(vm);
         this.uuid = uuid;
-        this.display = display;
-        this.sprite = sprite;
-        this.target = target;
 
+        this.sprite = sprite;
         this.sprite.interactive = true;
         this.sprite.buttonMode = true;
         this.sprite
@@ -38,7 +38,7 @@ class Card {
         this.sprite.data = null;
 
         const inGarbage = false;
-        const shouldPlay = this.display.target.containsPoint(ev.data.global);
+        const shouldPlay = this.vm.target.containsPoint(ev.data.global);
         if (inGarbage) {
             socket.emit("command", `hero benji discard ${this.uuid}`);
         } else if (shouldPlay) {
@@ -56,23 +56,22 @@ class Card {
     }
 }
 
-export class Hand {
-    constructor(display, target) {
-        this.handX = 100;
-        this.cardDisplay = {};
-        this.display = display;
-        this.dragging = false;
-        this.target = target;
+export class Hand extends BaseViewModelObject {
+    constructor(vm) {
+        super(vm);
 
+        this.cards = {};
+
+        this.handX = 100;
+        this.handY = 100;
         log.debug("hand x", this.handX);
     }
 
     drawCard(card) {
         log.debug("draw", card);
 
-        const y = 100;
-        const sprite = this.display.sprite(`images/${card.name}.png`, this.handX, y, 100, 160);
-        this.cardDisplay[card.uuid] = new Card(this.display, sprite, card.uuid);
+        const sprite = this.view.sprite(`images/${card.name}.png`, this.handX, this.handY, 100, 160);
+        this.cards[card.uuid] = new Card(this.vm, card.uuid, sprite);
         this.handX += 60;
     }
 
@@ -80,8 +79,8 @@ export class Hand {
         log.debug("discard", card);
 
         if (card) {
-            this.display.deleteThisNephew(this.cardDisplay[card.uuid].sprite);
-            delete this.cardDisplay[card.uuid];
+            this.view.deleteThisNephew(this.cards[card.uuid].sprite);
+            delete this.cards[card.uuid];
         }
     }
 }

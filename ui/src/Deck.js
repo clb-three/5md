@@ -1,35 +1,28 @@
 import {socket} from "./socket";
 import * as loglevel from "loglevel";
+import {BaseViewModelObject} from "./BaseViewModelObject";
 
 const log = loglevel.getLogger("display::Deck");
 
-export class Deck {
-    constructor(display) {
-        this.display = display;
+export class Deck extends BaseViewModelObject {
+    constructor(vm) {
+        super(vm);
         const x = 100;
         const y = 300;
 
-        const deck = this.display.sprite(`images/back.png`, x, y, 100, 160);
-
-        deck.interactive = true;
-        deck.buttonMode = true;
-
+        this.sprite = this.view.sprite(`images/back.png`, x, y, 100, 160);
+        this.sprite.interactive = true;
+        this.sprite.buttonMode = true;
         const onDown = () => socket.emit("command", `hero benji draw`);
-        deck.on("mousedown", () => onDown());
-        deck.on("touchstart", () => onDown());
+        this.sprite
+            .on("mousedown", () => onDown())
+            .on("touchstart", () => onDown());
 
-        const numCardsDisplay = this.display.text("", x, y);
-
-        this.deckDisplay = {
-            deck,
-            numCards: numCardsDisplay,
-        };
-
-        log.debug("deck display", this.deckDisplay);
+        this.numCards = this.view.text("", x, y);
     }
 
     setNumCards(numCards) {
         log.debug("set number of cards", numCards);
-        this.deckDisplay.numCards.text = numCards;
+        this.numCards.text = numCards;
     }
 }
