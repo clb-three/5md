@@ -4,6 +4,8 @@ import * as loglevel from "loglevel";
 const log = loglevel.getLogger("display::View");
 
 export class View {
+    app: PIXI.Application;
+
     constructor() {
         const w = 800, h = 600;
         log.debug("w", w, "h", h);
@@ -15,13 +17,13 @@ export class View {
         document.body.appendChild(this.app.view);
     }
 
-    texture(name) {
+    texture(name): PIXI.Texture {
         log.debug("get texture", name);
 
         return PIXI.Texture.from(name);
     }
 
-    sprite(name, x, y, w, h) {
+    sprite(name, x, y, w, h): PIXI.Sprite {
         log.debug("get sprite", name, x, y, w, h);
 
         const texture = this.texture(name);
@@ -34,12 +36,12 @@ export class View {
         return sprite;
     }
 
-    deleteThisNephew(chile) {
+    deleteThisNephew(chile: any): void {
         log.debug("delete", chile);
         this.app.stage.removeChild(chile);
     }
 
-    text(text, x, y) {
+    text(text: string, x: number, y: number): PIXI.Text {
         log.debug("create text", text, x, y);
 
         const numCards = new PIXI.Text(text, {

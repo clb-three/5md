@@ -5,6 +5,9 @@ import {BaseViewModelObject} from "./BaseViewModelObject";
 const log = loglevel.getLogger("display::Deck");
 
 export class Deck extends BaseViewModelObject {
+    sprite: PIXI.Sprite;
+    numCards: PIXI.Text;
+
     constructor(vm) {
         super(vm);
         const x = 100;

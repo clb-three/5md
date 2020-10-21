@@ -2,12 +2,20 @@ import {socket} from "./socket";
 import * as loglevel from "loglevel";
 import {BaseViewModelObject} from "./BaseViewModelObject";
 
+
 const log = loglevel.getLogger("display::Hand");
 
 class Card extends BaseViewModelObject {
+    uuid: string;
+    sprite: PIXI.Sprite;
+    dragging: boolean;
+    eventData: PIXI.InteractionData;
+
     constructor(vm, uuid, sprite) {
         super(vm);
         this.uuid = uuid;
+        this.dragging = false;
+        this.eventData = null;
 
         this.sprite = sprite;
         this.sprite.interactive = true;
@@ -22,20 +30,20 @@ class Card extends BaseViewModelObject {
             .on('touchend', ev => this.onDragEnd(ev))
             .on('touchendoutside', ev => this.onDragEnd(ev))
             // events for drag move
-            .on('mousemove', ev => this.onDragMove())
-            .on('touchmove', ev => this.onDragMove());
+            .on('mousemove', _ => this.onDragMove())
+            .on('touchmove', _ => this.onDragMove());
     }
 
-    onDragStart(ev) {
+    onDragStart(ev: PIXI.InteractionEvent) {
         log.info("onDragStart");
-        this.sprite.data = ev.data;
-        this.sprite.dragging = true;
+        this.eventData = ev.data;
+        this.dragging = true;
     }
 
-    onDragEnd(ev) {
+    onDragEnd(ev: PIXI.InteractionEvent) {
         log.info("onDragEnd");
-        this.sprite.dragging = false;
-        this.sprite.data = null;
+        this.dragging = false;
+        this.eventData = null;
 
         const inGarbage = false;
         const shouldPlay = this.vm.target.containsPoint(ev.data.global);
@@ -47,9 +55,9 @@ class Card extends BaseViewModelObject {
     }
 
     onDragMove() {
-        if (this.sprite.dragging) {
+        if (this.dragging) {
             log.debug("onDragMove");
-            const newPosition = this.sprite.data.getLocalPosition(this.sprite.parent);
+            const newPosition = this.eventData.getLocalPosition(this.sprite.parent);
             this.sprite.position.x = newPosition.x;
             this.sprite.position.y = newPosition.y;
         }
@@ -57,10 +65,14 @@ class Card extends BaseViewModelObject {
 }
 
 export class Hand extends BaseViewModelObject {
+    cards: Map<string, Card>;
+    handX: number;
+    handY: number;
+
     constructor(vm) {
         super(vm);
 
-        this.cards = {};
+        this.cards = new Map<string, Card>();
 
         this.handX = 100;
         this.handY = 100;

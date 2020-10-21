@@ -7,6 +7,11 @@ import {View} from "./View";
 const log = loglevel.getLogger("display::Display");
 
 export class ViewModel {
+    target: Target;
+    private deck: Deck;
+    private hand: Hand;
+    private view: View;
+
     constructor() {
         this.view = new View();
 

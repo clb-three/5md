@@ -2,7 +2,6 @@
   "compilerOptions": {
     "module": "CommonJS",
     "target": "ES2018",
-    "jsx": "react",
     "baseUrl": ".",
     "importHelpers": true,
     "emitDecoratorMetadata": true,

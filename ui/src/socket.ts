@@ -6,7 +6,7 @@ const log = loglevel.getLogger("root::socket");
 export let socket;
 const SERVER_URI = 'localhost:8080';
 
-export function initializeSocket(eventHandler) {
+export function initializeSocket(eventHandler): void {
     log.debug(`connecting to the server ${SERVER_URI}`);
 
     if (socket !== undefined) return;
@@ -37,6 +37,6 @@ export function initializeSocket(eventHandler) {
     log.debug("done wiring up events");
 }
 
-function handleErrors(err) {
+function handleErrors(err): void {
     console.error("do something about this!", err);
 }

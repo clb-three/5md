@@ -9,4 +9,3 @@ initializeDebugElements();
 
 const display = new ViewModel();
 initializeSocket(e => display.doEvent(e));
-
