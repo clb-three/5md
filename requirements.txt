@@ -2,5 +2,5 @@ pytest~=6.1.1
 coolname~=1.1.0
 Flask~=1.1.2
 uvicorn~=0.12.1
-python-socketio~=4.6.0
+python-socketio~=5.1.0
 pymongo~=3.11.0
